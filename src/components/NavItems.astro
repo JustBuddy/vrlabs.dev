@@ -1,0 +1,51 @@
+---
+
+---
+
+<li class="relative">
+  <a class="p-3 hover:text-secondary transition-all duration-100" href="/"
+    >About</a
+  >
+</li>
+<li class="relative">
+  <a
+    class="p-3 hover:text-secondary transition-all duration-100"
+    href="/packages">Packages</a
+  >
+</li>
+<li class="flex gap-5">
+  <a href="https://github.com/VRLabs" target="_blank">
+    <img
+      class="h-8 hover:fill-slate-700"
+      src="/images/github.svg"
+      alt="github"
+    />
+  </a>
+  <a href="https://discord.vrlabs.dev/" target="_blank">
+    <img class="h-8" src="/images/discord.svg" alt="discord" />
+  </a>
+  <a href="https://twitter.com/vrlabsdev" target="_blank">
+    <img class="h-8" src="/images/twitter.svg" alt="twitter" />
+  </a>
+</li>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const navLinks = document.querySelectorAll("a");
+    const currentPath = window.location.pathname;
+
+    navLinks.forEach((link) => {
+      link.classList.remove("text-secondary");
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("text-secondary");
+      }
+
+      link.addEventListener("click", () => {
+        navLinks.forEach((link) => {
+          link.classList.remove("text-secondary");
+        });
+        link.classList.add("text-secondary");
+      });
+    });
+  });
+</script>

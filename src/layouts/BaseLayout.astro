@@ -1,11 +1,12 @@
 ---
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
+import { ViewTransitions } from "astro:transitions";
 
 const { pageTitle, pageDescription } = Astro.props;
 ---
 
-<html lang="en" class="font-Sans">
+<html lang="en">
   <head>
     <title>{pageTitle}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -28,35 +29,17 @@ const { pageTitle, pageDescription } = Astro.props;
     <meta name="twitter:description" content="" />
     <meta name="twitter:image" content="" />
 
-    <style>
-      @font-face {
-        font-family: "Sans";
-        src: url("/fonts/PTSansRegular.ttf") format("woff");
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
+    <link rel="stylesheet" href="../../src/styles/global.css" />
 
-      @font-face {
-        font-family: "Sans-Bold";
-        src: url("/fonts/PTSansBold.ttf") format("woff");
-        font-weight: bold;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: "Novecento-Utrabold";
-        src: url("/fonts/NovecentoNarrowUltBold.otf") format("woff");
-        font-weight: bolder;
-        font-style: normal;
-        font-display: swap;
-      }
-    </style>
+    <ViewTransitions />
   </head>
-  <body>
+  <body
+    class="flex flex-col overflow-x-hidden min-h-screen text-primary font-Sans text-normal bg-radial-gradient bg-fixed"
+  >
     <Navbar />
-    <slot />
+    <div class="max-w-3xl px-5 mx-auto my-10" transition:animate="slide">
+      <slot />
+    </div>
     <Footer />
   </body>
 </html>
