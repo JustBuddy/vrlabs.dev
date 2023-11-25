@@ -2,10 +2,77 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Packages";
 const pageDescription = "Packages";
+
+let categoriesWithPackages = [];
+let packages = [];
+
+const packagesResponse = await fetch("http://45.79.147.72:8006/packages/info");
+const packagesJson = await packagesResponse.json();
+
+for (let pack in packagesJson) {
+  const { displayName, description, images, unityPackageUrl, siteUrl } =
+    packagesJson[pack];
+  packages.push({
+    displayName,
+    description,
+    images,
+    unityPackageUrl,
+    siteUrl,
+  });
+}
+
+// Get all categories and packages in each category
+const categoriesResponse = await fetch("http://45.79.147.72:8006/categories");
+const categoriesJson = await categoriesResponse.json();
+const { categories } = categoriesJson;
+
+for (let category of categories) {
+  let categoryPackagesResponse = await fetch(
+    "http://45.79.147.72:8006/packages/info/category/" + category
+  );
+  const categoryPackagesJson = await categoryPackagesResponse.json();
+
+  let packages = [];
+  for (let pack in categoryPackagesJson) {
+    const { displayName } = categoryPackagesJson[pack];
+    packages.push(displayName);
+  }
+
+  categoriesWithPackages.push({
+    category: category.charAt(0).toUpperCase() + category.slice(1),
+    packages: packages,
+  });
+}
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <h1 class="text-mobileHeading sm:text-desktopHeading font-Novecento-Utrabold">
-    {pageTitle}
-  </h1>
+  <div>
+    {
+      categoriesWithPackages.map((category) => (
+        <div class="mb-8">
+          <p class="font-Novecento-Utrabold">{category.category}</p>
+          {category.packages.map((packageName) => (
+            <p>{packageName}</p>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+  <div>
+    {
+      packages.map((pack) => (
+        <div class="mb-8">
+          <p class="font-Novecento-Utrabold">{pack.displayName}</p>
+          <p>{pack.description}</p>
+          <p>{pack.images}</p>
+          <p>{pack.unityPackageUrl}</p>
+          <p>{pack.siteUrl}</p>
+        </div>
+      ))
+    }
+  </div>
+  <div class="h-96"></div>
+  <div class="h-96"></div>
+  <div class="h-96"></div>
+  <div class="h-96"></div>
 </BaseLayout>
