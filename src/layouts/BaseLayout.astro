@@ -1,0 +1,62 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+const { pageTitle, pageDescription } = Astro.props;
+---
+
+<html lang="en" class="font-Sans">
+  <head>
+    <title>{pageTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta charset="utf-8" />
+    <meta name="description" content={pageDescription} />
+    <meta name="keywords" content="VRChat, Unity, Packages, Avatars" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:url" content="https://vrlabs.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="VRLabs" />
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="vrlabs.dev" />
+    <meta property="twitter:url" content="https://vrlabs.dev/" />
+    <meta name="twitter:title" content="VRLabs" />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:image" content="" />
+
+    <style>
+      @font-face {
+        font-family: "Sans";
+        src: url("/fonts/PTSansRegular.ttf") format("woff");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Sans-Bold";
+        src: url("/fonts/PTSansBold.ttf") format("woff");
+        font-weight: bold;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Novecento-Utrabold";
+        src: url("/fonts/NovecentoNarrowUltBold.otf") format("woff");
+        font-weight: bolder;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  <body>
+    <Navbar />
+    <slot />
+    <Footer />
+  </body>
+</html>
