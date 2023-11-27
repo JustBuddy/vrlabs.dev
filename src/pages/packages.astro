@@ -2,69 +2,90 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Packages";
 const pageDescription = "Packages";
-
-interface Package {
-  displayName: string;
-  description: string;
-  images: [];
-  unityPackageUrl: string;
-  siteUrl: string;
-}
-
-// Get all packages
-const packagesResponse = await fetch("http://45.79.147.72:8006/packages/info");
-const packagesJson = await packagesResponse.json();
-
-const packages: Package[] = Object.values(packagesJson);
-
-// Get all categories and packages in each category
-const categoriesResponse = await fetch("http://45.79.147.72:8006/categories");
-const { categories } = await categoriesResponse.json();
-
-const packagesPromises = categories.map(async (category) => {
-  const categoryPackagesResponse = await fetch(
-    "http://45.79.147.72:8006/packages/info/category/" + category
-  );
-  const categoryPackagesJson = await categoryPackagesResponse.json();
-  const packages: Package[] = Object.values(categoryPackagesJson);
-
-  return {
-    category: category.charAt(0).toUpperCase() + category.slice(1),
-    packages,
-  };
-});
-
-const categoriesWithPackages = await Promise.all(packagesPromises);
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <div>
-    {
-      categoriesWithPackages.map((category) => (
-        <div class="mb-8">
-          <p class="font-Novecento-Utrabold">{category.category}</p>
-          {category.packages.map((pack) => (
-            <p>{pack.displayName}</p>
-          ))}
-        </div>
-      ))
-    }
-  </div>
-  <div>
-    {
-      packages.map((pack) => (
-        <div class="mb-8">
-          <p class="font-Novecento-Utrabold">{pack.displayName}</p>
-          <p>{pack.description}</p>
-          <p>{pack.images}</p>
-          <p>{pack.unityPackageUrl}</p>
-          <p>{pack.siteUrl}</p>
-        </div>
-      ))
-    }
-  </div>
+  <div id="parent"></div>
+  <div></div>
   <div class="h-96"></div>
   <div class="h-96"></div>
   <div class="h-96"></div>
   <div class="h-96"></div>
 </BaseLayout>
+
+<script>
+  document.addEventListener("astro:page-load", async () => {
+    interface Package {
+      displayName: string;
+      description: string;
+      images: [];
+      unityPackageUrl: string;
+      siteUrl: string;
+    }
+
+    interface CategoryWithPackages {
+      category: string;
+      packages: Package[];
+    }
+
+    let packages: Package[];
+    let categoriesWithPackages: CategoryWithPackages[];
+
+    try {
+      const packagesResponse = await fetch(
+        "http://45.79.147.72:8006/packages/info"
+      );
+      const packagesJson = await packagesResponse.json();
+      packages = Object.values(packagesJson);
+    } catch (error) {
+      console.error("Error fetching packages: ", error);
+    }
+
+    try {
+      const categoriesResponse = await fetch(
+        "http://45.79.147.72:8006/categories"
+      );
+      const { categories } = await categoriesResponse.json();
+
+      const packagesPromises = categories.map(async (category) => {
+        try {
+          const categoryPackagesResponse = await fetch(
+            "http://45.79.147.72:8006/packages/info/category/" + category
+          );
+          const categoryPackagesJson = await categoryPackagesResponse.json();
+          const packages: Package[] = Object.values(categoryPackagesJson);
+
+          return {
+            category: category.charAt(0).toUpperCase() + category.slice(1),
+            packages,
+          };
+        } catch (error) {
+          console.error(
+            `Error fetching packages for category ${category}: `,
+            error
+          );
+        }
+      });
+
+      categoriesWithPackages = await Promise.all(packagesPromises);
+    } catch (error) {
+      console.error("Error fetching categories: ", error);
+    }
+
+    const parentElement = document.getElementById("parent"); // replace '.parent' with your actual parent element selector
+
+    categoriesWithPackages.forEach((categoryWithPackages) => {
+      const categoryElement = document.createElement("div");
+      categoryElement.textContent = categoryWithPackages.category;
+
+      categoryWithPackages.packages.forEach((pack) => {
+        const packageElement = document.createElement("div");
+        packageElement.textContent = pack.displayName; // replace with the actual package properties you want to display
+
+        categoryElement.appendChild(packageElement);
+      });
+
+      parentElement.appendChild(categoryElement);
+    });
+  });
+</script>
