@@ -5,8 +5,8 @@ const pageDescription = "Packages";
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <div id="parent"></div>
-  <div></div>
+  <div id="categories"></div>
+  <div id="packages"></div>
   <div class="h-96"></div>
   <div class="h-96"></div>
   <div class="h-96"></div>
@@ -14,23 +14,31 @@ const pageDescription = "Packages";
 </BaseLayout>
 
 <script>
+  interface Package {
+    displayName: string;
+    description: string;
+    images: [];
+    unityPackageUrl: string;
+    siteUrl: string;
+  }
+
+  interface CategoryWithPackages {
+    category: string;
+    packages: Package[];
+  }
+
+  let packages: Package[];
+  let categoriesWithPackages: CategoryWithPackages[];
+
   document.addEventListener("astro:page-load", async () => {
-    interface Package {
-      displayName: string;
-      description: string;
-      images: [];
-      unityPackageUrl: string;
-      siteUrl: string;
-    }
+    if (window.location.pathname !== "/packages") return;
 
-    interface CategoryWithPackages {
-      category: string;
-      packages: Package[];
-    }
+    await fetchData();
+    drawCategories();
+    drawPackages();
+  });
 
-    let packages: Package[];
-    let categoriesWithPackages: CategoryWithPackages[];
-
+  async function fetchData() {
     try {
       const packagesResponse = await fetch(
         "http://45.79.147.72:8006/packages/info"
@@ -71,21 +79,15 @@ const pageDescription = "Packages";
     } catch (error) {
       console.error("Error fetching categories: ", error);
     }
+  }
 
-    const parentElement = document.getElementById("parent"); // replace '.parent' with your actual parent element selector
+  function drawCategories() {
+    const parentElement = document.getElementById("categories");
+    if (!parentElement) return;
+  }
 
-    categoriesWithPackages.forEach((categoryWithPackages) => {
-      const categoryElement = document.createElement("div");
-      categoryElement.textContent = categoryWithPackages.category;
-
-      categoryWithPackages.packages.forEach((pack) => {
-        const packageElement = document.createElement("div");
-        packageElement.textContent = pack.displayName; // replace with the actual package properties you want to display
-
-        categoryElement.appendChild(packageElement);
-      });
-
-      parentElement.appendChild(categoryElement);
-    });
-  });
+  function drawPackages() {
+    const parentElement = document.getElementById("packages");
+    if (!parentElement) return;
+  }
 </script>
