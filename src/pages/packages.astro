@@ -3,46 +3,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const pageTitle = "Packages";
 const pageDescription = "Packages";
 
-let categoriesWithPackages = [];
-let packages = [];
+interface Package {
+  displayName: string;
+  description: string;
+  images: [];
+  unityPackageUrl: string;
+  siteUrl: string;
+}
 
+// Get all packages
 const packagesResponse = await fetch("http://45.79.147.72:8006/packages/info");
 const packagesJson = await packagesResponse.json();
 
-for (let pack in packagesJson) {
-  const { displayName, description, images, unityPackageUrl, siteUrl } =
-    packagesJson[pack];
-  packages.push({
-    displayName,
-    description,
-    images,
-    unityPackageUrl,
-    siteUrl,
-  });
-}
+const packages: Package[] = Object.values(packagesJson);
 
 // Get all categories and packages in each category
 const categoriesResponse = await fetch("http://45.79.147.72:8006/categories");
-const categoriesJson = await categoriesResponse.json();
-const { categories } = categoriesJson;
+const { categories } = await categoriesResponse.json();
 
-for (let category of categories) {
-  let categoryPackagesResponse = await fetch(
+const packagesPromises = categories.map(async (category) => {
+  const categoryPackagesResponse = await fetch(
     "http://45.79.147.72:8006/packages/info/category/" + category
   );
   const categoryPackagesJson = await categoryPackagesResponse.json();
+  const packages: Package[] = Object.values(categoryPackagesJson);
 
-  let packages = [];
-  for (let pack in categoryPackagesJson) {
-    const { displayName } = categoryPackagesJson[pack];
-    packages.push(displayName);
-  }
-
-  categoriesWithPackages.push({
+  return {
     category: category.charAt(0).toUpperCase() + category.slice(1),
-    packages: packages,
-  });
-}
+    packages,
+  };
+});
+
+const categoriesWithPackages = await Promise.all(packagesPromises);
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
@@ -51,8 +43,8 @@ for (let category of categories) {
       categoriesWithPackages.map((category) => (
         <div class="mb-8">
           <p class="font-Novecento-Utrabold">{category.category}</p>
-          {category.packages.map((packageName) => (
-            <p>{packageName}</p>
+          {category.packages.map((pack) => (
+            <p>{pack.displayName}</p>
           ))}
         </div>
       ))
