@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PackageDrawer from "../components/PackageDrawer.astro";
 const pageTitle = "Packages";
 const pageDescription = "Packages";
 ---
@@ -7,6 +8,7 @@ const pageDescription = "Packages";
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div id="categories"></div>
   <div id="packages"></div>
+  <PackageDrawer />
   <div class="h-96"></div>
   <div class="h-96"></div>
   <div class="h-96"></div>

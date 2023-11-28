@@ -5,10 +5,12 @@ import NavItems from "./NavItems.astro";
 // use divide for nav elements
 ---
 
-<div
+<nav
   class="bg-black/15 top-0 backdrop-blur-md z-50 border-b-1 border-white/20 flex py-4 font-Sans-Bold text-mobileLarge sm:text-desktopLarge flex-col sticky"
 >
-  <div class="flex items-center justify-between max-w-5xl px-5 mx-auto w-full">
+  <div
+    class="flex items-center justify-between max-w-6xl px-5 sm:px-10 mx-auto w-full"
+  >
     <div>
       <a href="/">
         <img class="h-12" src="/favicon.svg" alt="logo" />
@@ -29,7 +31,7 @@ import NavItems from "./NavItems.astro";
   >
     <NavItems />
   </ul>
-</div>
+</nav>
 
 <script>
   document.addEventListener("astro:page-load", () => {

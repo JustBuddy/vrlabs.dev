@@ -1,0 +1,102 @@
+---
+
+---
+
+<div
+  id="drawer"
+  class="left-0 right-0 bottom-0 w-full fixed h-12 transition-all duration-200 flex justify-center"
+>
+  <div
+    id="drawerContainer"
+    class="w-11/12 max-w-xl bg-slate-700 rounded-t-xl h-full flex items-center flex-col"
+  >
+    <div
+      id="openDrawer"
+      class="bg-slate-900 rounded-t-xl cursor-pointer w-full flex justify-center py-3 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-secondary transition-all duration-100"
+    >
+      <p>Add to VCC</p>
+    </div>
+    <div id="drawerPackages" class="p-4 w-full container">
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+      <p>1</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .container {
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  let maxHeight = "10rem";
+  document.addEventListener("astro:page-load", () => {
+    var top = document.getElementById("openDrawer");
+    var bottom = document.getElementById("drawerPackages");
+    maxHeight =
+      (bottom.offsetHeight + top.offsetHeight) / 16 < 23
+        ? (bottom.offsetHeight + top.offsetHeight) / 16 + "rem"
+        : "23rem";
+
+    document
+      .getElementById("drawerContainer")
+      .addEventListener("click", function (event) {
+        event.stopPropagation();
+      });
+
+    document
+      .getElementById("openDrawer")
+      .addEventListener("click", function (event) {
+        event.stopPropagation();
+        if (document.getElementById("drawer").style.height === maxHeight) {
+          closeDrawer();
+        } else {
+          openDrawer();
+        }
+      });
+
+    document.addEventListener("click", function () {
+      closeDrawer();
+    });
+  });
+
+  function openDrawer() {
+    var drawer = document.getElementById("drawer");
+    var drawerPackages = document.getElementById("drawerPackages");
+    drawerPackages.style.overflowY = "hidden";
+    drawer.style.height = maxHeight;
+    drawerPackages.style.overflowY = "auto";
+  }
+
+  function closeDrawer() {
+    var drawer = document.getElementById("drawer");
+    drawer.style.height = "3rem";
+  }
+</script>
