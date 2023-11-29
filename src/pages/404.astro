@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const pageTitle = "404";
+const pageDescription = "404";
+---
+
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <div class="flex flex-col items-center gap-10">
+    <p class="font-Sans-Bold">Page not found</p>
+    <button id="goBack">Go Back</button>
+  </div>
+</BaseLayout>
+
+<script>
+  const goBack = document.getElementById("goBack");
+  goBack.addEventListener("click", () => {
+    window.history.back();
+  });
+</script>
