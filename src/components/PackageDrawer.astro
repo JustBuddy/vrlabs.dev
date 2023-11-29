@@ -12,7 +12,7 @@
   >
     <div
       id="openDrawer"
-      class="bg-slate-900 rounded-t-xl cursor-pointer w-full flex justify-center py-3 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-secondary transition-all duration-100"
+      class="bg-slate-900 rounded-t-xl cursor-pointer w-full flex justify-center py-3 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-action transition-all duration-100"
     >
       <p>Add to VCC</p>
     </div>
@@ -60,6 +60,7 @@
   document.addEventListener("astro:page-load", () => {
     var top = document.getElementById("openDrawer");
     var bottom = document.getElementById("drawerPackages");
+    // Use screen height to determine max height of drawer
     maxHeight =
       (bottom.offsetHeight + top.offsetHeight) / 16 < 23
         ? (bottom.offsetHeight + top.offsetHeight) / 16 + "rem"

@@ -5,8 +5,8 @@ export default {
 		extend: {
 			colors: {
 				primary: '#F6F6FA',
-				secondary: '#60A5FA',
-				action: ''
+				secondary: '#C8C8CC',
+				action: '#60A5FA'
 			},
 			fontFamily: {
 				'Sans': ['Sans'],
