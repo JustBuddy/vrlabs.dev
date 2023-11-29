@@ -5,14 +5,15 @@
 <div
   id="drawer"
   class="left-0 right-0 bottom-0 w-full fixed h-12 transition-all duration-200 flex justify-center"
+  style="height: 3rem;"
 >
   <div
     id="drawerContainer"
-    class="w-11/12 max-w-xl bg-slate-700 rounded-t-xl h-full flex items-center flex-col"
+    class="w-11/12 max-w-xl bg-slate-600 rounded-t-xl h-full flex items-center flex-col"
   >
     <div
-      id="openDrawer"
-      class="bg-slate-900 rounded-t-xl cursor-pointer w-full flex justify-center py-3 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-action transition-all duration-100"
+      id="drawerToggle"
+      class="bg-slate-700 rounded-t-xl cursor-pointer w-full flex justify-center py-3 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-action transition-all duration-100"
     >
       <p>Add to VCC</p>
     </div>
@@ -56,32 +57,28 @@
 </style>
 
 <script>
-  let maxHeight = "10rem";
+  let drawer;
+  let drawerContainer;
+  let drawerToggle;
+  let drawerPackages;
+  let maxHeight;
+
   document.addEventListener("astro:page-load", () => {
-    var top = document.getElementById("openDrawer");
-    var bottom = document.getElementById("drawerPackages");
-    // Use screen height to determine max height of drawer
-    maxHeight =
-      (bottom.offsetHeight + top.offsetHeight) / 16 < 23
-        ? (bottom.offsetHeight + top.offsetHeight) / 16 + "rem"
-        : "23rem";
+    if (window.location.pathname !== "/packages") return;
 
-    document
-      .getElementById("drawerContainer")
-      .addEventListener("click", function (event) {
-        event.stopPropagation();
-      });
+    drawer = document.getElementById("drawer");
+    drawerContainer = document.getElementById("drawerContainer");
+    drawerToggle = document.getElementById("drawerToggle");
+    drawerPackages = document.getElementById("drawerPackages");
 
-    document
-      .getElementById("openDrawer")
-      .addEventListener("click", function (event) {
-        event.stopPropagation();
-        if (document.getElementById("drawer").style.height === maxHeight) {
-          closeDrawer();
-        } else {
-          openDrawer();
-        }
-      });
+    drawerContainer.addEventListener("click", function (event) {
+      event.stopPropagation();
+    });
+
+    drawerToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
+      drawer.style.height === "3rem" ? openDrawer() : closeDrawer();
+    });
 
     document.addEventListener("click", function () {
       closeDrawer();
@@ -89,15 +86,22 @@
   });
 
   function openDrawer() {
-    var drawer = document.getElementById("drawer");
-    var drawerPackages = document.getElementById("drawerPackages");
-    drawerPackages.style.overflowY = "hidden";
+    getMaxHeight();
     drawer.style.height = maxHeight;
     drawerPackages.style.overflowY = "auto";
   }
 
   function closeDrawer() {
-    var drawer = document.getElementById("drawer");
     drawer.style.height = "3rem";
+    drawerPackages.style.overflowY = "visible";
+  }
+
+  function getMaxHeight() {
+    var top = document.getElementById("drawerToggle");
+    var bottom = document.getElementById("drawerPackages");
+    maxHeight =
+      bottom.offsetHeight + top.offsetHeight > window.innerHeight / 1.5
+        ? Math.floor(window.innerHeight / 1.5) + "px"
+        : Math.floor(bottom.offsetHeight + top.offsetHeight) + "px";
   }
 </script>
