@@ -9,13 +9,11 @@ const pageDescription = "Packages";
   <div id="categories"></div>
   <div id="packages"></div>
   <PackageDrawer />
-  <div class="h-96"></div>
-  <div class="h-96"></div>
-  <div class="h-96"></div>
-  <div class="h-96"></div>
 </BaseLayout>
 
 <script>
+  import { addToBasket, clearBasket } from "../scripts/basket";
+
   interface Package {
     displayName: string;
     description: string;
@@ -92,4 +90,6 @@ const pageDescription = "Packages";
     const parentElement = document.getElementById("packages");
     if (!parentElement) return;
   }
+
+  function openModal() {}
 </script>
