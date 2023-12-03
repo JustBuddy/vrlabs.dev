@@ -95,7 +95,7 @@ export function addToBasket(packageName) {
     saveBasket();
 }
 
-export function removeFromBasket(packageName) {
+function removeFromBasket(packageName) {
     packageName.remove();
     packagesCount.textContent = (parseInt(packagesCount.textContent) - 1).toString();
     if (drawerPackagesList.childElementCount < 1) {
