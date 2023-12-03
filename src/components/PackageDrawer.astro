@@ -4,7 +4,7 @@
 
 <div
   id="drawer"
-  class="left-0 right-0 bottom-0 w-full fixed transition-all duration-300 flex justify-center z-10 h-0 mb-0"
+  class="left-0 right-0 bottom-0 w-full fixed transition-all duration-300 flex justify-center z-10 h-0 mb-3 overflow-hidden"
 >
   <div
     id="drawerContainer"
@@ -12,7 +12,7 @@
   >
     <div
       id="drawerToggle"
-      class="bg-slate-700 rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-action transition-all duration-100"
+      class="rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 font-Sans-Bold text-mobileLarge sm:text-desktopLarge hover:text-action transition-all duration-100"
     >
       <p>Add to VCC</p>
       <div
@@ -22,7 +22,10 @@
         0
       </div>
     </div>
-    <div id="drawerPackages" class="w-full container">
+    <div
+      id="drawerPackages"
+      class="drawerPackages w-11/12 bg-slate-700 rounded-xl"
+    >
       <div id="drawerEmptyMessage" class="hidden">
         <div class="flex justify-center p-5">You have no packages selected</div>
       </div>
@@ -30,20 +33,20 @@
     </div>
     <div
       id="drawerButtons"
-      class="bg-slate-700 w-full flex justify-center items-center gap-5 py-4 rounded-b-xl mt-auto"
+      class="w-full flex justify-center items-center gap-5 py-4 rounded-b-xl mt-auto"
     >
-      <button>Add To VCC</button>
+      <button id="addToVCCButton">Add To VCC</button>
       <button>Copy Link</button>
     </div>
   </div>
 </div>
 
 <style>
-  .container::-webkit-scrollbar {
+  .drawerPackages::-webkit-scrollbar {
     display: none;
   }
 
-  .container {
+  .drawerPackages {
     scrollbar-width: none;
   }
 </style>

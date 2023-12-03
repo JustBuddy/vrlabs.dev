@@ -1,3 +1,5 @@
+import { getVCCLink } from "./packages";
+
 let drawer;
 let drawerContainer;
 let drawerToggle;
@@ -8,6 +10,7 @@ let maxHeight;
 let minHeight;
 let drawerButtons;
 let packagesCount;
+let addToVCCButton;
 
 export function prepareDrawer() {
     drawer = document.getElementById("drawer");
@@ -18,6 +21,7 @@ export function prepareDrawer() {
     drawerEmptyMessage = document.getElementById("drawerEmptyMessage");
     drawerButtons = document.getElementById("drawerButtons");
     packagesCount = document.getElementById("packagesCount");
+    addToVCCButton = document.getElementById("addToVCCButton");
 
     minHeight = drawerToggle.offsetHeight + "px";
     drawer.style.height = minHeight;
@@ -29,6 +33,17 @@ export function prepareDrawer() {
     drawerToggle.addEventListener("click", function (event) {
         event.stopPropagation();
         drawer.style.height === minHeight ? openDrawer() : closeDrawer();
+    });
+
+    addToVCCButton.addEventListener("click", function () {
+        const basketItems = document.querySelectorAll("[basketItemID]");
+        let basket = [];
+
+        for (let i = 0; i < basketItems.length; i++) {
+            basket.push(basketItems[i].getAttribute("basketItemID"));
+        }
+        console.log(basket);
+        getVCCLink(basket, false);
     });
 
     document.addEventListener("click", function () {
@@ -45,12 +60,10 @@ export function prepareDrawer() {
 
 function openDrawer() {
     setMaxHeight();
-    drawer.style.marginBottom = "2rem";
 }
 
 function closeDrawer() {
     drawer.style.height = minHeight;
-    drawer.style.marginBottom = "0rem";
 }
 
 function setMaxHeight() {
@@ -71,7 +84,14 @@ function setMaxHeight() {
     drawerPackages.style.overflowY = "auto";
 }
 
-export function addToBasket(packageName) {
+export function addToBasket(packageName, packageID) {
+    const basketItems = drawerPackagesList.children;
+    for (let i = 0; i < basketItems.length; i++) {
+        if (basketItems[i].getAttribute("basketItemName") === packageName) {
+            return;
+        }
+    }
+
     drawerEmptyMessage.classList.add("hidden");
     drawerPackagesList.classList.remove("hidden");
 
@@ -79,7 +99,8 @@ export function addToBasket(packageName) {
     const itemName = document.createElement("span");
     itemName.textContent = packageName;
     basketItem.append(itemName);
-    basketItem.setAttribute("basketItem", packageName);
+    basketItem.setAttribute("basketItemName", packageName);
+    basketItem.setAttribute("basketItemID", packageID);
     basketItem.classList = "flex justify-between items-center";
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
@@ -88,7 +109,7 @@ export function addToBasket(packageName) {
         removeFromBasket(basketItem);
     };
     basketItem.append(removeButton);
-    drawerPackagesList.prepend(basketItem);
+    drawerPackagesList.append(basketItem);
     packagesCount.textContent = (parseInt(packagesCount.textContent) + 1).toString();
 
     drawer.style.height === minHeight ? closeDrawer() : openDrawer();
@@ -109,11 +130,11 @@ function removeFromBasket(packageName) {
 }
 
 function saveBasket() {
-    const basketItems = document.querySelectorAll("[basketItem]");
+    const basketItems = document.querySelectorAll("[basketItemName], [basketItemID]");
     let basket = [];
 
     for (let i = 0; i < basketItems.length; i++) {
-        basket.push(basketItems[i].getAttribute("basketItem"));
+        basket.push({ name: basketItems[i].getAttribute("basketItemName"), id: basketItems[i].getAttribute("basketItemID") });
     }
 
     localStorage.setItem("basket", JSON.stringify(basket));
@@ -124,7 +145,7 @@ function loadBasket() {
 
     if (basket) {
         for (let i = 0; i < basket.length; i++) {
-            addToBasket(basket[i]);
+            addToBasket(basket[i].name, basket[i].id);
         }
     }
 }
@@ -137,5 +158,3 @@ export function clearBasket() {
     drawerPackagesList.classList.add("hidden");
     setMaxHeight();
 }
-
-function getVCCLink() { }
