@@ -2,6 +2,7 @@ import { getVCCLink } from "./packages";
 
 let drawer;
 let drawerContainer;
+let drawerMain;
 let drawerToggle;
 let drawerPackages;
 let drawerPackagesList;
@@ -12,9 +13,15 @@ let drawerButtons;
 let packagesCount;
 let addToVCCButton;
 
-export function prepareDrawer() {
+document.addEventListener("astro:page-load", () => {
+    if (window.location.pathname !== "/packages") return;
+    prepareDrawer();
+});
+
+function prepareDrawer() {
     drawer = document.getElementById("drawer");
     drawerContainer = document.getElementById("drawerContainer");
+    drawerMain = document.getElementById("drawerMain");
     drawerToggle = document.getElementById("drawerToggle");
     drawerPackages = document.getElementById("drawerPackages");
     drawerPackagesList = document.getElementById("drawerPackagesList");
@@ -25,6 +32,7 @@ export function prepareDrawer() {
 
     minHeight = drawerToggle.offsetHeight + "px";
     drawer.style.height = minHeight;
+    drawerMain.style.minHeight = minHeight;
 
     drawerContainer.addEventListener("click", function (event) {
         event.stopPropagation();
@@ -68,19 +76,18 @@ function closeDrawer() {
 
 function setMaxHeight() {
     drawerPackages.style.overflowY = "visible";
+    drawerContainer.style.height = "fit-content";
+
     maxHeight =
-        drawerPackages.offsetHeight +
-            drawerToggle.offsetHeight +
-            drawerButtons.offsetHeight >
+        drawerContainer.offsetHeight >
             window.innerHeight / 1.5
             ? Math.floor(window.innerHeight / 1.5) + "px"
             : Math.floor(
-                drawerPackages.offsetHeight +
-                drawerToggle.offsetHeight +
-                drawerButtons.offsetHeight
+                drawerContainer.offsetHeight
             ) + "px";
-
     drawer.style.height = maxHeight;
+
+    drawerContainer.style.height = "auto";
     drawerPackages.style.overflowY = "auto";
 }
 

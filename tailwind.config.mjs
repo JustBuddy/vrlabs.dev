@@ -4,9 +4,11 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				primary: '#F6F6FA',
-				secondary: '#C8C8CC',
-				action: '#60A5FA'
+				textPrimary: '#FFFFFF',
+				textSecondary: '#AFAFB2',
+				action: '#3DACF2',
+				background: '#1E2227',
+				elements: '#2B3038',
 			},
 			fontFamily: {
 				'Sans': ['Sans'],
@@ -23,10 +25,11 @@ export default {
 				mobileHeading2: '1.5rem',
 				desktopHeading3: '1.25rem',
 				mobileHeading3: '1.19rem',
-				desktopLarge: '1.13rem',
-				mobileLarge: '1.14rem',
+				desktopLarge: '1.14rem',
+				mobileLarge: '1.13rem',
 				medium: '1.5rem',
 				normal: '1rem',
+				small: '0.85rem',
 			},
 			backgroundImage: {
 				'radial-gradient': "radial-gradient(at center bottom, #212F40 0%, #090A0F 100%)",

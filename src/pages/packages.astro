@@ -10,15 +10,3 @@ const pageDescription = "Packages";
   <div id="packages"></div>
   <PackageDrawer />
 </BaseLayout>
-
-<script>
-  import { fetchData, drawCategories, drawPackages } from "../scripts/packages";
-
-  document.addEventListener("astro:page-load", async () => {
-    if (window.location.pathname !== "/packages") return;
-
-    await fetchData();
-    drawCategories();
-    drawPackages();
-  });
-</script>

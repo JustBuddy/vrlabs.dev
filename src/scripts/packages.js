@@ -1,9 +1,17 @@
-import { addToBasket } from "../scripts/basket";
+import { addToBasket } from "./packagesDrawer";
 
 let packages;
 let categoriesWithPackages;
 
-export async function fetchData() {
+document.addEventListener("astro:page-load", async () => {
+    if (window.location.pathname !== "/packages") return;
+
+    await fetchData();
+    drawCategories();
+    drawPackages();
+});
+
+async function fetchData() {
     try {
         const packagesResponse = await fetch(
             "http://45.79.147.72:8006/packages/info"
@@ -46,7 +54,7 @@ export async function fetchData() {
     }
 }
 
-export function drawCategories() {
+function drawCategories() {
     const parentElement = document.getElementById("categories");
     if (!parentElement) return;
 
@@ -93,7 +101,7 @@ export function drawCategories() {
     });
 }
 
-export function drawPackages() {
+function drawPackages() {
     const parentElement = document.getElementById("packages");
     if (!parentElement) return;
 }
