@@ -33,7 +33,7 @@ const { pageTitle, pageDescription } = Astro.props;
     <ViewTransitions />
   </head>
   <body
-    class="flex flex-col overflow-x-hidden min-h-screen text-textPrimary font-Sans text-normal bg-background bg-fixed w-full break-word"
+    class="flex flex-col overflow-x-hidden min-h-screen text-textPrimary font-Sans text-normal bg-background bg-fixed w-full break-words"
   >
     <Navbar />
     <div class="max-w-6xl px-5 sm:px-10 mx-auto my-10 w-full">
@@ -45,7 +45,6 @@ const { pageTitle, pageDescription } = Astro.props;
       </h1>
       <slot />
     </div>
-
     <Footer />
   </body>
 </html>
