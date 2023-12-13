@@ -50,7 +50,6 @@ function prepareDrawer() {
         for (let i = 0; i < basketItems.length; i++) {
             basket.push(basketItems[i].getAttribute("basketItemID"));
         }
-        console.log(basket);
         getVCCLink(basket, false);
     });
 
