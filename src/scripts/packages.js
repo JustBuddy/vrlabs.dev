@@ -9,6 +9,7 @@ document.addEventListener("astro:page-load", async () => {
     await fetchData();
     sortCategories();
     drawCategories();
+    hideSpinner();
     revealCategories();
 });
 
@@ -113,6 +114,11 @@ function drawPackagesInGrid(grid, packages) {
 
         grid.appendChild(card);
     }
+}
+
+function hideSpinner() {
+    const spinner = document.querySelector(".packages-spinner");
+    spinner.classList.add("hidden");
 }
 
 function revealCategories() {
