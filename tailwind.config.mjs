@@ -33,8 +33,8 @@ export default {
 				'radial-gradient': "radial-gradient(at center bottom, #212F40 0%, #090A0F 100%)",
 			},
 			gridTemplateColumns: {
-				'packages': 'repeat(auto-fit, minmax(260px, 0.8fr))',
-				'packagesMobile': 'repeat(auto-fit, minmax(230px, 0.8fr))',
+				'packages': 'repeat(auto-fit, 260px)',
+				'packagesMobile': 'repeat(auto-fit, 240px)',
 			},
 			boxShadow: {
 				'packages': '0 0 20px 5px #0000004a',

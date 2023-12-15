@@ -1,27 +1,18 @@
 import { addToBasket } from "./packagesDrawer";
+// import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
-let packages;
 let categoriesWithPackages;
 
 document.addEventListener("astro:page-load", async () => {
     if (window.location.pathname !== "/packages") return;
 
     await fetchData();
+    sortCategories();
     drawCategories();
-    drawPackages();
+    revealCategories();
 });
 
 async function fetchData() {
-    try {
-        const packagesResponse = await fetch(
-            "http://45.79.147.72:8006/packages/info"
-        );
-        const packagesJson = await packagesResponse.json();
-        packages = Object.values(packagesJson);
-    } catch (error) {
-        console.error("Error fetching packages: ", error);
-    }
-
     try {
         const categoriesResponse = await fetch(
             "http://45.79.147.72:8006/categories"
@@ -54,59 +45,122 @@ async function fetchData() {
     }
 }
 
-function drawCategories() {
-    const parentElement = document.getElementById("categories");
-    if (!parentElement) return;
+function sortCategories() {
+    categoriesWithPackages.sort((a, b) => {
+        const aIndex = ["Essentials", "Systems", "Components", "Networking"].indexOf(a.category);
+        const bIndex = ["Essentials", "Systems", "Components", "Networking"].indexOf(b.category);
 
-    categoriesWithPackages.forEach((categoryWithPackages) => {
-        const { category, packages } = categoryWithPackages;
-        console.log(packages);
-        const categoryElement = document.createElement("div");
-        categoryElement.classList.add("category");
-        categoryElement.id = category;
+        if (aIndex === -1) return 1;
+        if (bIndex === -1) return -1;
 
-        const categoryTitle = document.createElement("h2");
-        categoryTitle.classList.add("categoryTitle");
-        categoryTitle.innerText = category;
-
-        const packagesList = document.createElement("ul");
-        packagesList.classList.add("packagesList");
-
-        packages.forEach((pack) => {
-            const packageElement = document.createElement("li");
-            packageElement.classList.add("package");
-
-            const packageTitle = document.createElement("h3");
-            packageTitle.classList.add("packageTitle");
-            packageTitle.innerText = pack.displayName;
-
-            const packageButton = document.createElement("button");
-            packageButton.classList.add("packageButton");
-            packageButton.innerText = "Add to basket";
-            packageButton.addEventListener("click", (event) => {
-                event.stopPropagation();
-                addToBasket(pack.displayName, pack.name);
-            });
-
-            packageElement.appendChild(packageTitle);
-            packageElement.appendChild(packageButton);
-
-            packagesList.appendChild(packageElement);
-        });
-
-        categoryElement.appendChild(categoryTitle);
-        categoryElement.appendChild(packagesList);
-
-        parentElement.appendChild(categoryElement);
+        return aIndex - bIndex;
     });
 }
 
-function drawPackages() {
-    const parentElement = document.getElementById("packages");
-    if (!parentElement) return;
+function drawCategories() {
+    const container = document.querySelector(".packages-container");
+    const categoryTemplate = document.querySelector(".packages-categoryTemplate");
+    const gridTemplate = document.querySelector(".packages-gridTemplate");
+
+    categoriesWithPackages.forEach((categoryWithPackages) => {
+        const { category, packages } = categoryWithPackages;
+        const categry = categoryTemplate.cloneNode(true);
+
+        categry.classList.remove("packages-categoryTemplate", "hidden");
+        categry.classList.add("packages-header", "grid");
+        categry.style.opacity = 0;
+
+        const categoryTitle = categry.querySelector(".packages-categoryTemplate-title");
+        categoryTitle.innerText = category;
+
+        const categoryButton = categry.querySelector(".packages-categoryTemplate-vccButton");
+        categoryButton.addEventListener("click", () => {
+            window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/category/" + category, "_self");
+        });
+
+        const grid = gridTemplate.cloneNode(true);
+        grid.classList.remove("packages-gridTemplate", "hidden");
+        grid.classList.add("grid");
+
+        const categoryElement = document.createElement("div");
+        categoryElement.appendChild(categry);
+        categoryElement.appendChild(grid);
+
+        container.appendChild(categoryElement);
+
+        drawPackagesInGrid(grid, packages)
+    });
 }
 
-function openModal() { }
+function drawPackagesInGrid(grid, packages) {
+    const cardTemplate = document.querySelector(".packages-cardTemplate");
+    if (!cardTemplate) return;
+
+    // vcc and download buttons need to always be at the bottom of the card
+    for (let key in packages) {
+        const { displayName, description, images, unityPackageUrl, siteUrl } = packages[key];
+        const card = cardTemplate.cloneNode(true);
+
+        card.classList.remove("packages-cardTemplate", "hidden");
+        card.classList.add("packages-card", "flex");
+        card.style.opacity = 0;
+
+        const cardTitle = card.querySelector(".packages-cardTemplate-packageName");
+        cardTitle.innerText = displayName;
+
+        const cardDescription = card.querySelector(".packages-cardTemplate-packageDescription");
+        cardDescription.innerText = description;
+
+        grid.appendChild(card);
+    }
+}
+
+function revealCategories() {
+    const categories = document.querySelectorAll(".packages-header");
+    const cards = document.querySelectorAll(".packages-card");
+
+    const timeoutTime = 100;
+    const delayCards = categories.length * timeoutTime;
+
+    for (let key of categories) {
+        const category = key;
+        setTimeout(() => {
+            category.style.opacity = 1;
+        }, timeoutTime * Array.from(categories).indexOf(category));
+    }
+
+    setTimeout(() => {
+        for (let key of cards) {
+            const card = key;
+            setTimeout(() => {
+                card.style.opacity = 1;
+            }, timeoutTime * Array.from(cards).indexOf(card));
+
+            const cardImage = card.querySelector(".packages-cardTemplate-previewImage");
+
+            let img = new Image();
+            img.src = "https://picsum.photos/600/400?random=" + Array.from(cards).indexOf(card);
+            img.onload = function () {
+                cardImage.src = img.src;
+                cardImage.classList.remove("animate-pulse");
+            }
+        }
+    }, delayCards);
+
+}
+
+async function openMarkdownModal() {
+    // This would require a lot of work to get working, so I'm leaving it commented out for now
+    // The first and last div in the md needs class flex flex-col and items center
+    // The entire thing needs to be styled too
+    //
+    // const test = await fetch("https://raw.githubusercontent.com/VRLabs/Contact-Tracker/dev/README.md");
+    // if (test.ok) {
+    //     const test2 = await test.text();
+    //     const test3 = document.getElementById("markdown");
+    //     test3.innerHTML = marked.parse(test2, { gfm: true, breaks: true });
+    // }
+}
 
 export async function getVCCLink(packageIDs, copyURL = false) {
     const response = await fetch("http://45.79.147.72:8006/listings/encode", {
