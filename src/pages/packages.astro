@@ -6,7 +6,9 @@ const pageDescription = "Packages";
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <div class="packages-skeleton animate-pulse"></div>
+  <div class="packages-spinner flex justify-center">
+    <img class="w-16 h-16" src="/images/spinner.gif" alt="" loading="eager" />
+  </div>
   <div class="packages-container flex flex-col gap-16"></div>
   <div
     class="packages-categoryTemplate hidden sm:justify-between transition-all duration-500 items-center mb-6 sm:grid-flow-col-dense justify-center place-items-center gap-1"
@@ -17,8 +19,8 @@ const pageDescription = "Packages";
       Category Name
     </h2>
     <button
-      class="packages-categoryTemplate-vccButton bg-action rounded-lg px-4 py-2 font-Sans-Bold"
-      >Add category to VCC</button
+      class="packages-categoryTemplate-vccButton bg-elements rounded-lg px-4 py-2 font-Sans-Bold"
+      aria-label="Add category to VCC">Add category to VCC</button
     >
   </div>
   <div
@@ -36,6 +38,7 @@ const pageDescription = "Packages";
     <div class="absolute flex right-0 top-0 m-2 gap-2">
       <button
         class="packages-cardTemplate-infoButton bg-elements rounded-full w-7 h-7 flex justify-center items-center group"
+        aria-label="View package details"
       >
         <svg
           class="h-6 fill-textPrimary group-hover:fill-action transition-all duration-100"
@@ -51,6 +54,7 @@ const pageDescription = "Packages";
       </button>
       <button
         class="packages-cardTemplate-githubButton bg-elements rounded-full w-7 h-7 flex justify-center items-center group"
+        aria-label="View package on GitHub"
       >
         <svg
           class="h-6 fill-textPrimary group-hover:fill-action transition-all duration-100"
@@ -96,10 +100,11 @@ const pageDescription = "Packages";
       <div class="flex gap-1">
         <button
           class="packages-cardTemplate-vccButton bg-background rounded-lg px-6 py-2 w-full font-Sans-Bold"
-          >Add to VCC</button
+          aria-label="Add package to VCC">Add to VCC</button
         >
         <button
           class="packages-cardTemplate-downloadButton bg-background rounded-lg"
+          aria-label="Download package"
         >
           <svg
             class="rotate-180 h-5 w-10 fill-textPrimary stroke-textPrimary"
