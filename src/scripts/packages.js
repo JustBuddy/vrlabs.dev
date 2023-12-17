@@ -10,7 +10,8 @@ document.addEventListener("astro:page-load", async () => {
     sortCategories();
     drawCategories();
     hideSpinner();
-    revealCategories();
+    revealCategoriesAndPackages();
+    getGithubDownloads();
 });
 
 async function fetchData() {
@@ -99,8 +100,10 @@ function drawPackagesInGrid(grid, packages) {
 
     // vcc and download buttons need to always be at the bottom of the card
     for (let key in packages) {
-        const { displayName, description, images, unityPackageUrl, siteUrl } = packages[key];
+        const { packageInfo: { name, displayName, description, siteUrl, unityPackageUrl } } = packages[key];
         const card = cardTemplate.cloneNode(true);
+
+        card.setAttribute("githubUrl", siteUrl);
 
         card.classList.remove("packages-cardTemplate", "hidden");
         card.classList.add("packages-card", "flex");
@@ -121,7 +124,7 @@ function hideSpinner() {
     spinner.classList.add("hidden");
 }
 
-function revealCategories() {
+async function revealCategoriesAndPackages() {
     const categories = document.querySelectorAll(".packages-header");
     const cards = document.querySelectorAll(".packages-card");
 
@@ -152,7 +155,36 @@ function revealCategories() {
             }
         }
     }, delayCards);
+}
 
+async function getGithubDownloads() {
+    const cards = document.querySelectorAll(".packages-card");
+
+    for (let key of cards) {
+        const card = key;
+        const siteUrl = card.getAttribute("githubUrl");
+        const cutUrl = siteUrl.replace("https://github.com/", "");
+
+        try {
+            const githubResponse = await fetch("https://api.github.com/repos/" + cutUrl + "/releases");
+            const githubJson = await githubResponse.json();
+
+            let downloads = 0;
+            for (let key in githubJson) {
+                let assets = githubJson[key].assets;
+                for (let key2 in assets) {
+                    downloads += assets[key2].download_count;
+                }
+            }
+            const formattedDownloads = downloads.toLocaleString('de-DE');
+
+            const cardDownloads = card.querySelector(".packages-cardTemplate-downloadCount");
+            cardDownloads.innerText = formattedDownloads;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 async function openMarkdownModal() {
@@ -169,16 +201,16 @@ async function openMarkdownModal() {
 }
 
 export async function getVCCLink(packageIDs, copyURL = false) {
-    const response = await fetch("http://45.79.147.72:8006/listings/encode", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify(packageIDs),
-    });
+    try {
+        const response = await fetch("http://45.79.147.72:8006/listings/encode", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            mode: "cors",
+            body: JSON.stringify(packageIDs),
+        });
 
-    if (response.ok) {
         const encodedBasket = await response.json();
         const { message } = encodedBasket;
 
@@ -189,9 +221,7 @@ export async function getVCCLink(packageIDs, copyURL = false) {
             window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message, "_self");
         }
     }
-    else {
-        const error = await response.text();
-        alert(error);
+    catch (error) {
         console.log(error);
     }
 }
