@@ -1,3 +1,4 @@
+import { getConfiguredImageService } from "astro:assets";
 import { addToBasket } from "./packagesDrawer";
 // import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
@@ -11,6 +12,7 @@ document.addEventListener("astro:page-load", async () => {
     drawCategories();
     hideSpinner();
     revealCategoriesAndPackages();
+    getImages();
     getGithubDownloads();
 });
 
@@ -100,20 +102,49 @@ function drawPackagesInGrid(grid, packages) {
 
     // vcc and download buttons need to always be at the bottom of the card
     for (let key in packages) {
-        const { packageInfo: { name, displayName, description, siteUrl, unityPackageUrl } } = packages[key];
+        const packageInfo = packages[key]?.packageInfo;
+        if (!packageInfo) continue;
+        const gif = packageInfo.media?.gifs[0];
+        const image = packageInfo.media?.images[0];
+        const { displayName, description, siteUrl, unityPackageUrl } = packageInfo || {};
+
         const card = cardTemplate.cloneNode(true);
 
         card.setAttribute("githubUrl", siteUrl);
+        card.setAttribute("previewImage", image);
+        card.setAttribute("gif", gif);
 
         card.classList.remove("packages-cardTemplate", "hidden");
         card.classList.add("packages-card", "flex");
         card.style.opacity = 0;
+
+        const cardInfo = card.querySelector(".packages-cardTemplate-infoButton");
+        cardInfo.addEventListener("click", () => {
+            openMarkdownModal(siteUrl);
+        });
+
+        const cardGithub = card.querySelector(".packages-cardTemplate-githubButton");
+        cardGithub.addEventListener("click", () => {
+            window.open(siteUrl, "_blank");
+        });
 
         const cardTitle = card.querySelector(".packages-cardTemplate-packageName");
         cardTitle.innerText = displayName;
 
         const cardDescription = card.querySelector(".packages-cardTemplate-packageDescription");
         cardDescription.innerText = description;
+
+        const vccButton = card.querySelector(".packages-cardTemplate-vccButton");
+        vccButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            addToBasket(displayName, name);
+        });
+
+        const downloadButton = card.querySelector(".packages-cardTemplate-downloadButton");
+        isValidUrl(unityPackageUrl) ? downloadButton.classList.remove("disabled") : downloadButton.classList.add("disabled");
+        downloadButton.addEventListener("click", () => {
+            window.open(unityPackageUrl, "_self");
+        });
 
         grid.appendChild(card);
     }
@@ -139,41 +170,58 @@ async function revealCategoriesAndPackages() {
     }
 
     setTimeout(() => {
-        for (let key of cards) {
-            const card = key;
+        for (let card of cards) {
             setTimeout(() => {
                 card.style.opacity = 1;
             }, timeoutTime * Array.from(cards).indexOf(card));
-
-            const cardImage = card.querySelector(".packages-cardTemplate-previewImage");
-
-            let img = new Image();
-            img.src = "https://picsum.photos/600/400?random=" + Array.from(cards).indexOf(card);
-            img.onload = function () {
-                cardImage.src = img.src;
-                cardImage.classList.remove("animate-pulse");
-            }
         }
     }, delayCards);
+}
+
+async function getImages() {
+    const cards = document.querySelectorAll(".packages-card");
+
+    for (let card of cards) {
+        const cardImage = card.querySelector(".packages-cardTemplate-previewImage");
+
+        let img = new Image();
+
+        if (card.getAttribute("previewImage") === "undefined") {
+            img.src = "/images/placeholder.png"
+        }
+        else {
+            img.src = card.getAttribute("previewImage");
+        }
+
+        img.onload = function () {
+            cardImage.src = img.src;
+            cardImage.classList.remove("animate-pulse");
+        }
+    }
 }
 
 async function getGithubDownloads() {
     const cards = document.querySelectorAll(".packages-card");
 
-    for (let key of cards) {
-        const card = key;
+    for (let card of cards) {
         const siteUrl = card.getAttribute("githubUrl");
         const cutUrl = siteUrl.replace("https://github.com/", "");
 
         try {
-            const githubResponse = await fetch("https://api.github.com/repos/" + cutUrl + "/releases");
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
+            );
+
+            const fetchPromise = fetch("https://api.github.com/repos/" + cutUrl + "/releases");
+
+            const githubResponse = await Promise.race([fetchPromise, timeoutPromise]);
             const githubJson = await githubResponse.json();
 
             let downloads = 0;
-            for (let key in githubJson) {
-                let assets = githubJson[key].assets;
-                for (let key2 in assets) {
-                    downloads += assets[key2].download_count;
+            for (let release in githubJson) {
+                let assets = githubJson[release].assets;
+                for (let asset in assets) {
+                    downloads += assets[asset].download_count;
                 }
             }
             const formattedDownloads = downloads.toLocaleString('de-DE');
@@ -187,7 +235,7 @@ async function getGithubDownloads() {
     }
 }
 
-async function openMarkdownModal() {
+async function openMarkdownModal(githubUrl) {
     // This would require a lot of work to get working, so I'm leaving it commented out for now
     // The first and last div in the md needs class flex flex-col and items center
     // The entire thing needs to be styled too
@@ -224,4 +272,14 @@ export async function getVCCLink(packageIDs, copyURL = false) {
     catch (error) {
         console.log(error);
     }
+}
+
+function isValidUrl(string) {
+    try {
+        new URL(string);
+    }
+    catch (_) {
+        return false;
+    }
+    return true;
 }

@@ -9,7 +9,10 @@ const pageDescription = "Packages";
   <div class="packages-spinner flex justify-center">
     <img class="w-16 h-16" src="/images/spinner.gif" alt="" loading="eager" />
   </div>
-  <div class="packages-container flex flex-col gap-16"></div>
+  <div class="packages-container flex flex-col gap-16 py-10"></div>
+
+  <!--  -->
+
   <div
     class="packages-categoryTemplate hidden sm:justify-between transition-all duration-500 items-center mb-6 sm:grid-flow-col-dense justify-center place-items-center gap-1"
   >
@@ -23,12 +26,18 @@ const pageDescription = "Packages";
       aria-label="Add category to VCC">Add category to VCC</button
     >
   </div>
+
+  <!--  -->
+
   <div
     class="packages-gridTemplate hidden grid-cols-packagesMobile sm:grid-cols-packages gap-8 justify-center grid-flow-dense"
   >
   </div>
+
+  <!--  -->
+
   <div
-    class="packages-cardTemplate hidden rounded-xl bg-elements border-borderColor border-1 shadow-packages hover:shadow-packagesHover hover:scale-105 transition-all duration-300 overflow-clip flex-col relative cursor-default"
+    class="packages-cardTemplate hidden rounded-xl bg-elements border-borderColor border-1 shadow-packages hover:shadow-packagesHover hover:scale-1025 transition-all duration-300 overflow-clip flex-col relative cursor-default"
   >
     <img
       class="packages-cardTemplate-previewImage h-40 w-full object-cover animate-pulse bg-background"
@@ -67,7 +76,7 @@ const pageDescription = "Packages";
         </svg>
       </button>
     </div>
-    <div class="cardContent p-3">
+    <div class="p-3">
       <p
         class="packages-cardTemplate-packageName text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold leading-6"
       >
