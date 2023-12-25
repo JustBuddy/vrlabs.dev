@@ -119,11 +119,13 @@ function drawPackagesInGrid(grid, packages) {
         card.style.opacity = 0;
 
         const cardInfo = card.querySelector(".packages-cardTemplate-infoButton");
+        isValidUrl(siteUrl) ? cardInfo.classList.remove("disabled") : cardInfo.classList.add("disabled");
         cardInfo.addEventListener("click", () => {
             openMarkdownModal(siteUrl);
         });
 
         const cardGithub = card.querySelector(".packages-cardTemplate-githubButton");
+        isValidUrl(siteUrl) ? cardGithub.classList.remove("disabled") : cardGithub.classList.add("disabled");
         cardGithub.addEventListener("click", () => {
             window.open(siteUrl, "_blank");
         });
@@ -301,11 +303,12 @@ export async function getVCCLink(packageIDs, copyURL = false) {
 }
 
 function isValidUrl(string) {
-    try {
-        new URL(string);
-    }
-    catch (_) {
-        return false;
-    }
-    return true;
+    var urlPattern = new RegExp('^(https?:\\/\\/)?' +
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' +
+        '((\\d{1,3}\\.){3}\\d{1,3}))' +
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' +
+        '(\\?[;&a-z\\d%_.~+=-]*)?' +
+        '(\\#[-a-z\\d_]*)?$', 'i');
+
+    return !!urlPattern.test(string);
 }
