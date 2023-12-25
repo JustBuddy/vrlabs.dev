@@ -234,28 +234,28 @@ async function getGithubDownloads() {
         else {
             try {
                 const fetchPromise = fetch("https://api.github.com/repos/" + cutUrl + "/releases");
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
-            );
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
+                );
 
                 const response = await Promise.race([fetchPromise, timeoutPromise]);
                 if (response.ok) {
                     const githubJson = await response.json();
 
-            for (let release in githubJson) {
-                let assets = githubJson[release].assets;
-                for (let asset in assets) {
-                    downloads += assets[asset].download_count;
-                }
-            }
+                    for (let release in githubJson) {
+                        let assets = githubJson[release].assets;
+                        for (let asset in assets) {
+                            downloads += assets[asset].download_count;
+                        }
+                    }
                 }
                 else {
                     console.log(response.status);
                 }
-        }
-        catch (error) {
-            console.log(error);
-        }
+            }
+            catch (error) {
+                console.log(error);
+            }
 
             localStorage.setItem(siteUrl, JSON.stringify({ downloads, timestamp: Date.now() }));
             localStorage.setItem("lastCache", Date.now());
