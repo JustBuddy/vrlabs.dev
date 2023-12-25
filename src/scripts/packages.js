@@ -264,42 +264,108 @@ async function getGithubDownloads() {
 }
 
 async function openMarkdownModal(githubUrl) {
-    // This would require a lot of work to get working, so I'm leaving it commented out for now
-    // The first and last div in the md needs class flex flex-col and items center
-    // The entire thing needs to be styled too
-    //
-    // const test = await fetch("https://raw.githubusercontent.com/VRLabs/Contact-Tracker/dev/README.md");
-    // if (test.ok) {
-    //     const test2 = await test.text();
-    //     const test3 = document.getElementById("markdown");
-    //     test3.innerHTML = marked.parse(test2, { gfm: true, breaks: true });
-    // }
-}
+    import("../styles/readme.css");
+    const marked = await import("https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js");
 
-export async function getVCCLink(packageIDs, copyURL = false) {
-    try {
-        const response = await fetch("http://45.79.147.72:8006/listings/encode", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            mode: "cors",
-            body: JSON.stringify(packageIDs),
+    const modal = document.querySelector(".packages-modal");
+    const container = modal.querySelector(".packages-modal-container");
+    const close = modal.querySelector(".packages-modal-close");
+    const content = modal.querySelector(".packages-modal-content");
+    content.innerHTML = "";
+    container.style.opacity = 0;
+    modal.style.opacity = 0;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    modal.addEventListener("click", (event) => {
+        if (event.target === event.currentTarget) {
+            close.click();
+        }
+    });
+
+    modal.focus();
+    modal.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") close.click();
+    });
+
+    close.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        document.body.classList.remove("overflow-hidden");
+    });
+
+    modal.style.opacity = 1;
+    document.body.classList.add("overflow-hidden");
+
+    let markdownText = sessionStorage.getItem(githubUrl);
+    if (!markdownText) {
+        try {
+            const cutUrl = githubUrl.replace("https://github.com/", "");
+
+            const fetchPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/dev/README.md");
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
+            );
+
+            const response = await Promise.race([fetchPromise, timeoutPromise]);
+            if (response.ok) {
+                markdownText = await response.text();
+                sessionStorage.setItem(githubUrl, markdownText);
+            }
+            else {
+                content.innerHTML = `(${response.status}) Could not get package readme`;
+                container.style.opacity = 1;
+                return;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            content.innerHTML = `(Error) Could not get package readme`;
+            container.style.opacity = 1;
+            return;
+        }
+    }
+    content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
+
+    const firstDiv = content.querySelector("div");
+    if (firstDiv) {
+        const firstTwoP = Array.from(firstDiv.querySelectorAll("p")).slice(0, 2);
+        firstTwoP.forEach((p) => {
+            p.style.display = "flex";
+            p.style.justifyContent = "center";
         });
-
-        const encodedBasket = await response.json();
-        const { message } = encodedBasket;
-
-        if (copyURL) {
-            navigator.clipboard.writeText("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message);
-        }
-        else {
-            window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message, "_self");
-        }
     }
-    catch (error) {
-        console.log(error);
+    else {
+        // Legacy support for old readme structure
+        const firstP = content.querySelector("p");
+        firstP.style.display = "flex";
+        container.style.opacity = 1;
+        return;
     }
+
+    const lastDiv = content.querySelector("div:last-child");
+    const lastP = lastDiv.querySelector("p");
+    lastP.style.display = "flex";
+    lastP.style.justifyContent = "center";
+
+    const h2Elements = Array.from(content.querySelectorAll("h2"));
+    const h2Target = h2Elements.find(element => element.textContent.trim().toLowerCase() === "install guide");
+    const nextElement = h2Target ? h2Target.nextElementSibling : null;
+    if (nextElement) {
+        const a = nextElement.querySelector("a");
+        const link = a.getAttribute("href");
+        const video = document.createElement("video");
+
+        video.setAttribute("src", link);
+        video.setAttribute("controls", "true");
+        video.setAttribute("allowfullscreen", "true");
+        video.setAttribute("type", "video/mp4");
+
+        nextElement.appendChild(video);
+        a.remove();
+    }
+
+    container.style.opacity = 1;
 }
 
 function isValidUrl(string) {

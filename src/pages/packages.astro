@@ -6,6 +6,20 @@ const pageDescription = "Packages";
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <div
+    class="packages-modal fixed w-screen h-screen z-40 bg-black/50 backdrop-blur-lg top-0 left-0 justify-center items-center hidden transition-opacity duration-100"
+    tabindex="-1"
+  >
+    <div
+      class="packages-modal-container markdown-body rounded-xl z-50 max-w-3xl max-h-[95vh] overflow-auto transition-opacity duration-100"
+    >
+      <div class="markdown-header flex justify-between sticky top-0 p-4">
+        README.md
+        <button class="packages-modal-close">Close</button>
+      </div>
+      <div class="packages-modal-content p-6"></div>
+    </div>
+  </div>
   <div class="packages-spinner flex justify-center">
     <img class="w-16 h-16" src="/images/spinner.gif" alt="" loading="eager" />
   </div>
