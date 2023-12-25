@@ -194,6 +194,19 @@ function getAllImages() {
         }
     }
 }
+
+function getGifForCard(card) {
+    const cardGif = card.querySelector(".packages-cardTemplate-previewGif");
+    if (!cardGif.src.includes("/images/empty.png")) return;
+
+    let img = new Image();
+
+    card.getAttribute("previewGif") !== "undefined" ? img.src = card.getAttribute("previewGif") : img.src = "/images/placeholder.png";
+
+    img.onload = function () {
+        cardGif.src = img.src;
+        cardGif.classList.remove("animate-skeleton");
+}
 }
 
 async function getGithubDownloads() {
