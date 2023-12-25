@@ -212,7 +212,7 @@ function getGifForCard(card) {
     img.onload = function () {
         cardGif.src = img.src;
         cardGif.classList.remove("animate-skeleton");
-}
+    }
 }
 
 async function getGithubDownloads() {
