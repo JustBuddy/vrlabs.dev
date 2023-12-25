@@ -161,7 +161,7 @@ function hideSpinner() {
     spinner.classList.add("hidden");
 }
 
-async function revealCategoriesAndPackages() {
+function revealCategoriesAndPackages() {
     const categories = document.querySelectorAll(".packages-header");
     const cards = document.querySelectorAll(".packages-card");
 
