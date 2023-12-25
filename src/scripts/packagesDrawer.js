@@ -1,5 +1,3 @@
-import { getVCCLink } from "./packages";
-
 let drawer;
 let drawerContainer;
 let drawerMain;
@@ -163,4 +161,30 @@ export function clearBasket() {
     drawerEmptyMessage.classList.remove("hidden");
     drawerPackagesList.classList.add("hidden");
     setMaxHeight();
+}
+
+async function getVCCLink(packageIDs, copyURL = false) {
+    try {
+        const response = await fetch("http://45.79.147.72:8006/listings/encode", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            mode: "cors",
+            body: JSON.stringify(packageIDs),
+        });
+
+        const encodedBasket = await response.json();
+        const { message } = encodedBasket;
+
+        if (copyURL) {
+            navigator.clipboard.writeText("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message);
+        }
+        else {
+            window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message, "_self");
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
