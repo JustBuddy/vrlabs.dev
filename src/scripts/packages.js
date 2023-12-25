@@ -178,7 +178,7 @@ async function revealCategoriesAndPackages() {
     }, delayCards);
 }
 
-async function getImages() {
+function getAllImages() {
     const cards = document.querySelectorAll(".packages-card");
 
     for (let card of cards) {
@@ -186,18 +186,14 @@ async function getImages() {
 
         let img = new Image();
 
-        if (card.getAttribute("previewImage") === "undefined") {
-            img.src = "/images/placeholder.png"
-        }
-        else {
-            img.src = card.getAttribute("previewImage");
-        }
+        card.getAttribute("previewImage") !== "undefined" ? img.src = card.getAttribute("previewImage") : img.src = "/images/placeholder.png";
 
         img.onload = function () {
             cardImage.src = img.src;
-            cardImage.classList.remove("animate-pulse");
+            cardImage.classList.remove("animate-skeleton");
         }
     }
+}
 }
 
 async function getGithubDownloads() {
