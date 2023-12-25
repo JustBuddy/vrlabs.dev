@@ -12,7 +12,7 @@ document.addEventListener("astro:page-load", async () => {
     drawCategories();
     hideSpinner();
     revealCategoriesAndPackages();
-    getImages();
+    getAllImages();
     getGithubDownloads();
 });
 
@@ -101,18 +101,22 @@ function drawPackagesInGrid(grid, packages) {
     if (!cardTemplate) return;
 
     // vcc and download buttons need to always be at the bottom of the card
-    for (let key in packages) {
-        const packageInfo = packages[key]?.packageInfo;
+    for (let pack in packages) {
+        const packageInfo = packages[pack]?.packageInfo;
         if (!packageInfo) continue;
-        const gif = packageInfo.media?.gifs[0];
-        const image = packageInfo.media?.images[0];
-        const { displayName, description, siteUrl, unityPackageUrl } = packageInfo || {};
 
+        const { displayName, description, siteUrl, unityPackageUrl } = packageInfo || undefined;
+        const image = packageInfo.media?.previewImage || undefined;
+        const gif = packageInfo.media?.previewGif || undefined;
         const card = cardTemplate.cloneNode(true);
 
         card.setAttribute("githubUrl", siteUrl);
         card.setAttribute("previewImage", image);
-        card.setAttribute("gif", gif);
+        card.setAttribute("previewGif", gif);
+
+        card.onmouseenter = function () {
+            getGifForCard(card);
+        };
 
         card.classList.remove("packages-cardTemplate", "hidden");
         card.classList.add("packages-card", "flex");
