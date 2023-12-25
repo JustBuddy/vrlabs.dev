@@ -211,36 +211,53 @@ function getGifForCard(card) {
 
 async function getGithubDownloads() {
     const cards = document.querySelectorAll(".packages-card");
+    const expirationDuration = 1000 * 60 * 60 * 2;
+    console.log("Time until next GitHub fetch: " + Math.floor((Date.now() - localStorage.getItem("lastCache") - expirationDuration) / 1000 / 60) + " minutes");
 
     for (let card of cards) {
         const siteUrl = card.getAttribute("githubUrl");
         const cutUrl = siteUrl.replace("https://github.com/", "");
 
-        try {
+        let downloads = 0;
+        const cachedData = JSON.parse(localStorage.getItem(siteUrl));
+        console.log(cachedData);
+
+        if (cachedData && (Date.now() - cachedData.timestamp < expirationDuration)) {
+            downloads = Number(cachedData.downloads);
+        }
+        else {
+            try {
+                const fetchPromise = fetch("https://api.github.com/repos/" + cutUrl + "/releases");
             const timeoutPromise = new Promise((_, reject) =>
                 setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
             );
 
-            const fetchPromise = fetch("https://api.github.com/repos/" + cutUrl + "/releases");
+                const response = await Promise.race([fetchPromise, timeoutPromise]);
+                if (response.ok) {
+                    const githubJson = await response.json();
 
-            const githubResponse = await Promise.race([fetchPromise, timeoutPromise]);
-            const githubJson = await githubResponse.json();
-
-            let downloads = 0;
             for (let release in githubJson) {
                 let assets = githubJson[release].assets;
                 for (let asset in assets) {
                     downloads += assets[asset].download_count;
                 }
             }
-            const formattedDownloads = downloads.toLocaleString('de-DE');
-
-            const cardDownloads = card.querySelector(".packages-cardTemplate-downloadCount");
-            cardDownloads.innerText = formattedDownloads;
+                }
+                else {
+                    console.log(response.status);
+                }
         }
         catch (error) {
             console.log(error);
         }
+
+            localStorage.setItem(siteUrl, JSON.stringify({ downloads, timestamp: Date.now() }));
+            localStorage.setItem("lastCache", Date.now());
+        }
+
+        const formattedDownloads = downloads.toLocaleString('de-DE');
+        const cardDownloads = card.querySelector(".packages-cardTemplate-downloadCount");
+        cardDownloads.innerText = formattedDownloads;
     }
 }
 
