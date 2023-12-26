@@ -299,35 +299,31 @@ async function openMarkdownModal(githubUrl) {
     modal.style.opacity = 1;
     document.body.classList.add("overflow-hidden");
 
-    let markdownText = sessionStorage.getItem(githubUrl);
-    if (!markdownText) {
-        try {
-            const cutUrl = githubUrl.replace("https://github.com/", "");
+    try {
+        const cutUrl = githubUrl.replace("https://github.com/", "");
 
-            const fetchPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/dev/README.md");
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
-            );
+        const fetchPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/dev/README.md");
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
+        );
 
-            const response = await Promise.race([fetchPromise, timeoutPromise]);
-            if (response.ok) {
-                markdownText = await response.text();
-                sessionStorage.setItem(githubUrl, markdownText);
-            }
-            else {
-                content.innerHTML = `(${response.status}) Could not get package readme`;
-                container.style.opacity = 1;
-                return;
-            }
+        const response = await Promise.race([fetchPromise, timeoutPromise]);
+        if (response.ok) {
+            let markdownText = await response.text();
+            content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
         }
-        catch (error) {
-            console.log(error);
-            content.innerHTML = `(Error) Could not get package readme`;
+        else {
+            content.innerHTML = `(${response.status}) Could not get package readme`;
             container.style.opacity = 1;
             return;
         }
     }
-    content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
+    catch (error) {
+        console.log(error);
+        content.innerHTML = `(Error) Could not get package readme`;
+        container.style.opacity = 1;
+        return;
+    }
 
     const firstDiv = content.querySelector("div");
     if (firstDiv) {
