@@ -1,6 +1,4 @@
-import { getConfiguredImageService } from "astro:assets";
 import { addToBasket } from "./packagesDrawer";
-// import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 
 let categoriesWithPackages;
 
@@ -268,8 +266,8 @@ async function getGithubDownloads() {
 }
 
 async function openMarkdownModal(githubUrl) {
-    import("../styles/readme.css");
-    const marked = await import("https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js");
+    await import("../styles/readme.css");
+    let marked = await import("marked");
 
     const modal = document.querySelector(".packages-modal");
     const container = modal.querySelector(".packages-modal-container");
