@@ -5,7 +5,9 @@ let categoriesWithPackages;
 document.addEventListener("astro:page-load", async () => {
     if (window.location.pathname !== "/packages") return;
 
-    await fetchData();
+    categoriesWithPackages = await fetchData();
+    if (!categoriesWithPackages) { displayError(); return };
+
     sortCategories();
     drawCategories();
     hideSpinner();
@@ -16,35 +18,56 @@ document.addEventListener("astro:page-load", async () => {
 
 async function fetchData() {
     try {
-        const categoriesResponse = await fetch(
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Server timeout")), 5000)
+        );
+        const categoriesPromise = await fetch(
             "http://45.79.147.72:8006/categories"
         );
-        const { categories } = await categoriesResponse.json();
+
+        const response = await Promise.race([categoriesPromise, timeoutPromise]);
+        if (!response.ok) throw new Error("Could not fetch categories");
+
+        const { categories } = await categoriesPromise.json();
+        if (!categories) throw new Error("Could not fetch categories");
 
         const packagesPromises = categories.map(async (category) => {
-            try {
-                const categoryPackagesResponse = await fetch(
-                    "http://45.79.147.72:8006/packages/info/category/" + category
-                );
-                const categoryPackagesJson = await categoryPackagesResponse.json();
-                const packages = Object.values(categoryPackagesJson);
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Server timeout")), 5000)
+            );
+            const packagesPromise = await fetch(
+                "http://45.79.147.72:8006/packages/info/category/" + category
+            );
 
-                return {
-                    category: category.charAt(0).toUpperCase() + category.slice(1),
-                    packages,
-                };
-            } catch (error) {
-                console.error(
-                    `Error fetching packages for category ${category}: `,
-                    error
-                );
-            }
+            const response = await Promise.race([packagesPromise, timeoutPromise]);
+            if (!response.ok) throw new Error("Could not fetch packages");
+
+            const packagesJson = await packagesPromise.json();
+            if (!packagesJson) throw new Error("Could not fetch packages");
+
+            const packages = Object.values(packagesJson);
+            return {
+                category: category.charAt(0).toUpperCase() + category.slice(1),
+                packages,
+            };
         });
 
-        categoriesWithPackages = await Promise.all(packagesPromises);
-    } catch (error) {
-        console.error("Error fetching categories: ", error);
+        return await Promise.all(packagesPromises);
     }
+    catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
+function displayError() {
+    hideSpinner();
+
+    const container = document.querySelector(".packages-container");
+    const p = document.createElement("p");
+    p.style.textAlign = "center";
+    p.innerText = "Error fetching packages";
+    container.appendChild(p);
 }
 
 function sortCategories() {
@@ -216,7 +239,6 @@ function getGifForCard(card) {
 async function getGithubDownloads() {
     const cards = document.querySelectorAll(".packages-card");
     const expirationDuration = 1000 * 60 * 60 * 2;
-    console.log("Time until next GitHub fetch: " + Math.floor((Date.now() - localStorage.getItem("lastCache") - expirationDuration) / 1000 / 60) + " minutes");
 
     for (let card of cards) {
         const siteUrl = card.getAttribute("githubUrl");
@@ -224,31 +246,28 @@ async function getGithubDownloads() {
 
         let downloads = 0;
         const cachedData = JSON.parse(localStorage.getItem(siteUrl));
-        console.log(cachedData);
 
         if (cachedData && (Date.now() - cachedData.timestamp < expirationDuration)) {
             downloads = Number(cachedData.downloads);
         }
         else {
             try {
-                const fetchPromise = fetch("https://api.github.com/repos/" + cutUrl + "/releases");
                 const timeoutPromise = new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
+                    setTimeout(() => reject(new Error("GitHub timeout")), 5000)
                 );
+                const githubPromise = await fetch("https://api.github.com/repos/" + cutUrl + "/releases");
 
-                const response = await Promise.race([fetchPromise, timeoutPromise]);
-                if (response.ok) {
-                    const githubJson = await response.json();
+                const response = await Promise.race([githubPromise, timeoutPromise]);
+                if (!response.ok) throw new Error("Could not fetch GitHub releases");
 
-                    for (let release in githubJson) {
-                        let assets = githubJson[release].assets;
-                        for (let asset in assets) {
-                            downloads += assets[asset].download_count;
-                        }
+                const githubJson = await response.json();
+                if (!githubJson) throw new Error("Could not fetch GitHub releases");
+
+                for (let release in githubJson) {
+                    let assets = githubJson[release].assets;
+                    for (let asset in assets) {
+                        downloads += assets[asset].download_count;
                     }
-                }
-                else {
-                    console.log(response.status);
                 }
             }
             catch (error) {
@@ -256,7 +275,6 @@ async function getGithubDownloads() {
             }
 
             localStorage.setItem(siteUrl, JSON.stringify({ downloads, timestamp: Date.now() }));
-            localStorage.setItem("lastCache", Date.now());
         }
 
         const formattedDownloads = downloads.toLocaleString('de-DE');
@@ -302,25 +320,22 @@ async function openMarkdownModal(githubUrl) {
     try {
         const cutUrl = githubUrl.replace("https://github.com/", "");
 
-        const fetchPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/dev/README.md");
         const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("GitHub Request Timeout")), 5000)
+            setTimeout(() => reject(new Error("GitHub timeout")), 5000)
         );
+        const githubPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/dev/README.md");
 
-        const response = await Promise.race([fetchPromise, timeoutPromise]);
-        if (response.ok) {
-            let markdownText = await response.text();
-            content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
-        }
-        else {
-            content.innerHTML = `(${response.status}) Could not get package readme`;
-            container.style.opacity = 1;
-            return;
-        }
+        const response = await Promise.race([githubPromise, timeoutPromise]);
+        if (!response.ok) throw new Error("Could not fetch GitHub readme");
+
+        let markdownText = await response.text();
+        if (!markdownText) throw new Error("Could not fetch GitHub readme");
+
+        content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
     }
     catch (error) {
         console.log(error);
-        content.innerHTML = `(Error) Could not get package readme`;
+        content.innerHTML = error;
         container.style.opacity = 1;
         return;
     }
