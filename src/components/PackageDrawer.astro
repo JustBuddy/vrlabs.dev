@@ -3,54 +3,46 @@
 ---
 
 <div
-  id="drawer"
-  class="left-0 right-0 bottom-0 w-full fixed transition-all duration-300 flex justify-center z-10 h-0 mb-4"
+  class="drawer left-0 right-0 bottom-0 w-full fixed transition-all duration-300 flex justify-center z-10 h-0 mb-4"
 >
-  <div id="drawerContainer" class="w-11/12 max-w-xl flex flex-col gap-4">
+  <div class="drawer-container w-11/12 max-w-xl hidden flex-col gap-4">
     <div
-      id="drawerMain"
-      class="bg-elements rounded-xl w-full h-full flex flex-col items-center px-2 pb-2 overflow-hidden border-1 border-borderColor"
+      class="drawer-main bg-elements rounded-xl w-full h-full flex flex-col items-center px-2 pb-2 overflow-hidden border-1 border-borderColor"
     >
       <div
-        id="drawerToggle"
-        class="rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold hover:text-action transition-all duration-100"
+        class="drawer-toggle rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold hover:text-action transition-all duration-100"
       >
         <p>Add to VCC</p>
         <div
-          id="packagesCount"
-          class="rounded-full bg-action text-textPrimary w-10 text-center"
+          class="drawer-count rounded-full bg-action text-textPrimary w-10 text-center"
         >
           0
         </div>
       </div>
-      <div
-        id="drawerPackages"
-        class="drawerPackages w-full bg-background/50 rounded-lg"
-      >
-        <div id="drawerEmptyMessage" class="hidden">
+      <div class="drawer-packages w-full bg-background/50 rounded-lg">
+        <div class="drawer-emptyMessage hidden">
           <div class="flex justify-center p-5 text-textSecondary text-small">
             You have no packages selected
           </div>
         </div>
-        <ul id="drawerPackagesList" class="p-5"></ul>
+        <ul class="drawer-packagesList p-5"></ul>
       </div>
     </div>
     <div
-      id="drawerButtons"
-      class="w-full flex justify-center items-center gap-5 py-4 rounded-xl mt-auto bg-elements mb-auto"
+      class="drawer-buttons w-full flex justify-center items-center gap-5 py-4 rounded-xl mt-auto bg-elements mb-auto"
     >
-      <button id="addToVCCButton">Add To VCC</button>
+      <button class="drawer-addToVCCButton">Add To VCC</button>
       <button>Copy Link</button>
     </div>
   </div>
 </div>
 
 <style>
-  .drawerPackages::-webkit-scrollbar {
+  .drawer-packages::-webkit-scrollbar {
     display: none;
   }
 
-  .drawerPackages {
+  .drawer-packages {
     scrollbar-width: none;
   }
 </style>

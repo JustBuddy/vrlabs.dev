@@ -5,11 +5,12 @@ let drawerToggle;
 let drawerPackages;
 let drawerPackagesList;
 let drawerEmptyMessage;
-let maxHeight;
-let minHeight;
 let drawerButtons;
 let packagesCount;
 let addToVCCButton;
+
+let maxHeight;
+let minHeight;
 
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
@@ -17,16 +18,19 @@ document.addEventListener("astro:page-load", () => {
 });
 
 function prepareDrawer() {
-    drawer = document.getElementById("drawer");
-    drawerContainer = document.getElementById("drawerContainer");
-    drawerMain = document.getElementById("drawerMain");
-    drawerToggle = document.getElementById("drawerToggle");
-    drawerPackages = document.getElementById("drawerPackages");
-    drawerPackagesList = document.getElementById("drawerPackagesList");
-    drawerEmptyMessage = document.getElementById("drawerEmptyMessage");
-    drawerButtons = document.getElementById("drawerButtons");
-    packagesCount = document.getElementById("packagesCount");
-    addToVCCButton = document.getElementById("addToVCCButton");
+    drawer = document.querySelector(".drawer");
+    drawerContainer = document.querySelector(".drawer-container");
+    drawerMain = document.querySelector(".drawer-main");
+    drawerToggle = document.querySelector(".drawer-toggle");
+    drawerPackages = document.querySelector(".drawer-packages");
+    drawerPackagesList = document.querySelector(".drawer-packagesList");
+    drawerEmptyMessage = document.querySelector(".drawer-emptyMessage");
+    drawerButtons = document.querySelector(".drawer-buttons");
+    packagesCount = document.querySelector(".drawer-count");
+    addToVCCButton = document.querySelector(".drawer-addToVCCButton");
+
+    drawerContainer.classList.remove("hidden");
+    drawerContainer.classList.add("flex");
 
     minHeight = drawerToggle.offsetHeight + "px";
     drawer.style.height = minHeight;
