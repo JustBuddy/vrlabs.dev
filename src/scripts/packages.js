@@ -284,7 +284,6 @@ async function getGithubDownloads() {
 }
 
 async function openMarkdownModal(githubUrl) {
-    await import("../styles/readme.css");
     let marked = await import("marked");
 
     const modal = document.querySelector(".packages-modal");
