@@ -208,23 +208,36 @@ function revealCategoriesAndPackages() {
 function getAllImages() {
     const cards = document.querySelectorAll(".packages-card");
 
-    for (let card of cards) {
-        const cardImage = card.querySelector(".packages-cardTemplate-previewImage");
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                return;
+            }
 
-        let img = new Image();
+            const card = entry.target;
+            const cardImage = card.querySelector(".packages-cardTemplate-previewImage");
 
-        card.getAttribute("previewImage") !== "undefined" ? img.src = card.getAttribute("previewImage") : img.src = "/images/placeholder.png";
+            let img = new Image();
 
-        img.onload = function () {
-            cardImage.src = img.src;
-            cardImage.classList.remove("animate-skeleton");
-        }
-    }
+            card.getAttribute("previewImage") !== "undefined" ? img.src = card.getAttribute("previewImage") : img.src = "/images/placeholder.png";
+
+            img.onload = function () {
+                cardImage.src = img.src;
+                cardImage.classList.remove("animate-skeleton");
+            }
+
+            observer.unobserve(card);
+        });
+    });
+
+    cards.forEach(card => {
+        observer.observe(card);
+    });
 }
 
 function getGifForCard(card) {
     const cardGif = card.querySelector(".packages-cardTemplate-previewGif");
-    if (!cardGif.src.includes("/images/empty.png")) return;
+    if (!cardGif.src != "") return;
 
     let img = new Image();
 
