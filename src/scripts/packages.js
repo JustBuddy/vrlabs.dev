@@ -10,9 +10,9 @@ document.addEventListener("astro:page-load", async () => {
 
     sortCategories();
     drawCategories();
+    getAllImages();
     hideSpinner();
     revealCategoriesAndPackages();
-    getAllImages();
     getGithubDownloads();
     destroyTemplates();
 });
