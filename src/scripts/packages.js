@@ -247,9 +247,22 @@ function getGifForCard(card) {
     card.getAttribute("previewGif") !== "undefined" ? img.src = card.getAttribute("previewGif") : img.src = "/images/placeholder.png";
 
     img.onload = function () {
+        let opacity = 0;
+        cardGif.style.opacity = opacity;
+
         cardGif.src = img.src;
         cardGif.classList.remove("animate-skeleton");
+
+        let intervalId = setInterval(function () {
+            if (opacity < 1) {
+                opacity += 0.025;
+                cardGif.style.opacity = opacity;
+            } else {
+                clearInterval(intervalId);
+            }
+        }, 1);
     }
+}
 }
 
 async function getGithubDownloads() {
