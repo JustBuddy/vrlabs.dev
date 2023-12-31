@@ -136,9 +136,11 @@ function drawPackagesInGrid(grid, packages) {
         card.setAttribute("previewImage", image);
         card.setAttribute("previewGif", gif);
 
-        card.onmouseenter = function () {
+        card.addEventListener('mouseenter', function () {
             getGifForCard(card);
-        };
+        });
+
+        setupGifHandler(card);
 
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
@@ -263,6 +265,21 @@ function getGifForCard(card) {
         }, 1);
     }
 }
+
+function setupGifHandler(card) {
+    const cardGif = card.querySelector(".card-previewGif");
+    let timeoutId;
+
+    card.addEventListener('mouseenter', function () {
+        clearTimeout(timeoutId);
+        cardGif.classList.remove("hidden");
+    });
+
+    card.addEventListener('mouseleave', function () {
+        timeoutId = setTimeout(() => {
+            cardGif.classList.add("hidden");
+        }, 500);
+    });
 }
 
 async function getGithubDownloads() {
