@@ -7,12 +7,23 @@ const pageDescription = "Packages";
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <div class="packages-container flex flex-col gap-20 py-12"></div>
+  <PackageDrawer />
+
+  <!-- Spinner -->
+
+  <div class="packages-spinner flex justify-center">
+    <img class="w-16 h-16" src="/images/spinner.gif" alt="" loading="eager" />
+  </div>
+
+  <!-- Markdown Modal -->
+
   <div
-    class="packages-modal fixed w-screen h-screen z-40 bg-black/50 backdrop-blur-lg top-0 left-0 justify-center items-center hidden transition-opacity duration-100"
+    class="packages-modal fixed w-screen h-screen z-40 bg-black/30 backdrop-blur top-0 left-0 justify-center items-center hidden transition-opacity duration-200"
     tabindex="-1"
   >
     <div
-      class="packages-modal-container markdown-body rounded-xl z-50 max-w-3xl max-h-[95vh] overflow-auto transition-opacity duration-100"
+      class="packages-modal-container markdown-body rounded-xl z-50 max-w-3xl max-h-[95vh] overflow-auto transition-opacity duration-200"
     >
       <div class="markdown-header flex justify-between sticky top-0 p-4">
         README.md
@@ -21,86 +32,84 @@ const pageDescription = "Packages";
       <div class="packages-modal-content p-6"></div>
     </div>
   </div>
-  <div class="packages-spinner flex justify-center">
-    <img class="w-16 h-16" src="/images/spinner.gif" alt="" loading="eager" />
-  </div>
-  <div class="packages-container flex flex-col gap-16 py-10"></div>
 
-  <!--  -->
+  <!-- Category Template -->
 
   <div
-    class="packages-categoryTemplate hidden sm:justify-between transition-all duration-500 items-center mb-6 sm:grid-flow-col-dense justify-center place-items-center gap-1"
+    class="category-template hidden transition-all duration-500 items-center mb-10 sm:flex-row flex-col justify-between place-items-center gap-1 border-b-2 border-borderColor pb-3 px-2"
   >
     <h2
-      class="packages-categoryTemplate-title font-Novecento-Utrabold text-mobileHeading2 sm:text-desktopHeading2"
+      class="category-title font-Novecento-Utrabold text-mobileHeading2 sm:text-desktopHeading2"
     >
       Category Name
     </h2>
     <button
-      class="packages-categoryTemplate-vccButton bg-elements rounded-lg px-4 py-2 font-Sans-Bold"
+      class="category-vccButton bg-elements rounded-lg px-4 py-2 font-Sans-Bold hover:brightness-125 transition-all duration-200 border-1 border-borderColor"
       aria-label="Add category to VCC">Add category to VCC</button
     >
   </div>
 
-  <!--  -->
+  <!-- Grid Template -->
 
   <div
-    class="packages-gridTemplate hidden grid-cols-packagesMobile sm:grid-cols-packages gap-8 justify-center grid-flow-dense"
+    class="grid-template hidden grid-cols-packagesMobile sm:grid-cols-packages gap-x-8 gap-y-12 justify-center grid-flow-dense"
   >
   </div>
 
-  <!--  -->
+  <!-- Card Template -->
 
   <div
-    class="packages-cardTemplate group/card hidden rounded-xl bg-elements border-borderColor border-1 shadow-packages hover:shadow-packagesHover transition-all duration-300 overflow-clip flex-col relative cursor-default"
+    class="card-template group/card hidden flex-col rounded-xl border-borderColor border-1 shadow-packages hover:shadow-packagesHover hover:scale-102 transition-all duration-300 overflow-clip relative cursor-default"
   >
-    <div class="relative w-full h-40">
+    <div class="relative w-full h-44">
       <img
-        class="packages-cardTemplate-previewGif h-full w-full object-cover animate-skeleton absolute bg-background"
+        class="card-previewGif h-full w-full object-cover animate-skeleton absolute bg-background hidden"
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
         alt="Preview Gif"
       />
       <img
-        class="packages-cardTemplate-previewImage h-full w-full object-cover animate-skeleton absolute bg-background group-hover/card:opacity-0 transition-all duration-300"
+        class="card-previewImage h-full w-full object-cover animate-skeleton absolute bg-background group-hover/card:opacity-0 transition-opacity duration-300"
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
         alt="Preview Image"
       />
-    </div>
-    <div class="absolute flex right-0 top-0 m-2 gap-2">
-      <button
-        class="packages-cardTemplate-infoButton bg-elements rounded-full w-7 h-7 flex justify-center items-center group"
-        aria-label="View package details"
-      >
-        <svg
-          class="h-6 fill-textPrimary group-hover:fill-action transition-all duration-100"
-          viewBox="0 0 80 80"
-          xmlns="http://www.w3.org/2000/svg"
+      <div class="absolute flex right-0 top-0 m-2 gap-2">
+        <button
+          class="card-infoButton bg-elements rounded-full w-7 h-7 flex justify-center items-center hover:brightness-125 transition-all duration-200"
+          aria-label="View package details"
         >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M68 40C68 55.464 55.464 68 40 68C24.536 68 12 55.464 12 40C12 24.536 24.536 12 40 12C55.464 12 68 24.536 68 40ZM40 26.5C36.4101 26.5 33.5 29.4102 33.5 33V33.5082C33.5 34.8889 32.3807 36.0082 31 36.0082C29.6193 36.0082 28.5 34.8889 28.5 33.5082V33C28.5 26.6487 33.6487 21.5 40 21.5H40.7729C46.6973 21.5 51.5 26.3027 51.5 32.2271C51.5 36.0117 49.5057 39.5162 46.252 41.4493L44.5128 42.4825C43.2649 43.224 42.5 44.5681 42.5 46.0197V46.4C42.5 47.7807 41.3807 48.9 40 48.9C38.6193 48.9 37.5 47.7807 37.5 46.4V46.0197C37.5 42.8041 39.1945 39.8264 41.959 38.1839L43.6981 37.1507C45.4353 36.1187 46.5 34.2476 46.5 32.2271C46.5 29.0641 43.9359 26.5 40.7729 26.5H40ZM42.5 53.5999C42.5 52.2192 41.3807 51.0999 40 51.0999C38.6193 51.0999 37.5 52.2192 37.5 53.5999V55.1999C37.5 56.5806 38.6193 57.6999 40 57.6999C41.3807 57.6999 42.5 56.5806 42.5 55.1999V53.5999Z"
-          ></path>
-        </svg>
-      </button>
-      <button
-        class="packages-cardTemplate-githubButton bg-elements rounded-full w-7 h-7 flex justify-center items-center group"
-        aria-label="View package on GitHub"
-      >
-        <svg
-          class="h-6 fill-textPrimary group-hover:fill-action transition-all duration-100"
-          viewBox="0 0 80 80"
-          xmlns="http://www.w3.org/2000/svg"
+          <svg
+            class="h-6 fill-textPrimary"
+            viewBox="0 0 80 80"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M68 40C68 55.464 55.464 68 40 68C24.536 68 12 55.464 12 40C12 24.536 24.536 12 40 12C55.464 12 68 24.536 68 40ZM40 26.5C36.4101 26.5 33.5 29.4102 33.5 33V33.5082C33.5 34.8889 32.3807 36.0082 31 36.0082C29.6193 36.0082 28.5 34.8889 28.5 33.5082V33C28.5 26.6487 33.6487 21.5 40 21.5H40.7729C46.6973 21.5 51.5 26.3027 51.5 32.2271C51.5 36.0117 49.5057 39.5162 46.252 41.4493L44.5128 42.4825C43.2649 43.224 42.5 44.5681 42.5 46.0197V46.4C42.5 47.7807 41.3807 48.9 40 48.9C38.6193 48.9 37.5 47.7807 37.5 46.4V46.0197C37.5 42.8041 39.1945 39.8264 41.959 38.1839L43.6981 37.1507C45.4353 36.1187 46.5 34.2476 46.5 32.2271C46.5 29.0641 43.9359 26.5 40.7729 26.5H40ZM42.5 53.5999C42.5 52.2192 41.3807 51.0999 40 51.0999C38.6193 51.0999 37.5 52.2192 37.5 53.5999V55.1999C37.5 56.5806 38.6193 57.6999 40 57.6999C41.3807 57.6999 42.5 56.5806 42.5 55.1999V53.5999Z"
+            ></path>
+          </svg>
+        </button>
+        <button
+          class="card-githubButton bg-elements rounded-full w-7 h-7 flex justify-center items-center hover:brightness-125 transition-all duration-200"
+          aria-label="View package on GitHub"
         >
-          <path
-            d="M28.7444 60.1431C28.7444 60.416 28.429 60.6344 28.0315 60.6344C27.579 60.6754 27.2637 60.457 27.2637 60.1431C27.2637 59.8702 27.579 59.6518 27.9766 59.6518C28.3879 59.6109 28.7444 59.8292 28.7444 60.1431ZM24.4806 59.529C24.3847 59.8019 24.6589 60.1158 25.0702 60.1977C25.4266 60.3342 25.8379 60.1977 25.9202 59.9247C26.0024 59.6518 25.7419 59.3379 25.3306 59.2151C24.9742 59.1195 24.5766 59.256 24.4806 59.529ZM30.5403 59.297C30.1427 59.3925 29.8685 59.6518 29.9097 59.9657C29.9508 60.2386 30.3073 60.4161 30.7185 60.3205C31.1161 60.225 31.3903 59.9657 31.3492 59.6927C31.3081 59.4334 30.9379 59.256 30.5403 59.297ZM39.5613 7C20.546 7 6 21.3707 6 40.2997C6 55.4347 15.5694 68.3862 29.2379 72.9444C30.9927 73.2583 31.6097 72.1801 31.6097 71.2931C31.6097 70.4469 31.5685 65.7795 31.5685 62.9135C31.5685 62.9135 21.9718 64.9606 19.9565 58.8466C19.9565 58.8466 18.3935 54.8752 16.1452 53.8516C16.1452 53.8516 13.0056 51.709 16.3645 51.7499C16.3645 51.7499 19.7782 52.0229 21.6565 55.271C24.6589 60.5389 29.6903 59.024 31.6508 58.1233C31.9661 55.9397 32.8573 54.4248 33.8444 53.5241C26.1806 52.678 18.4484 51.5725 18.4484 38.4437C18.4484 34.6906 19.4903 32.8073 21.6839 30.4053C21.3274 29.5183 20.1621 25.8608 22.0403 21.1387C24.9056 20.2517 31.5 24.8235 31.5 24.8235C34.2419 24.0593 37.1895 23.6635 40.1097 23.6635C43.0298 23.6635 45.9774 24.0593 48.7194 24.8235C48.7194 24.8235 55.3137 20.238 58.179 21.1387C60.0573 25.8744 58.8919 29.5183 58.5355 30.4053C60.729 32.8209 62.0726 34.7043 62.0726 38.4437C62.0726 51.6135 53.9976 52.6643 46.3339 53.5241C47.5952 54.6022 48.6645 56.6494 48.6645 59.8565C48.6645 64.4557 48.6234 70.1467 48.6234 71.2658C48.6234 72.1528 49.254 73.231 50.9952 72.9171C64.7048 68.3862 74 55.4347 74 40.2997C74 21.3707 58.5766 7 39.5613 7ZM19.3258 54.07C19.1476 54.2065 19.1887 54.5204 19.4218 54.7797C19.6411 54.998 19.9565 55.0936 20.1347 54.9161C20.3129 54.7797 20.2718 54.4658 20.0387 54.2065C19.8194 53.9881 19.504 53.8926 19.3258 54.07ZM17.8452 52.9646C17.7492 53.142 17.8863 53.3603 18.1605 53.4968C18.3798 53.6333 18.654 53.5923 18.75 53.4013C18.846 53.2239 18.7089 53.0055 18.4347 52.869C18.1605 52.7871 17.9411 52.8281 17.8452 52.9646ZM22.2871 57.823C22.0677 58.0005 22.15 58.4099 22.4653 58.6692C22.7806 58.9831 23.1782 59.024 23.3565 58.8057C23.5347 58.6282 23.4524 58.2188 23.1782 57.9595C22.8766 57.6456 22.4653 57.6047 22.2871 57.823ZM20.7242 55.8169C20.5048 55.9533 20.5048 56.3082 20.7242 56.6221C20.9435 56.936 21.3137 57.0724 21.4919 56.936C21.7113 56.7585 21.7113 56.4037 21.4919 56.0898C21.3 55.7759 20.9435 55.6395 20.7242 55.8169Z"
-          ></path>
-        </svg>
-      </button>
+          <svg
+            class="h-6 fill-textPrimary"
+            viewBox="0 0 80 80"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M28.7444 60.1431C28.7444 60.416 28.429 60.6344 28.0315 60.6344C27.579 60.6754 27.2637 60.457 27.2637 60.1431C27.2637 59.8702 27.579 59.6518 27.9766 59.6518C28.3879 59.6109 28.7444 59.8292 28.7444 60.1431ZM24.4806 59.529C24.3847 59.8019 24.6589 60.1158 25.0702 60.1977C25.4266 60.3342 25.8379 60.1977 25.9202 59.9247C26.0024 59.6518 25.7419 59.3379 25.3306 59.2151C24.9742 59.1195 24.5766 59.256 24.4806 59.529ZM30.5403 59.297C30.1427 59.3925 29.8685 59.6518 29.9097 59.9657C29.9508 60.2386 30.3073 60.4161 30.7185 60.3205C31.1161 60.225 31.3903 59.9657 31.3492 59.6927C31.3081 59.4334 30.9379 59.256 30.5403 59.297ZM39.5613 7C20.546 7 6 21.3707 6 40.2997C6 55.4347 15.5694 68.3862 29.2379 72.9444C30.9927 73.2583 31.6097 72.1801 31.6097 71.2931C31.6097 70.4469 31.5685 65.7795 31.5685 62.9135C31.5685 62.9135 21.9718 64.9606 19.9565 58.8466C19.9565 58.8466 18.3935 54.8752 16.1452 53.8516C16.1452 53.8516 13.0056 51.709 16.3645 51.7499C16.3645 51.7499 19.7782 52.0229 21.6565 55.271C24.6589 60.5389 29.6903 59.024 31.6508 58.1233C31.9661 55.9397 32.8573 54.4248 33.8444 53.5241C26.1806 52.678 18.4484 51.5725 18.4484 38.4437C18.4484 34.6906 19.4903 32.8073 21.6839 30.4053C21.3274 29.5183 20.1621 25.8608 22.0403 21.1387C24.9056 20.2517 31.5 24.8235 31.5 24.8235C34.2419 24.0593 37.1895 23.6635 40.1097 23.6635C43.0298 23.6635 45.9774 24.0593 48.7194 24.8235C48.7194 24.8235 55.3137 20.238 58.179 21.1387C60.0573 25.8744 58.8919 29.5183 58.5355 30.4053C60.729 32.8209 62.0726 34.7043 62.0726 38.4437C62.0726 51.6135 53.9976 52.6643 46.3339 53.5241C47.5952 54.6022 48.6645 56.6494 48.6645 59.8565C48.6645 64.4557 48.6234 70.1467 48.6234 71.2658C48.6234 72.1528 49.254 73.231 50.9952 72.9171C64.7048 68.3862 74 55.4347 74 40.2997C74 21.3707 58.5766 7 39.5613 7ZM19.3258 54.07C19.1476 54.2065 19.1887 54.5204 19.4218 54.7797C19.6411 54.998 19.9565 55.0936 20.1347 54.9161C20.3129 54.7797 20.2718 54.4658 20.0387 54.2065C19.8194 53.9881 19.504 53.8926 19.3258 54.07ZM17.8452 52.9646C17.7492 53.142 17.8863 53.3603 18.1605 53.4968C18.3798 53.6333 18.654 53.5923 18.75 53.4013C18.846 53.2239 18.7089 53.0055 18.4347 52.869C18.1605 52.7871 17.9411 52.8281 17.8452 52.9646ZM22.2871 57.823C22.0677 58.0005 22.15 58.4099 22.4653 58.6692C22.7806 58.9831 23.1782 59.024 23.3565 58.8057C23.5347 58.6282 23.4524 58.2188 23.1782 57.9595C22.8766 57.6456 22.4653 57.6047 22.2871 57.823ZM20.7242 55.8169C20.5048 55.9533 20.5048 56.3082 20.7242 56.6221C20.9435 56.936 21.3137 57.0724 21.4919 56.936C21.7113 56.7585 21.7113 56.4037 21.4919 56.0898C21.3 55.7759 20.9435 55.6395 20.7242 55.8169Z"
+            ></path>
+          </svg>
+        </button>
+      </div>
     </div>
-    <div class="p-3">
+    <div
+      class="p-3 bg-gradient-to-br from-elementsBright to-background grow flex flex-col"
+    >
       <p
-        class="packages-cardTemplate-packageName text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold leading-6"
+        class="card-packageName text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold leading-6"
       >
         Package Name
       </p>
@@ -121,24 +130,24 @@ const pageDescription = "Packages";
           ></path>
           <path d="M56 16H24" stroke-width="6" stroke-linecap="round"></path>
         </svg>
-        <p class="packages-cardTemplate-downloadCount text-textSecondary">
-          ---
-        </p>
+        <p class="card-downloadCount text-textSecondary">---</p>
       </div>
-      <p class="packages-cardTemplate-packageDescription text-small mt-3 mb-4">
+      <p
+        class="card-packageDescription text-small mt-3 mb-4 text-textSecondary"
+      >
         Package Description
       </p>
-      <div class="flex gap-1">
+      <div class="flex gap-1 mt-auto">
         <button
-          class="packages-cardTemplate-vccButton bg-background rounded-lg px-6 py-2 w-full font-Sans-Bold"
-          aria-label="Add package to VCC">Add to VCC</button
+          class="card-vccButton bg-elements rounded-lg px-6 py-2 w-full font-Sans-Bold border-1 border-borderColor hover:brightness-125 transition-all duration-200"
+          aria-label="Add package to VCC">Add to VCC List</button
         >
         <button
-          class="packages-cardTemplate-downloadButton bg-background rounded-lg"
+          class="card-downloadButton bg-background/0 rounded-lg border-1 border-borderColor/50 hover:brightness-125 transition-all duration-200"
           aria-label="Download package"
         >
           <svg
-            class="rotate-180 h-5 w-10 fill-textPrimary stroke-textPrimary"
+            class="rotate-180 h-5 w-10 fill-textSecondary stroke-textSecondary"
             viewBox="0 0 80 80"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +166,6 @@ const pageDescription = "Packages";
       </div>
     </div>
   </div>
-  <PackageDrawer />
 </BaseLayout>
 
 <script src="../scripts/packages.js"></script>

@@ -84,27 +84,27 @@ function sortCategories() {
 
 function drawCategories() {
     const container = document.querySelector(".packages-container");
-    const categoryTemplate = document.querySelector(".packages-categoryTemplate");
-    const gridTemplate = document.querySelector(".packages-gridTemplate");
+    const categoryTemplate = document.querySelector(".category-template");
+    const gridTemplate = document.querySelector(".grid-template");
 
     categoriesWithPackages.forEach((categoryWithPackages) => {
         const { category, packages } = categoryWithPackages;
         const categry = categoryTemplate.cloneNode(true);
 
-        categry.classList.remove("packages-categoryTemplate", "hidden");
-        categry.classList.add("packages-header", "grid");
+        categry.classList.remove("category-template", "hidden");
+        categry.classList.add("packages-header", "flex");
         categry.style.opacity = 0;
 
-        const categoryTitle = categry.querySelector(".packages-categoryTemplate-title");
+        const categoryTitle = categry.querySelector(".category-title");
         categoryTitle.innerText = category;
 
-        const categoryButton = categry.querySelector(".packages-categoryTemplate-vccButton");
+        const categoryButton = categry.querySelector(".category-vccButton");
         categoryButton.addEventListener("click", () => {
             window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/category/" + category, "_self");
         });
 
         const grid = gridTemplate.cloneNode(true);
-        grid.classList.remove("packages-gridTemplate", "hidden");
+        grid.classList.remove("grid-template", "hidden");
         grid.classList.add("grid");
 
         const categoryElement = document.createElement("div");
@@ -118,7 +118,7 @@ function drawCategories() {
 }
 
 function drawPackagesInGrid(grid, packages) {
-    const cardTemplate = document.querySelector(".packages-cardTemplate");
+    const cardTemplate = document.querySelector(".card-template");
     if (!cardTemplate) return;
 
     // vcc and download buttons need to always be at the bottom of the card
@@ -139,35 +139,35 @@ function drawPackagesInGrid(grid, packages) {
             getGifForCard(card);
         };
 
-        card.classList.remove("packages-cardTemplate", "hidden");
+        card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
         card.style.opacity = 0;
 
-        const cardInfo = card.querySelector(".packages-cardTemplate-infoButton");
+        const cardInfo = card.querySelector(".card-infoButton");
         isValidUrl(siteUrl) ? cardInfo.classList.remove("disabled") : cardInfo.classList.add("disabled");
         cardInfo.addEventListener("click", () => {
             openMarkdownModal(siteUrl);
         });
 
-        const cardGithub = card.querySelector(".packages-cardTemplate-githubButton");
+        const cardGithub = card.querySelector(".card-githubButton");
         isValidUrl(siteUrl) ? cardGithub.classList.remove("disabled") : cardGithub.classList.add("disabled");
         cardGithub.addEventListener("click", () => {
             window.open(siteUrl, "_blank");
         });
 
-        const cardTitle = card.querySelector(".packages-cardTemplate-packageName");
+        const cardTitle = card.querySelector(".card-packageName");
         cardTitle.innerText = displayName;
 
-        const cardDescription = card.querySelector(".packages-cardTemplate-packageDescription");
+        const cardDescription = card.querySelector(".card-packageDescription");
         cardDescription.innerText = description;
 
-        const vccButton = card.querySelector(".packages-cardTemplate-vccButton");
+        const vccButton = card.querySelector(".card-vccButton");
         vccButton.addEventListener("click", (event) => {
             event.stopPropagation();
             addToBasket(displayName, name);
         });
 
-        const downloadButton = card.querySelector(".packages-cardTemplate-downloadButton");
+        const downloadButton = card.querySelector(".card-downloadButton");
         isValidUrl(unityPackageUrl) ? downloadButton.classList.remove("disabled") : downloadButton.classList.add("disabled");
         downloadButton.addEventListener("click", () => {
             window.open(unityPackageUrl, "_self");
@@ -186,7 +186,7 @@ function revealCategoriesAndPackages() {
     const categories = document.querySelectorAll(".packages-header");
     const cards = document.querySelectorAll(".packages-card");
 
-    const timeoutTime = 100;
+    const timeoutTime = 25;
     const delayCards = categories.length * timeoutTime;
 
     for (let key of categories) {
@@ -215,7 +215,7 @@ function getAllImages() {
             }
 
             const card = entry.target;
-            const cardImage = card.querySelector(".packages-cardTemplate-previewImage");
+            const cardImage = card.querySelector(".card-previewImage");
 
             let img = new Image();
 
@@ -228,6 +228,8 @@ function getAllImages() {
 
             observer.unobserve(card);
         });
+    }, {
+        rootMargin: "100px"
     });
 
     cards.forEach(card => {
@@ -236,8 +238,8 @@ function getAllImages() {
 }
 
 function getGifForCard(card) {
-    const cardGif = card.querySelector(".packages-cardTemplate-previewGif");
-    if (!cardGif.src != "") return;
+    const cardGif = card.querySelector(".card-previewGif");
+    if (cardGif.src !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=") return;
 
     let img = new Image();
 
@@ -291,7 +293,7 @@ async function getGithubDownloads() {
         }
 
         const formattedDownloads = downloads.toLocaleString('de-DE');
-        const cardDownloads = card.querySelector(".packages-cardTemplate-downloadCount");
+        const cardDownloads = card.querySelector(".card-downloadCount");
         cardDownloads.innerText = formattedDownloads;
     }
 }
@@ -303,7 +305,6 @@ async function openMarkdownModal(githubUrl) {
     const container = modal.querySelector(".packages-modal-container");
     const close = modal.querySelector(".packages-modal-close");
     const content = modal.querySelector(".packages-modal-content");
-    content.innerHTML = "";
     container.style.opacity = 0;
     modal.style.opacity = 0;
 
@@ -358,12 +359,14 @@ async function openMarkdownModal(githubUrl) {
         firstTwoP.forEach((p) => {
             p.style.display = "flex";
             p.style.justifyContent = "center";
+            p.style.gap = "0.15rem";
         });
     }
     else {
         // Legacy support for old readme structure
         const firstP = content.querySelector("p");
         firstP.style.display = "flex";
+        firstP.style.gap = "0.15rem";
         container.style.opacity = 1;
         return;
     }
@@ -372,6 +375,7 @@ async function openMarkdownModal(githubUrl) {
     const lastP = lastDiv.querySelector("p");
     lastP.style.display = "flex";
     lastP.style.justifyContent = "center";
+    lastP.style.gap = "0.15rem";
 
     const h2Elements = Array.from(content.querySelectorAll("h2"));
     const h2Target = h2Elements.find(element => element.textContent.trim().toLowerCase() === "install guide");
@@ -385,6 +389,8 @@ async function openMarkdownModal(githubUrl) {
         video.setAttribute("controls", "true");
         video.setAttribute("allowfullscreen", "true");
         video.setAttribute("type", "video/mp4");
+        video.style.position = "relative"
+        video.style.zIndex = -1;
 
         nextElement.appendChild(video);
         a.remove();

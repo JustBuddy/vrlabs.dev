@@ -5,21 +5,25 @@
 <div
   class="drawer left-0 right-0 bottom-0 w-full fixed transition-all duration-300 flex justify-center z-10 h-0 mb-4"
 >
-  <div class="drawer-container w-11/12 max-w-xl hidden flex-col gap-4">
+  <div
+    class="drawer-container w-11/12 max-w-2xl hidden flex-col pointer-events-auto bg-gradient-to-br from-elementsBright to-background rounded-t-xl border-x-2 border-t-2 border-borderColorBright overflow-hidden"
+  >
     <div
-      class="drawer-main bg-elements rounded-xl w-full h-full flex flex-col items-center px-2 pb-2 overflow-hidden border-1 border-borderColor"
+      class="drawer-main w-full h-full flex flex-col items-center px-2 overflow-hidden"
     >
       <div
         class="drawer-toggle rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold hover:text-action transition-all duration-100"
       >
-        <p>Add to VCC</p>
+        <p>VCC List</p>
         <div
           class="drawer-count rounded-full bg-action text-textPrimary w-10 text-center"
         >
           0
         </div>
       </div>
-      <div class="drawer-packages w-full bg-background/50 rounded-lg">
+      <div
+        class="drawer-packages w-full bg-transparent border-y-1 border-borderColor"
+      >
         <div class="drawer-emptyMessage hidden">
           <div class="flex justify-center p-5 text-textSecondary text-small">
             You have no packages selected
@@ -29,11 +33,10 @@
       </div>
     </div>
     <div class="drawer-buttons flex gap-1 px-2 py-4">
-    <div
-      class="drawer-buttons w-full flex justify-center items-center gap-5 py-4 rounded-xl mt-auto bg-elements mb-auto"
-    >
-      <button class="drawer-addToVCCButton">Add To VCC</button>
-      <button>Copy Link</button>
+      <button
+        class="drawer-addToVCCButton bg-action rounded-lg px-6 py-2 w-full font-Sans-Bold hover:brightness-110 transition-all duration-200"
+        >Add To VCC</button
+      >
       <button
         class="drawer-copyButton bg-background/0 rounded-lg border-1 border-borderColor hover:brightness-125 transition-all duration-200"
         aria-label="Download package"
