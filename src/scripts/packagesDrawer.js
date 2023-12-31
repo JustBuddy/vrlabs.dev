@@ -8,6 +8,7 @@ let drawerEmptyMessage;
 let drawerButtons;
 let packagesCount;
 let addToVCCButton;
+let copyButton;
 
 let maxHeight;
 let minHeight;
@@ -28,6 +29,7 @@ function prepareDrawer() {
     drawerButtons = document.querySelector(".drawer-buttons");
     packagesCount = document.querySelector(".drawer-count");
     addToVCCButton = document.querySelector(".drawer-addToVCCButton");
+    copyButton = document.querySelector(".drawer-copyButton");
 
     drawerContainer.classList.remove("hidden");
     drawerContainer.classList.add("flex");
@@ -53,6 +55,16 @@ function prepareDrawer() {
             basket.push(basketItems[i].getAttribute("basketItemID"));
         }
         getVCCLink(basket, false);
+    });
+
+    copyButton.addEventListener("click", function () {
+        const basketItems = document.querySelectorAll("[basketItemID]");
+        let basket = [];
+
+        for (let i = 0; i < basketItems.length; i++) {
+            basket.push(basketItems[i].getAttribute("basketItemID"));
+        }
+        getVCCLink(basket, true);
     });
 
     document.addEventListener("click", function () {
