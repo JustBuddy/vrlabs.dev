@@ -14,6 +14,7 @@ document.addEventListener("astro:page-load", async () => {
     revealCategoriesAndPackages();
     getAllImages();
     getGithubDownloads();
+    destroyTemplates();
 });
 
 async function fetchData() {
@@ -296,6 +297,16 @@ async function getGithubDownloads() {
         const cardDownloads = card.querySelector(".card-downloadCount");
         cardDownloads.innerText = formattedDownloads;
     }
+}
+
+function destroyTemplates() {
+    const categoryTemplate = document.querySelector(".category-template");
+    const gridTemplate = document.querySelector(".grid-template");
+    const cardTemplate = document.querySelector(".card-template");
+
+    categoryTemplate.remove();
+    gridTemplate.remove();
+    cardTemplate.remove();
 }
 
 async function openMarkdownModal(githubUrl) {
