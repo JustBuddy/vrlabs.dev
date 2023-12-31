@@ -127,7 +127,7 @@ function drawPackagesInGrid(grid, packages) {
         const packageInfo = packages[pack]?.packageInfo;
         if (!packageInfo) continue;
 
-        const { displayName, description, siteUrl, unityPackageUrl } = packageInfo || undefined;
+        const { name, displayName, description, siteUrl, unityPackageUrl } = packageInfo || undefined;
         const image = packageInfo.media?.previewImage || undefined;
         const gif = packageInfo.media?.previewGif || undefined;
         const card = cardTemplate.cloneNode(true);
