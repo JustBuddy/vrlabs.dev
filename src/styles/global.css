@@ -21,3 +21,18 @@
   font-style: normal;
   font-display: swap;
 }
+
+html::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: rgb(92 103 120);
+  border-radius: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+  background: rgb(69 77 89);
+}
