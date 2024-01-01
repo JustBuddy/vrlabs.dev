@@ -19,17 +19,16 @@ const pageDescription = "Packages";
   <!-- Markdown Modal -->
 
   <div
-    class="packages-modal fixed w-screen h-screen z-40 bg-black/30 backdrop-blur top-0 left-0 justify-center items-center hidden transition-opacity duration-200"
-    tabindex="-1"
+    class="modal-container z-50 w-screen h-screen hidden justify-center items-center fixed top-0 left-0 transition-opacity duration-200 opacity-0 pointer-events-none"
   >
     <div
-      class="packages-modal-container markdown-body rounded-xl z-50 max-w-3xl max-h-[95vh] overflow-auto transition-opacity duration-200"
+      class="markdown-body rounded-xl max-w-3xl max-h-[95vh] overflow-auto pointer-events-auto"
     >
-      <div class="markdown-header flex justify-between sticky top-0 p-4">
+      <div class="markdown-header flex justify-between sticky top-0 p-4 z-50">
         README.md
-        <button class="packages-modal-close">Close</button>
+        <button class="modal-close">Close</button>
       </div>
-      <div class="packages-modal-content p-6"></div>
+      <div class="modal-content p-6"></div>
     </div>
   </div>
 

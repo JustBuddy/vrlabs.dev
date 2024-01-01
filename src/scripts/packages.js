@@ -340,36 +340,39 @@ function destroyTemplates() {
 }
 
 async function openMarkdownModal(githubUrl) {
-    let marked = await import("marked");
+    const backdrop = document.querySelector(".backdrop");
 
-    const modal = document.querySelector(".packages-modal");
-    const container = modal.querySelector(".packages-modal-container");
-    const close = modal.querySelector(".packages-modal-close");
-    const content = modal.querySelector(".packages-modal-content");
-    container.style.opacity = 0;
-    modal.style.opacity = 0;
-
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-    modal.addEventListener("click", (event) => {
-        if (event.target === event.currentTarget) {
+    backdrop.setAttribute('data-state', 'opened');
+    backdrop.style.zIndex = 41;
+    backdrop.focus();
+    backdrop.onclick = function () {
+        close.click();
+    }
+    backdrop.onkeydown = function (event) {
+        if (event.key === "Escape") {
             close.click();
         }
-    });
+    }
 
-    modal.focus();
-    modal.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") close.click();
-    });
+    const container = document.querySelector(".modal-container");
+    const close = container.querySelector(".modal-close");
+    const content = container.querySelector(".modal-content");
+    container.classList.remove("hidden");
+    container.classList.add("flex");
+    container.style.opacity = 0;
 
     close.addEventListener("click", () => {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
+        container.style.opacity = 0;
+        container.classList.remove("flex");
+        container.classList.add("hidden");
+
+        backdrop.setAttribute('data-state', 'closed');
         document.body.classList.remove("overflow-hidden");
     });
 
-    modal.style.opacity = 1;
     document.body.classList.add("overflow-hidden");
+
+    let marked = await import("marked");
 
     try {
         const cutUrl = githubUrl.replace("https://github.com/", "");
@@ -430,8 +433,6 @@ async function openMarkdownModal(githubUrl) {
         video.setAttribute("controls", "true");
         video.setAttribute("allowfullscreen", "true");
         video.setAttribute("type", "video/mp4");
-        video.style.position = "relative"
-        video.style.zIndex = -1;
 
         nextElement.appendChild(video);
         a.remove();

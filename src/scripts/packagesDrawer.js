@@ -67,10 +67,6 @@ function prepareDrawer() {
         getVCCLink(basket, true);
     });
 
-    document.addEventListener("click", function () {
-        closeDrawer();
-    });
-
     loadBasket();
 
     if (drawerPackagesList.childElementCount < 1) {
@@ -81,10 +77,33 @@ function prepareDrawer() {
 
 function openDrawer() {
     setMaxHeight();
+
+    const backdrop = document.querySelector(".backdrop");
+
+    backdrop.setAttribute('data-state', 'opened');
+    backdrop.style.zIndex = 40;
+
+    backdrop.onclick = function () {
+        closeDrawer();
+    };
+    backdrop.onkeydown = function (event) {
+        if (event.key === "Escape") closeDrawer();
+    };
+
+    backdrop.focus();
+
+    const scrollTop = window.pageYOffset
+    const scrollLeft = window.pageXOffset
+    window.onscroll = function () { window.scrollTo(scrollLeft, scrollTop); };
 }
 
 function closeDrawer() {
     drawer.style.height = minHeight;
+
+    const backdrop = document.querySelector(".backdrop");
+    backdrop.setAttribute('data-state', 'closed');
+
+    window.onscroll = function () { };
 }
 
 function setMaxHeight() {
