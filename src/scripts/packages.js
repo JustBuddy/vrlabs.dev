@@ -1,4 +1,4 @@
-import { addToBasket } from "./packagesDrawer";
+import { addToBasket } from "./packageDrawer";
 
 let categoriesWithPackages;
 
