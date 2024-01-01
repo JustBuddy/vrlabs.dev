@@ -5,7 +5,6 @@ let drawerToggle;
 let drawerPackages;
 let drawerPackagesList;
 let drawerEmptyMessage;
-let drawerButtons;
 let packagesCount;
 let addToVCCButton;
 let copyButton;
@@ -26,7 +25,6 @@ function prepareDrawer() {
     drawerPackages = document.querySelector(".drawer-packages");
     drawerPackagesList = document.querySelector(".drawer-packagesList");
     drawerEmptyMessage = document.querySelector(".drawer-emptyMessage");
-    drawerButtons = document.querySelector(".drawer-buttons");
     packagesCount = document.querySelector(".drawer-count");
     addToVCCButton = document.querySelector(".drawer-addToVCCButton");
     copyButton = document.querySelector(".drawer-copyButton");
@@ -38,41 +36,20 @@ function prepareDrawer() {
     drawer.style.height = minHeight;
     drawerMain.style.minHeight = minHeight;
 
-    drawerContainer.addEventListener("click", function (event) {
-        event.stopPropagation();
-    });
 
-    drawerToggle.addEventListener("click", function (event) {
-        event.stopPropagation();
+    drawerToggle.addEventListener("click", function () {
         drawer.style.height === minHeight ? openDrawer() : closeDrawer();
     });
 
     addToVCCButton.addEventListener("click", function () {
-        const basketItems = document.querySelectorAll("[basketItemID]");
-        let basket = [];
-
-        for (let i = 0; i < basketItems.length; i++) {
-            basket.push(basketItems[i].getAttribute("basketItemID"));
-        }
-        getVCCLink(basket, false);
+        getVCCLink(false);
     });
 
     copyButton.addEventListener("click", function () {
-        const basketItems = document.querySelectorAll("[basketItemID]");
-        let basket = [];
-
-        for (let i = 0; i < basketItems.length; i++) {
-            basket.push(basketItems[i].getAttribute("basketItemID"));
-        }
-        getVCCLink(basket, true);
+        getVCCLink(true);
     });
 
     loadBasket();
-
-    if (drawerPackagesList.childElementCount < 1) {
-        drawerEmptyMessage.classList.remove("hidden");
-        drawerPackagesList.classList.add("hidden");
-    }
 }
 
 function openDrawer() {
@@ -80,9 +57,9 @@ function openDrawer() {
 
     const backdrop = document.querySelector(".backdrop");
 
-    backdrop.setAttribute('data-state', 'opened');
+    backdrop.setAttribute("data-state", "opened");
     backdrop.style.zIndex = 40;
-
+    backdrop.focus();
     backdrop.onclick = function () {
         closeDrawer();
     };
@@ -90,10 +67,8 @@ function openDrawer() {
         if (event.key === "Escape") closeDrawer();
     };
 
-    backdrop.focus();
-
-    const scrollTop = window.pageYOffset
-    const scrollLeft = window.pageXOffset
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const scrollLeft = window.scrollX || window.pageXOffset;
     window.onscroll = function () { window.scrollTo(scrollLeft, scrollTop); };
 }
 
@@ -101,7 +76,7 @@ function closeDrawer() {
     drawer.style.height = minHeight;
 
     const backdrop = document.querySelector(".backdrop");
-    backdrop.setAttribute('data-state', 'closed');
+    backdrop.setAttribute("data-state", "closed");
 
     window.onscroll = function () { };
 }
@@ -111,19 +86,17 @@ function setMaxHeight() {
     drawerContainer.style.height = "fit-content";
 
     maxHeight =
-        drawerContainer.offsetHeight >
-            window.innerHeight / 1.5
+        drawerContainer.offsetHeight > window.innerHeight / 1.5
             ? Math.floor(window.innerHeight / 1.5) + "px"
-            : Math.floor(
-                drawerContainer.offsetHeight
-            ) + "px";
-    drawer.style.height = maxHeight;
+            : Math.floor(drawerContainer.offsetHeight) + "px"; drawer.style.height = maxHeight;
 
     drawerContainer.style.height = "auto";
     drawerPackages.style.overflowY = "auto";
 }
 
 export function addToBasket(packageName, packageID) {
+    drawerEmptyMessage.classList.add("hidden");
+
     const basketItems = drawerPackagesList.children;
     for (let i = 0; i < basketItems.length; i++) {
         if (basketItems[i].getAttribute("basketItemName") === packageName) {
@@ -131,45 +104,41 @@ export function addToBasket(packageName, packageID) {
         }
     }
 
-    drawerEmptyMessage.classList.add("hidden");
-    drawerPackagesList.classList.remove("hidden");
-
     const basketItem = document.createElement("li");
-    const itemName = document.createElement("span");
-    itemName.textContent = packageName;
-    basketItem.append(itemName);
     basketItem.setAttribute("basketItemName", packageName);
     basketItem.setAttribute("basketItemID", packageID);
     basketItem.classList = "flex justify-between items-center";
+
+    const itemName = document.createElement("span");
+    itemName.textContent = packageName;
+
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
     removeButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded my-1";
     removeButton.onclick = () => {
         removeFromBasket(basketItem);
     };
+
+    basketItem.append(itemName);
     basketItem.append(removeButton);
     drawerPackagesList.append(basketItem);
-    packagesCount.textContent = (parseInt(packagesCount.textContent) + 1).toString();
 
-    drawer.style.height === minHeight ? closeDrawer() : openDrawer();
+    packagesCount.textContent = (parseInt(packagesCount.textContent) + 1).toString();
     saveBasket();
 }
 
 function removeFromBasket(packageName) {
     packageName.remove();
+
     packagesCount.textContent = (parseInt(packagesCount.textContent) - 1).toString();
-    if (drawerPackagesList.childElementCount < 1) {
-        drawerEmptyMessage.classList.remove("hidden");
-        drawerPackagesList.classList.add("hidden");
-    }
+    if (drawerPackagesList.childElementCount < 1) drawerEmptyMessage.classList.remove("hidden");
 
     setMaxHeight();
-
     saveBasket();
 }
 
 function saveBasket() {
-    const basketItems = document.querySelectorAll("[basketItemName], [basketItemID]");
+    const basketItems = document.querySelectorAll("[basketItemName]");
     let basket = [];
 
     for (let i = 0; i < basketItems.length; i++) {
@@ -194,24 +163,38 @@ export function clearBasket() {
     packagesCount.textContent = "0";
     drawerPackagesList.innerHTML = "";
     drawerEmptyMessage.classList.remove("hidden");
-    drawerPackagesList.classList.add("hidden");
+
     setMaxHeight();
+    saveBasket();
 }
 
-async function getVCCLink(packageIDs, copyURL = false) {
+async function getVCCLink(copyURL) {
+    const basketItems = document.querySelectorAll("[basketItemName]");
+    let packageIDs = [];
+
+    for (let i = 0; i < basketItems.length; i++) {
+        packageIDs.push(basketItems[i].getAttribute("basketItemID"));
+    }
+
     try {
-        const response = await fetch("http://45.79.147.72:8006/listings/encode", {
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Server timeout")), 5000)
+        );
+        const listingPromise = await fetch("http://45.79.147.72:8006/listings/encode", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            mode: "cors",
             body: JSON.stringify(packageIDs),
         });
 
-        const encodedBasket = await response.json();
-        const { message } = encodedBasket;
+        const response = await Promise.race([listingPromise, timeoutPromise]);
+        if (!response.ok) throw new Error("Could not fetch listing");
 
+        const listing = await listingPromise.json();
+        if (!listing) throw new Error("Could not fetch listing");
+
+        const { message } = listing;
         if (copyURL) {
             navigator.clipboard.writeText("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message);
         }

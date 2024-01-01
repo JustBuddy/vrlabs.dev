@@ -24,15 +24,17 @@
       <div
         class="drawer-packages w-full bg-transparent border-y-1 border-borderColor"
       >
-        <div class="drawer-emptyMessage hidden">
-          <div class="flex justify-center p-5 text-textSecondary text-small">
+        <div class="p-5">
+          <div
+            class="drawer-emptyMessage flex justify-center text-textSecondary text-small"
+          >
             You have no packages selected
           </div>
+          <ul class="drawer-packagesList"></ul>
         </div>
-        <ul class="drawer-packagesList p-5"></ul>
       </div>
     </div>
-    <div class="drawer-buttons flex gap-1 px-2 py-4">
+    <div class="flex gap-1 px-2 py-4">
       <button
         class="drawer-addToVCCButton bg-action rounded-lg px-6 py-2 w-full font-Sans-Bold hover:brightness-110 transition-all duration-200"
         >Add To VCC</button
@@ -68,4 +70,4 @@
   }
 </style>
 
-<script src="../scripts/packagesDrawer"></script>
+<script src="../scripts/packageDrawer"></script>
