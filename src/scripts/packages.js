@@ -199,13 +199,11 @@ function revealCategoriesAndPackages() {
         }, timeoutTime * Array.from(categories).indexOf(category));
     }
 
-    setTimeout(() => {
-        for (let card of cards) {
-            setTimeout(() => {
-                card.style.opacity = 1;
-            }, timeoutTime * Array.from(cards).indexOf(card));
-        }
-    }, delayCards);
+    for (let card of cards) {
+        setTimeout(() => {
+            card.style.opacity = 1;
+        }, timeoutTime * Array.from(cards).indexOf(card));
+    }
 }
 
 function getAllImages() {
@@ -219,6 +217,7 @@ function getAllImages() {
 
             const card = entry.target;
             const cardImage = card.querySelector(".card-previewImage");
+            cardImage.classList.add("animate-skeleton");
 
             let img = new Image();
 
@@ -243,6 +242,7 @@ function getAllImages() {
 function getGifForCard(card) {
     const cardGif = card.querySelector(".card-previewGif");
     if (cardGif.src !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=") return;
+    cardGif.classList.add("animate-skeleton");
 
     let img = new Image();
 
