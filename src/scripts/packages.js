@@ -343,7 +343,7 @@ async function openMarkdownModal(githubUrl) {
     const backdrop = document.querySelector(".backdrop");
 
     backdrop.setAttribute('data-state', 'opened');
-    backdrop.style.zIndex = 41;
+    backdrop.style.zIndex = 40;
     backdrop.focus();
     backdrop.onclick = function () {
         close.click();

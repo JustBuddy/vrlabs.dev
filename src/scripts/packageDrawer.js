@@ -58,7 +58,7 @@ function openDrawer() {
     const backdrop = document.querySelector(".backdrop");
 
     backdrop.setAttribute("data-state", "opened");
-    backdrop.style.zIndex = 40;
+    backdrop.style.zIndex = 39;
     backdrop.focus();
     backdrop.onclick = function () {
         closeDrawer();
