@@ -36,3 +36,8 @@ html::-webkit-scrollbar-thumb {
 html::-webkit-scrollbar-track {
   background: rgb(69 77 89);
 }
+
+html {
+  scrollbar-color: rgb(92 103 120) rgb(69 77 89);
+  scrollbar-width: thin;
+}
