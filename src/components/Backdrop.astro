@@ -3,7 +3,7 @@
 ---
 
 <div
-  class="backdrop fixed w-screen h-screen bg-black/30 backdrop-blur top-0 left-0 opacity-0 outline-0 invisible"
+  class="backdrop fixed w-screen h-screen bg-black/30 backdrop-blur top-0 left-0 opacity-0 outline-0 hidden"
   data-state=""
   aria-hidden="true"
   tabindex="-1"
@@ -22,12 +22,10 @@
   @keyframes open {
     0% {
       opacity: 0;
-      visibility: visible;
       pointer-events: auto;
     }
     100% {
       opacity: 1;
-      visibility: visible;
       pointer-events: auto;
     }
   }
@@ -35,13 +33,13 @@
   @keyframes close {
     0% {
       opacity: 1;
-      visibility: visible;
       pointer-events: auto;
     }
     100% {
       opacity: 0;
-      visibility: hidden;
       pointer-events: none;
     }
   }
 </style>
+
+<script src="../scripts/backdrop.js"></script>

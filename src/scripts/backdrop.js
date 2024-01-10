@@ -1,5 +1,3 @@
-import { z } from "astro/zod";
-
 const backdrop = document.querySelector(".backdrop");
 const scrollbarWidth = window.innerWidth - document.body.clientWidth;
 const scrollbarColor = getComputedStyle(document.body).getPropertyValue("--scrollbar-track");
@@ -42,6 +40,7 @@ backdrop.onanimationend = () => {
 
 function createScrollbarPlaceholder(zIndex) {
     const scrollbarPlaceholder = document.createElement("div");
+
     scrollbarPlaceholder.classList.add("scrollbar-placeholder");
     scrollbarPlaceholder.style.width = scrollbarWidth + "px";
     scrollbarPlaceholder.style.height = "100vh";
@@ -51,5 +50,6 @@ function createScrollbarPlaceholder(zIndex) {
     scrollbarPlaceholder.style.zIndex = zIndex - 1;
     scrollbarPlaceholder.style.backgroundColor = scrollbarColor;
     scrollbarPlaceholder.style.overflow = "hidden";
+
     document.body.appendChild(scrollbarPlaceholder);
 }
