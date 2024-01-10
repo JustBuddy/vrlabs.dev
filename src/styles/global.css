@@ -3,7 +3,7 @@
   src: url("/fonts/PTSansRegular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   src: url("/fonts/PTSansBold.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -19,7 +19,7 @@
   src: url("/fonts/NovecentoNarrowUltBold.woff2") format("woff2");
   font-weight: bolder;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 html::-webkit-scrollbar {
