@@ -1,3 +1,5 @@
+import { openBackdrop, closeBackdrop } from "./backdrop.js";
+
 let drawer;
 let drawerContainer;
 let drawerMain;
@@ -36,7 +38,6 @@ function prepareDrawer() {
     drawer.style.height = minHeight;
     drawerMain.style.minHeight = minHeight;
 
-
     drawerToggle.addEventListener("click", function () {
         drawer.style.height === minHeight ? openDrawer() : closeDrawer();
     });
@@ -54,31 +55,12 @@ function prepareDrawer() {
 
 function openDrawer() {
     setMaxHeight();
-
-    const backdrop = document.querySelector(".backdrop");
-
-    backdrop.setAttribute("data-state", "opened");
-    backdrop.style.zIndex = 39;
-    backdrop.focus();
-    backdrop.onclick = function () {
-        closeDrawer();
-    };
-    backdrop.onkeydown = function (event) {
-        if (event.key === "Escape") closeDrawer();
-    };
-
-    const scrollTop = window.scrollY || window.pageYOffset;
-    const scrollLeft = window.scrollX || window.pageXOffset;
-    window.onscroll = function () { window.scrollTo(scrollLeft, scrollTop); };
+    openBackdrop(39, closeDrawer);
 }
 
 function closeDrawer() {
     drawer.style.height = minHeight;
-
-    const backdrop = document.querySelector(".backdrop");
-    backdrop.setAttribute("data-state", "closed");
-
-    window.onscroll = function () { };
+    closeBackdrop();
 }
 
 function setMaxHeight() {
@@ -88,8 +70,9 @@ function setMaxHeight() {
     maxHeight =
         drawerContainer.offsetHeight > window.innerHeight / 1.5
             ? Math.floor(window.innerHeight / 1.5) + "px"
-            : Math.floor(drawerContainer.offsetHeight) + "px"; drawer.style.height = maxHeight;
+            : Math.floor(drawerContainer.offsetHeight) + "px";
 
+    drawer.style.height = maxHeight;
     drawerContainer.style.height = "auto";
     drawerPackages.style.overflowY = "auto";
 }

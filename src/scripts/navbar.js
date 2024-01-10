@@ -1,3 +1,5 @@
+import { openBackdrop, closeBackdrop } from "./backdrop.js";
+
 document.addEventListener("astro:page-load", () => {
     prepareNavbar();
     colorCurrentPage();
@@ -7,24 +9,15 @@ function prepareNavbar() {
     const openButton = document.querySelector(".nav-buttonOpen");
     const closeButton = document.querySelector(".nav-buttonClose");
     const navMobile = document.querySelector(".nav-mobile");
-    const backdrop = document.querySelector(".backdrop");
 
     openButton.addEventListener("click", () => {
         navMobile.classList.remove("hidden");
-        document.body.classList.add("overflow-hidden");
-
-        backdrop.setAttribute("data-state", "opened");
-        backdrop.style.zIndex = 40;
-        backdrop.onclick = function () {
-            closeButton.click();
-        };
+        openBackdrop(40, () => { closeButton.click(); });
     });
 
     closeButton.addEventListener("click", () => {
         navMobile.classList.add("hidden");
-        document.body.classList.remove("overflow-hidden");
-
-        backdrop.setAttribute("data-state", "closed");
+        closeBackdrop();
     });
 }
 

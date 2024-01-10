@@ -340,20 +340,6 @@ function destroyTemplates() {
 }
 
 async function openMarkdownModal(githubUrl) {
-    const backdrop = document.querySelector(".backdrop");
-
-    backdrop.setAttribute('data-state', 'opened');
-    backdrop.style.zIndex = 40;
-    backdrop.focus();
-    backdrop.onclick = function () {
-        close.click();
-    }
-    backdrop.onkeydown = function (event) {
-        if (event.key === "Escape") {
-            close.click();
-        }
-    }
-
     const container = document.querySelector(".modal-container");
     const close = container.querySelector(".modal-close");
     const content = container.querySelector(".modal-content");
@@ -361,13 +347,13 @@ async function openMarkdownModal(githubUrl) {
     container.classList.add("flex");
     container.style.opacity = 0;
 
+    openBackdrop(40, () => { close.click(); });
+
     close.addEventListener("click", () => {
         container.style.opacity = 0;
         container.classList.remove("flex");
         container.classList.add("hidden");
-
-        backdrop.setAttribute('data-state', 'closed');
-        document.body.classList.remove("overflow-hidden");
+        closeBackdrop();
     });
 
     document.body.classList.add("overflow-hidden");
