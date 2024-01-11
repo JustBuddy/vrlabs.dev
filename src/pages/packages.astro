@@ -1,5 +1,4 @@
 ---
-import "../styles/readme.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Spinner from "../components/common/Spinner.astro";
 import PackageDrawer from "../components/packages/PackageDrawer.astro";
@@ -14,7 +13,7 @@ const pageDescription = "Packages";
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <div class="packages-container flex flex-col gap-20 py-12"></div>
-  <Spinner />
+  <Spinner class="w-16" />
   <PackageDrawer />
   <MarkdownModal />
   <CategoryTemplate />
