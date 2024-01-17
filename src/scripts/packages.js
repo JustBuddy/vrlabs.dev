@@ -369,6 +369,10 @@ async function openMarkdownModal(githubUrl) {
         closeBackdrop();
     });
 
+    const animationPromise = new Promise((resolve) => {
+        spinner.onanimationend = () => { resolve(); }
+    });
+
     let marked = await import("marked");
     try {
         const cutUrl = githubUrl.replace("https://github.com/", "");
@@ -386,6 +390,7 @@ async function openMarkdownModal(githubUrl) {
 
         content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
 
+        await animationPromise;
         spinner.setAttribute("data-state", "closed");
         spinner.onanimationend = () => {
             if (spinner.getAttribute("data-state") === "opened") return;
