@@ -26,6 +26,7 @@ function colorCurrentPage() {
     const currentPath = window.location.pathname;
 
     navLinks.forEach((link) => {
+        link.classList.remove("text-action");
         if (link.getAttribute("href") === currentPath) link.classList.add("text-action");
     });
 }

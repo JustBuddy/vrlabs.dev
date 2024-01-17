@@ -6,6 +6,8 @@ import Socials from "./Socials.astro";
 
 <header
   class="nav-main bg-elements/100 top-0 backdrop-blur-md z-30 border-b-1 border-borderColorBright flex py-4 font-Sans-Bold text-mobileLarge flex-col sticky"
+  transition:persist
+  transition:animate="none"
 >
   <div class="grid grid-cols-3 h-full max-w-6xl px-4 md:px-10">
     <div class="flex items-center">
@@ -58,6 +60,7 @@ import Socials from "./Socials.astro";
 </header>
 <aside
   class="nav-mobile fixed top-0 left-0 bottom-0 right-0 hidden z-50 max-w-64"
+  transition:animate="none"
 >
   <div class="bg-elements w-full h-full p-4 overflow-y-auto">
     <div class="flex justify-between items-center h-10">
