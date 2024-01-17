@@ -1,17 +1,84 @@
 ---
-
+import Spinner from "../common/Spinner.astro";
 ---
 
 <div
-  class="modal-container z-50 w-screen h-screen hidden justify-center items-center fixed top-0 left-0 transition-opacity duration-200 opacity-0 pointer-events-none"
+  class="modal-container z-50 w-screen h-screen justify-center items-center fixed top-0 left-0 pointer-events-none px-4 sm:px-10 opacity-0 hidden"
+  data-state=""
 >
+  <div class="modal-spinner fixed opacity-0 hidden" data-state="">
+    <Spinner class="w-32" />
+  </div>
   <div
-    class="markdown-body rounded-xl max-w-3xl max-h-[95vh] overflow-auto pointer-events-auto"
+    class="markdown-body rounded-xl max-w-3xl max-h-[95vh] overflow-auto pointer-events-auto opacity-0 hidden"
+    data-state=""
   >
-    <div class="markdown-header flex justify-between sticky top-0 p-4 z-50">
+    <div
+      class="markdown-header flex justify-between sticky top-0 p-4 z-50 gap-10"
+    >
       README.md
       <button class="modal-close">Close</button>
     </div>
     <div class="modal-content p-6"></div>
   </div>
 </div>
+
+<style>
+  .modal-container[data-state="opened"],
+  .modal-spinner[data-state="opened"] {
+    animation: open 200ms ease-in-out forwards;
+  }
+
+  .modal-container[data-state="closed"],
+  .modal-spinner[data-state="closed"] {
+    animation: close 200ms ease-in-out forwards;
+  }
+
+  .markdown-body[data-state="opened"] {
+    animation:
+      open 200ms ease-in-out forwards,
+      scale-up 200ms ease-in-out forwards;
+  }
+
+  .markdown-body[data-state="closed"] {
+    animation:
+      close 200ms ease-in-out forwards,
+      scale-down 200ms ease-in-out forwards;
+  }
+
+  @keyframes open {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes close {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes scale-up {
+    from {
+      transform: scale(0.98);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes scale-down {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(0.95);
+    }
+  }
+</style>

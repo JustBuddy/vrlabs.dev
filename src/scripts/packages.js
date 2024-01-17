@@ -343,23 +343,34 @@ async function openMarkdownModal(githubUrl) {
     const container = document.querySelector(".modal-container");
     const close = container.querySelector(".modal-close");
     const content = container.querySelector(".modal-content");
-    container.classList.remove("hidden");
-    container.classList.add("flex");
-    container.style.opacity = 0;
+    const spinner = container.querySelector(".modal-spinner");
+    const markdown = container.querySelector(".markdown-body");
 
     openBackdrop(40, () => { close.click(); });
 
+    container.classList.remove("hidden");
+    container.classList.add("flex");
+    container.setAttribute("data-state", "opened");
+
+    spinner.classList.remove("hidden");
+    spinner.setAttribute("data-state", "opened");
+
+    markdown.classList.add("hidden");
+    markdown.setAttribute("data-state", "closed");
+
     close.addEventListener("click", () => {
-        container.style.opacity = 0;
-        container.classList.remove("flex");
-        container.classList.add("hidden");
+        container.setAttribute("data-state", "closed");
+        container.onanimationend = () => {
+            if (container.getAttribute("data-state") === "opened") return;
+
+            container.classList.remove("flex");
+            container.classList.add("hidden");
+        };
+
         closeBackdrop();
     });
 
-    document.body.classList.add("overflow-hidden");
-
     let marked = await import("marked");
-
     try {
         const cutUrl = githubUrl.replace("https://github.com/", "");
 
@@ -375,11 +386,19 @@ async function openMarkdownModal(githubUrl) {
         if (!markdownText) throw new Error("Could not fetch GitHub readme");
 
         content.innerHTML = marked.parse(markdownText, { gfm: true, breaks: true });
+
+        spinner.setAttribute("data-state", "closed");
+        spinner.onanimationend = () => {
+            if (spinner.getAttribute("data-state") === "opened") return;
+
+            spinner.classList.add("hidden");
+            markdown.classList.remove("hidden");
+            markdown.setAttribute("data-state", "opened");
+        }
     }
     catch (error) {
         console.log(error);
         content.innerHTML = error;
-        container.style.opacity = 1;
         return;
     }
 
@@ -397,7 +416,6 @@ async function openMarkdownModal(githubUrl) {
         const firstP = content.querySelector("p");
         firstP.style.display = "flex";
         firstP.style.gap = "0.15rem";
-        container.style.opacity = 1;
         return;
     }
 
@@ -423,8 +441,6 @@ async function openMarkdownModal(githubUrl) {
         nextElement.appendChild(video);
         a.remove();
     }
-
-    container.style.opacity = 1;
 }
 
 function isValidUrl(string) {
