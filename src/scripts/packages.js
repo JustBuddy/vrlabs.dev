@@ -350,7 +350,6 @@ async function openMarkdownModal(githubUrl) {
 
     container.classList.remove("hidden");
     container.classList.add("flex");
-    container.setAttribute("data-state", "opened");
 
     spinner.classList.remove("hidden");
     spinner.setAttribute("data-state", "opened");
@@ -359,9 +358,9 @@ async function openMarkdownModal(githubUrl) {
     markdown.setAttribute("data-state", "closed");
 
     close.addEventListener("click", () => {
-        container.setAttribute("data-state", "closed");
-        container.onanimationend = () => {
-            if (container.getAttribute("data-state") === "opened") return;
+        markdown.setAttribute("data-state", "closed");
+        markdown.onanimationend = () => {
+            if (markdown.getAttribute("data-state") === "opened") return;
 
             container.classList.remove("flex");
             container.classList.add("hidden");
