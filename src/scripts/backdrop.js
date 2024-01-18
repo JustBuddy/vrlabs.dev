@@ -1,8 +1,20 @@
-const backdrop = document.querySelector(".backdrop");
-const scrollbarWidth = window.innerWidth - document.body.clientWidth;
-const scrollbarColor = getComputedStyle(document.body).getPropertyValue("--scrollbar-track");
+let backdrop;
+let scrollbarColor;
+let scrollbarWidth;
+
+document.addEventListener("astro:page-load", () => {
+    backdrop = document.querySelector(".backdrop");
+    scrollbarColor = getComputedStyle(document.body).getPropertyValue("--scrollbar-track");
+    scrollbarWidth = window.innerWidth - document.body.clientWidth;
+
+    backdrop.onanimationend = () => {
+        if (backdrop.getAttribute("data-state") === "closed") { backdrop.classList.add("hidden"); }
+    }
+});
 
 export function openBackdrop(zIndex, callback) {
+    scrollbarWidth = window.innerWidth - document.body.clientWidth;
+
     document.body.classList.add("overflow-hidden");
     document.body.style.paddingRight = scrollbarWidth + "px";
 
