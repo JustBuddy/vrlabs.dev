@@ -25,17 +25,13 @@ export function openBackdrop(zIndex, callback) {
 }
 
 export function closeBackdrop() {
-    document.body.classList.remove("overflow-hidden");
+    const scrollbarPlaceholder = document.querySelector(".scrollbar-placeholder");
+    if (scrollbarPlaceholder) scrollbarPlaceholder.remove();
+
     document.body.style.paddingRight = "";
+    document.body.classList.remove("overflow-hidden");
 
     backdrop.setAttribute("data-state", "closed");
-
-    const scrollbarPlaceholder = document.querySelector(".scrollbar-placeholder");
-    scrollbarPlaceholder.remove();
-}
-
-backdrop.onanimationend = () => {
-    if (backdrop.getAttribute("data-state") === "closed") { backdrop.classList.add("hidden"); }
 }
 
 function createScrollbarPlaceholder(zIndex) {
