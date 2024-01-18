@@ -38,12 +38,16 @@ export function openBackdrop(zIndex, callback) {
 
 export function closeBackdrop() {
     const scrollbarPlaceholder = document.querySelector(".scrollbar-placeholder");
-    if (scrollbarPlaceholder) scrollbarPlaceholder.remove();
+    const bodyClassList = document.body.classList;
 
-    document.body.style.paddingRight = "";
-    document.body.classList.remove("overflow-hidden");
+    requestAnimationFrame(() => {
+        if (scrollbarPlaceholder) scrollbarPlaceholder.remove();
 
-    backdrop.setAttribute("data-state", "closed");
+        bodyClassList.remove("overflow-hidden");
+        document.body.style.paddingRight = "";
+
+        backdrop.setAttribute("data-state", "closed");
+    });
 }
 
 function createScrollbarPlaceholder(zIndex) {
