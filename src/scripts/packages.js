@@ -1,4 +1,5 @@
 import { addToBasket } from "./packageDrawer";
+import { openBackdrop, closeBackdrop } from "./backdrop.js";
 import test from "../out.json";
 
 
