@@ -122,7 +122,6 @@ function drawPackagesInGrid(grid, packages) {
     const cardTemplate = document.querySelector(".card-template");
     if (!cardTemplate) return;
 
-    // vcc and download buttons need to always be at the bottom of the card
     for (let pack in packages) {
         const packageInfo = packages[pack]?.packageInfo;
         if (!packageInfo) continue;
@@ -136,11 +135,7 @@ function drawPackagesInGrid(grid, packages) {
         card.setAttribute("previewImage", image);
         card.setAttribute("previewGif", gif);
 
-        card.addEventListener('mouseenter', function () {
-            getGifForCard(card);
-        });
-
-        setupGifHandler(card);
+        setupHoverAndClickHandler(card);
 
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
@@ -211,27 +206,33 @@ function getAllImages() {
 
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            }
+            if (!entry.isIntersecting) return;
 
             const card = entry.target;
             const cardImage = card.querySelector(".card-previewImage");
-            cardImage.classList.add("animate-skeleton");
+
+            const previewImage = card.getAttribute("previewImage");
+            const skeleton = card.querySelector(".card-imageSkeleton");
+            if (previewImage !== "undefined") skeleton.classList.remove("hidden");
 
             let img = new Image();
-
-            card.getAttribute("previewImage") !== "undefined" ? img.src = card.getAttribute("previewImage") : img.src = "/images/placeholder.png";
+            previewImage !== "undefined" ? img.src = card.getAttribute("previewImage") : img.src = "/images/placeholder.png";
 
             img.onload = function () {
                 cardImage.src = img.src;
-                cardImage.classList.remove("animate-skeleton");
+                void cardImage.offsetWidth;
+                cardImage.classList.remove("opacity-0");
             }
+
+            cardImage.addEventListener("transitionend", () => {
+                if (cardImage.classList.contains("opacity-0")) return;
+                skeleton.remove();
+            });
 
             observer.unobserve(card);
         });
     }, {
-        rootMargin: "100px"
+        rootMargin: "200px"
     });
 
     cards.forEach(card => {
@@ -240,46 +241,81 @@ function getAllImages() {
 }
 
 function getGifForCard(card) {
-    const cardGif = card.querySelector(".card-previewGif");
-    if (cardGif.src !== "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=") return;
-    cardGif.classList.add("animate-skeleton");
+    return new Promise((resolve, reject) => {
+        const cardGif = card.querySelector(".card-previewGif");
+        if (cardGif.src != "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=") {
+            resolve();
+            return;
+        };
 
-    let img = new Image();
+        const previewGif = card.getAttribute("previewGif");
+        const skeleton = card.querySelector(".card-gifSkeleton");
+        if (previewGif !== "undefined") skeleton.classList.remove("hidden");
 
-    card.getAttribute("previewGif") !== "undefined" ? img.src = card.getAttribute("previewGif") : img.src = "/images/placeholder.png";
+        let img = new Image();
+        previewGif !== "undefined" ? img.src = card.getAttribute("previewGif") : img.src = "/images/placeholder.png";
 
-    img.onload = function () {
-        let opacity = 0;
-        cardGif.style.opacity = opacity;
+        img.onload = function () {
+            cardGif.src = img.src;
+            void cardGif.offsetWidth;
+            cardGif.classList.remove("opacity-0");
+        }
 
-        cardGif.src = img.src;
-        cardGif.classList.remove("animate-skeleton");
+        img.onerror = function () {
+            console.log("Image load error");
+            reject();
+        }
 
-        let intervalId = setInterval(function () {
-            if (opacity < 1) {
-                opacity += 0.025;
-                cardGif.style.opacity = opacity;
-            } else {
-                clearInterval(intervalId);
-            }
-        }, 1);
-    }
+        cardGif.addEventListener("transitionend", () => {
+            if (cardGif.classList.contains("opacity-0")) return;
+            skeleton.remove();
+            resolve();
+        });
+    });
 }
 
-function setupGifHandler(card) {
+function setupHoverAndClickHandler(card) {
+    const cardImage = card.querySelector(".card-previewImage");
     const cardGif = card.querySelector(".card-previewGif");
-    let timeoutId;
+    let isMouseOver;
+    let timeout;
 
-    card.addEventListener('mouseenter', function () {
-        clearTimeout(timeoutId);
+    card.onmouseenter = () => {
+        isMouseOver = true;
+        clearTimeout(timeout);
+
         cardGif.classList.remove("hidden");
-    });
 
-    card.addEventListener('mouseleave', function () {
-        timeoutId = setTimeout(() => {
-            cardGif.classList.add("hidden");
-        }, 500);
-    });
+        timeout = setTimeout(() => {
+            if (!isMouseOver) { cardGif.classList.add("hidden"); return; }
+            cardImage.classList.add("opacity-0");
+        }, 1000);
+
+        getGifForCard(card).then(() => {
+            if (!isMouseOver) { cardGif.classList.add("hidden"); return; }
+            cardImage.classList.add("opacity-0");
+        });
+    };
+
+    card.onmouseleave = () => {
+        isMouseOver = false;
+        clearTimeout(timeout);
+
+        let originalTransition = cardImage.style.transition;
+
+        cardImage.style.transition = "none";
+        void cardImage.offsetWidth;
+
+        cardImage.style.transition = originalTransition;
+        void cardImage.offsetWidth;
+
+        cardImage.classList.remove("opacity-0");
+    };
+
+    cardImage.ontransitionend = () => {
+        if (cardImage.classList.contains("opacity-0")) return;
+        cardGif.classList.add("hidden");
+    }
 }
 
 async function getGithubDownloads() {
