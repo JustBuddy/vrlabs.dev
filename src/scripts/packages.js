@@ -186,9 +186,7 @@ function hideSpinner() {
 function revealCategoriesAndPackages() {
     const categories = document.querySelectorAll(".packages-header");
     const cards = document.querySelectorAll(".packages-card");
-
     const timeoutTime = 25;
-    const delayCards = categories.length * timeoutTime;
 
     for (let key of categories) {
         const category = key;

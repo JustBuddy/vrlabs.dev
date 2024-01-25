@@ -46,3 +46,7 @@ html {
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   scrollbar-width: thin;
 }
+
+* {
+  min-width: 0;
+}

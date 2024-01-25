@@ -7,7 +7,7 @@ export default {
 				textPrimary: '#FFFFFF',
 				textSecondary: '#AFAFB2',
 				action: '#4990E2',
-				background: '#1E2227',
+				background: '#24282E',
 				elements: '#2B3038',
 				elementsBright: '#3B414C',
 				borderColor: '#41454C',
