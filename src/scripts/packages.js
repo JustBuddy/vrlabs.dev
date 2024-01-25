@@ -1,4 +1,6 @@
 import { addToBasket } from "./packageDrawer";
+import test from "../out.json";
+
 
 let categoriesWithPackages;
 
@@ -46,7 +48,7 @@ async function fetchData() {
             const packagesJson = await packagesPromise.json();
             if (!packagesJson) throw new Error("Could not fetch packages");
 
-            const packages = Object.values(packagesJson);
+            const packages = Object.values(test);
             return {
                 category: category.charAt(0).toUpperCase() + category.slice(1),
                 packages,
