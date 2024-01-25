@@ -258,6 +258,7 @@ function getGifForCard(card) {
 
         img.onload = function () {
             cardGif.src = img.src;
+            cardGif.classList.remove("hidden");
             void cardGif.offsetWidth;
             cardGif.classList.remove("opacity-0");
         }
