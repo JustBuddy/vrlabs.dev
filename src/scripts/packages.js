@@ -297,6 +297,8 @@ function setupHoverAndClickHandler(card) {
             if (!isMouseOver) { cardGif.classList.add("hidden"); return; }
             cardImage.classList.add("opacity-0");
         });
+
+        card.classList.add("shadow-packagesHover", "scale-102")
     };
 
     card.onmouseleave = () => {
@@ -312,6 +314,8 @@ function setupHoverAndClickHandler(card) {
         void cardImage.offsetWidth;
 
         cardImage.classList.remove("opacity-0");
+
+        card.classList.remove("shadow-packagesHover", "scale-102")
     };
 
     cardImage.ontransitionend = () => {
