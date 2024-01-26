@@ -395,7 +395,7 @@ async function openMarkdownModal(githubUrl) {
     markdown.classList.add("hidden");
     markdown.setAttribute("data-state", "closed");
 
-    close.addEventListener("click", () => {
+    close.onclick = () => {
         markdown.setAttribute("data-state", "closed");
         markdown.onanimationend = () => {
             if (markdown.getAttribute("data-state") === "opened") return;
@@ -405,7 +405,7 @@ async function openMarkdownModal(githubUrl) {
         };
 
         closeBackdrop();
-    });
+    }
 
     const animationPromise = new Promise((resolve) => {
         spinner.onanimationend = () => { resolve(); }
