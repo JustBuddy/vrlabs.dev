@@ -388,6 +388,8 @@ async function openMarkdownModal(githubUrl) {
     const spinner = container.querySelector(".modal-spinner");
     const markdown = container.querySelector(".markdown-body");
 
+    let cancelOpen = false;
+
     openBackdrop(40, () => { close.click(); });
 
     container.classList.remove("hidden");
@@ -399,15 +401,16 @@ async function openMarkdownModal(githubUrl) {
     markdown.classList.add("hidden");
     markdown.setAttribute("data-state", "closed");
 
+    markdown.onanimationend = () => {
+        if (markdown.getAttribute("data-state") === "opened") return;
+
+        container.classList.remove("flex");
+        container.classList.add("hidden");
+    };
+
     close.onclick = () => {
         markdown.setAttribute("data-state", "closed");
-        markdown.onanimationend = () => {
-            if (markdown.getAttribute("data-state") === "opened") return;
-
-            container.classList.remove("flex");
-            container.classList.add("hidden");
-        };
-
+        cancelOpen = true;
         closeBackdrop();
     }
 
@@ -436,6 +439,7 @@ async function openMarkdownModal(githubUrl) {
         spinner.setAttribute("data-state", "closed");
         spinner.onanimationend = () => {
             if (spinner.getAttribute("data-state") === "opened") return;
+            if (cancelOpen) return;
 
             spinner.classList.add("hidden");
             markdown.classList.remove("hidden");
