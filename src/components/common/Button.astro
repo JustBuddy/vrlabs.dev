@@ -1,0 +1,70 @@
+---
+import icons from "../../icons.json";
+
+const {
+  class: customClasses,
+  color: color,
+  type: type,
+  size: size,
+  icon: icon,
+  expand: expand,
+  fill: fill,
+  stroke: stroke,
+} = Astro.props;
+
+const colors = {
+  primary: "bg-elements border-elements",
+  secondary: "bg-action border-action",
+};
+
+const textColors = {
+  default: "text-textPrimary",
+  primary: "text-elements",
+  secondary: "text-action",
+};
+
+const types = {
+  filled: "border-none",
+  outline: "bg-transparent border-1",
+  invisible: "bg-transparent border-none",
+};
+
+const sizes = {
+  small: "h-7 p-0.5 text-small",
+  medium: "h-9 py-1 px-2 text-normal",
+  large: "h-11 p-1 px-2 sm:text-desktopLarge text-mobileLarge",
+};
+
+const buttonClasses = [
+  colors[color] || colors.primary,
+  types[type] || types.filled,
+  sizes[size] || sizes.medium,
+  expand ? "w-full" : "w-fit",
+  type !== "filled" ? textColors[color] : textColors.default,
+  customClasses || null,
+];
+
+const iconClasses = [
+  fill ? "fill-current" : "fill-transparent",
+  stroke ? "stroke-current" : "stroke-transparent",
+];
+---
+
+<button
+  class:list={[
+    buttonClasses,
+    "rounded-lg hover:brightness-125 transition-all duration-200 border-borderColor flex justify-center items-center gap-1 font-Sans-Bold",
+  ]}
+>
+  {
+    icon && (
+      <svg
+        class:list={[iconClasses, "h-full"]}
+        viewBox="0 0 80 80"
+        xmlns="http://www.w3.org/2000/svg"
+        set:html={icons[icon]}
+      />
+    )
+  }
+  <slot />
+</button>
