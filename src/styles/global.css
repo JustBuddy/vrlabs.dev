@@ -50,3 +50,7 @@ html {
 * {
   min-width: 0;
 }
+
+body {
+  -webkit-font-smoothing: antialiased;
+}
