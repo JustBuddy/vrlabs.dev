@@ -14,34 +14,25 @@ const {
 } = Astro.props;
 
 const colors = {
-  primary: "bg-elements border-elements",
-  secondary: "bg-action border-action",
-};
-
-const textColors = {
-  primary: "text-elements",
-  secondary: "text-action",
-};
-
-const types = {
-  filled: "border-0",
-  outline: "bg-transparent border-1",
-  invisible: "bg-transparent border-0",
+  primary:
+    type == "filled"
+      ? "bg-elementsBright"
+      : "border-elementsBright text-textSecondary border-1",
+  secondary:
+    type == "filled" ? "bg-action" : "border-action text-action border-1",
 };
 
 const sizes = {
   small: "h-7 p-0.5 text-small",
-  medium: "h-9 py-1 px-2 text-normal",
-  large: "h-11 p-1 px-2 sm:text-desktopLarge text-mobileLarge",
+  medium: "h-9 py-1 px-4 text-normal",
+  large: "h-11 py-1 px-4 sm:text-desktopLarge text-mobileLarge",
 };
 
 const buttonClasses = [
   colors[color] || colors.primary,
-  types[type] || types.filled,
   sizes[size] || sizes.medium,
   expand ? "w-full" : "w-fit",
   round ? "rounded-full" : "rounded-lg",
-  type !== "filled" ? textColors[color] : "",
   customClasses || "",
 ];
 
