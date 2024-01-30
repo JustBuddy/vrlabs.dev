@@ -2,14 +2,15 @@
 import icons from "../../icons.json";
 
 const {
-  class: customClasses,
   color: color,
   type: type,
   size: size,
-  icon: icon,
   expand: expand,
-  fill: fill,
-  stroke: stroke,
+  round: round,
+  icon: icon,
+  iconFill: iconFill,
+  iconStroke: iconStroke,
+  class: customClasses,
 } = Astro.props;
 
 const colors = {
@@ -18,15 +19,14 @@ const colors = {
 };
 
 const textColors = {
-  default: "text-textPrimary",
   primary: "text-elements",
   secondary: "text-action",
 };
 
 const types = {
-  filled: "border-none",
+  filled: "border-0",
   outline: "bg-transparent border-1",
-  invisible: "bg-transparent border-none",
+  invisible: "bg-transparent border-0",
 };
 
 const sizes = {
@@ -40,20 +40,21 @@ const buttonClasses = [
   types[type] || types.filled,
   sizes[size] || sizes.medium,
   expand ? "w-full" : "w-fit",
-  type !== "filled" ? textColors[color] : textColors.default,
-  customClasses || null,
+  round ? "rounded-full" : "rounded-lg",
+  type !== "filled" ? textColors[color] : "",
+  customClasses || "",
 ];
 
 const iconClasses = [
-  fill ? "fill-current" : "fill-transparent",
-  stroke ? "stroke-current" : "stroke-transparent",
+  iconFill ? "fill-current" : "fill-transparent",
+  iconStroke ? "stroke-current" : "stroke-transparent",
 ];
 ---
 
 <button
   class:list={[
     buttonClasses,
-    "rounded-lg hover:brightness-125 transition-all duration-200 border-borderColor flex justify-center items-center gap-1 font-Sans-Bold",
+    "transition-colors duration-200 flex justify-center items-center gap-1 font-Sans-Bold",
   ]}
 >
   {
