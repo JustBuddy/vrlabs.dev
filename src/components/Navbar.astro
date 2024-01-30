@@ -2,6 +2,7 @@
 import icons from "../icons.json";
 import NavItems from "./NavItems.astro";
 import Socials from "./Socials.astro";
+import Button from "./common/Button.astro";
 ---
 
 <header
@@ -19,14 +20,14 @@ import Socials from "./Socials.astro";
           set:html={icons.logo}
         />
       </a>
-      <button class="nav-buttonOpen block md:hidden" aria-label="Menu">
-        <svg
-          class="h-8 fill-textPrimary hover:fill-action transition-all duration-100"
-          viewBox="0 0 80 80"
-          xmlns="http://www.w3.org/2000/svg"
-          set:html={icons.menu}
-        />
-      </button>
+      <Button
+        color="transparent"
+        type="filled"
+        size="small"
+        icon="menu"
+        iconFill
+        class="nav-buttonOpen !p-0"
+      />
     </div>
     <div class="flex items-center justify-center">
       <nav class="gap-10 hidden md:flex">
@@ -64,14 +65,14 @@ import Socials from "./Socials.astro";
 >
   <div class="bg-elements w-full h-full p-4 overflow-y-auto">
     <div class="flex justify-between items-center h-10">
-      <button class="nav-buttonClose" aria-label="Menu">
-        <svg
-          class="h-8 fill-textPrimary stroke-textPrimary"
-          viewBox="0 0 80 80"
-          xmlns="http://www.w3.org/2000/svg"
-          set:html={icons.close}
-        />
-      </button>
+      <Button
+        color="transparent"
+        type="filled"
+        size="small"
+        icon="close"
+        iconStroke
+        class="nav-buttonClose !p-0"
+      />
     </div>
     <nav
       class="border-y-1 border-borderColor my-4 py-6 px-2 flex flex-col gap-6 font-Sans-Bold text-mobileLarge"

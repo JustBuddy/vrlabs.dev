@@ -1,5 +1,5 @@
 ---
-
+import Button from "../common/Button.astro";
 ---
 
 <div
@@ -10,8 +10,12 @@
   >
     Category Name
   </h2>
-  <button
-    class="category-vccButton bg-elements rounded-lg px-4 py-2 font-Sans-Bold hover:brightness-125 transition-all duration-200 border-1 border-borderColor text-textSecondary"
-    aria-label="Add category to VCC">Add category to VCC</button
+  <Button
+    color="priamry"
+    type="outline"
+    size="medium"
+    class="category-vccButton"
   >
+    Add category to VCC
+  </Button>
 </div>

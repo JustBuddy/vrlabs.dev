@@ -1,9 +1,10 @@
 ---
 import icons from "../../icons.json";
+import Button from "../common/Button.astro";
 ---
 
 <div
-  class="card-template hidden flex-col rounded-xl border-borderColor border-1 shadow-packages transition-all duration-300 overflow-clip cursor-default"
+  class="card-template hidden flex-col rounded-xl border-borderColor border-1 shadow-packages transition-all duration-200 overflow-clip cursor-default"
 >
   <div class="relative w-full h-44">
     <div
@@ -24,36 +25,32 @@ import icons from "../../icons.json";
       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
       alt="Preview Image"
     />
-    <div class="absolute flex right-0 top-0 m-2 gap-2">
-      <button
-        class="card-infoButton bg-elements rounded-full w-7 h-7 flex justify-center items-center hover:brightness-125 transition-all duration-200"
-        aria-label="View package details"
-      >
-        <svg
-          class="h-6 fill-textPrimary"
-          viewBox="0 0 80 80"
-          xmlns="http://www.w3.org/2000/svg"
-          set:html={icons.information}
-        />
-      </button>
-      <button
-        class="card-githubButton bg-elements rounded-full w-7 h-7 flex justify-center items-center hover:brightness-125 transition-all duration-200"
-        aria-label="View package on GitHub"
-      >
-        <svg
-          class="h-6 fill-textPrimary"
-          viewBox="0 0 80 80"
-          xmlns="http://www.w3.org/2000/svg"
-          set:html={icons.github}
-        />
-      </button>
+    <div class="absolute flex left-0 top-0 m-2 gap-2">
+      <Button
+        color="primary"
+        type="filled"
+        size="small"
+        icon="information"
+        iconFill
+        round
+        class="card-infoButton"
+      />
+      <Button
+        color="primary"
+        type="filled"
+        size="small"
+        icon="github"
+        iconFill
+        round
+        class="card-githubButton"
+      />
     </div>
   </div>
   <div
     class="p-3 bg-gradient-to-br from-elementsBright to-elements grow flex flex-col"
   >
     <p
-      class="card-packageName text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold leading-6"
+      class="card-packageName text-mobileLarge sm:text-desktopLarge font-Sans-Bold leading-6"
     >
       Package Name
     </p>
@@ -71,22 +68,24 @@ import icons from "../../icons.json";
       Package Description
     </p>
     <div class="flex gap-1 mt-auto">
-      <button
-        class="card-vccButton bg-elements rounded-lg px-6 py-2 w-full font-Sans-Bold border-1 border-borderColor hover:brightness-125 transition-all duration-200"
-        aria-label="Add package to VCC">Add to VCC List</button
+      <Button
+        color="primary"
+        type="filled"
+        size="medium"
+        class="card-vccButton"
+        expand
       >
-      <button
-        class="card-downloadButton bg-background/0 rounded-lg border-1 border-borderColor/50 hover:brightness-125 transition-all duration-200"
-        aria-label="Download package"
-      >
-        <svg
-          class="rotate-180 h-5 w-10 fill-textSecondary stroke-textSecondary"
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          set:html={icons.download}
-        />
-      </button>
+        Add to VCC List
+      </Button>
+      <Button
+        color="primary"
+        type="filled"
+        size="medium"
+        icon="download"
+        iconFill
+        iconStroke
+        class="card-downloadButton rotate-180 !text-textSecondary !px-2"
+      />
     </div>
   </div>
 </div>
