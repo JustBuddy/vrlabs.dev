@@ -56,19 +56,22 @@ export async function openMarkdownModal(githubUrl) {
 
         await animationPromise;
         spinner.setAttribute("data-state", "closed");
-        spinner.onanimationend = () => {
-            if (spinner.getAttribute("data-state") === "opened") return;
-            if (cancelOpen) return;
-
-            spinner.classList.add("hidden");
-            markdown.classList.remove("hidden");
-            markdown.setAttribute("data-state", "opened");
-        }
     }
     catch (error) {
         console.log(error);
         content.innerHTML = error;
-        return;
+
+        await animationPromise;
+        spinner.setAttribute("data-state", "closed");
+    }
+
+    spinner.onanimationend = () => {
+        if (spinner.getAttribute("data-state") === "opened") return;
+        if (cancelOpen) return;
+
+        spinner.classList.add("hidden");
+        markdown.classList.remove("hidden");
+        markdown.setAttribute("data-state", "opened");
     }
 
     const firstDiv = content.querySelector("div");
