@@ -34,7 +34,11 @@ function prepareDrawer() {
     drawerContainer.classList.remove("hidden");
     drawerContainer.classList.add("flex");
 
-    minHeight = drawerToggle.offsetHeight + "px";
+    minHeight =
+        drawerToggle.offsetHeight
+        + parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2
+        + "px";
+
     drawer.style.height = minHeight;
     drawerMain.style.minHeight = minHeight;
 
