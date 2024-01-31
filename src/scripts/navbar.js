@@ -28,5 +28,9 @@ function colorCurrentPage() {
     navLinks.forEach((link) => {
         link.classList.remove("text-action");
         if (link.getAttribute("href") === currentPath) link.classList.add("text-action");
+
+        link.onclick = () => {
+            link.classList.add("text-action");
+        };
     });
 }
