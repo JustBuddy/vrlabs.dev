@@ -1,47 +1,96 @@
-# Astro Starter Kit: Minimal
+<div align="center">
 
-```sh
-npm create astro@latest -- --template minimal
+# VRLabs Website
+
+[![Generic badge](https://img.shields.io/discord/706913824607043605?color=%237289da&label=DISCORD&logo=Discord&style=for-the-badge)](https://discord.vrlabs.dev/)
+[![Generic badge](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dvrlabs%26type%3Dpatrons&style=for-the-badge)](https://patreon.vrlabs.dev/)
+
+</div>
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* Astro
+* Tailwind
+* Vanilla JS
+
+### Backend
+
+* 
+
+### Other
+
+* Icons from [Glyphs](https://glyphs.fyi)
+* Markdown parser from [Marked](https://marked.js.org)
+* Markdown stylesheet from [Sindresorhus](https://github.com/sindresorhus/github-markdown-css)
+
+## Running locally
+
+If you dont already have NVM installed, download the latest ``nvm-setup.zip`` from [here](https://github.com/coreybutler/nvm-windows/releases), then extract the zip and run the installer.
+
+If you are on a Unix based machine like Linux or MacOS, run the following command to install NVM:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+You can verify that NVM is installed by running:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+```bash
+nvm --version
+```
 
-## 🚀 Project Structure
+After installing NVM run the following commands in the directory of the project:
 
-Inside of your Astro project, you'll see the following folders and files:
+* ``nvm use`` to switch to the correct Node version.
+  * If the required version is not installed, you will be prompted to run the ``nvm install`` command.
+  * After installing the required version, run ``nvm use`` again
+* ``npm install`` to install the dependencies
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
+To start testing locally you can use the following commands:
+
+* ``npm run dev`` to start a local dev server at ``localhost:4321``
+* ``npm run build`` to create a build of the website
+* ``npm run preview`` to preview the build at ``localhost:4321``
+
+## Project Structure
+
+The project is built on a vertical slice architecture, meaning every component is grouped with its related files.
+
+```c
+root
+├── public
+├── src
+│   ├── components
+│   │   └── component
+│   │       ├── file.astro
+│   │       ├── file.css
+│   │       └── file.js
+│   ├── layouts
+│   ├── pages
+│   └── styles
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The sub-directory ``pages`` is mandatory. Every  ``astro`` ``html`` ``md`` or ``mdx`` file in this folder will be turned into an endpoint on the site corresponding to the file name.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Static assets like images or fonts can be placed in the ``public`` directory, as well as special files such as ``robots.txt`` and ``manifest.webmanifest``. Do not place CSS or JS files here, as they will be excluded from the bundle and optimization processes.
 
-Any static assets, like images, can be placed in the `public/` directory.
+The ``package.json`` file contains all ``dependencies`` and ``devDependencies`` of the project. Try not to install packages as ``devDependencies`` unless there is a specific reason to do so, as Astro only runs throgh all ``dependencies`` at build time and will not include packages from ``devDependencies`` in the final build.
 
-## 🧞 Commands
+​
 
-All commands are run from the root of the project, from a terminal:
+<div align="center">
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+[<img src="https://github.com/VRLabs/Resources/raw/main/Icons/VRLabs.png" width="50" height="50">](https://vrlabs.dev "VRLabs")
+<img src="https://github.com/VRLabs/Resources/raw/main/Icons/Empty.png" width="10">
+[<img src="https://github.com/VRLabs/Resources/raw/main/Icons/Discord.png" width="50" height="50">](https://discord.vrlabs.dev/ "VRLabs")
+<img src="https://github.com/VRLabs/Resources/raw/main/Icons/Empty.png" width="10">
+[<img src="https://github.com/VRLabs/Resources/raw/main/Icons/Patreon.png" width="50" height="50">](https://patreon.vrlabs.dev/ "VRLabs")
+<img src="https://github.com/VRLabs/Resources/raw/main/Icons/Empty.png" width="10">
+[<img src="https://github.com/VRLabs/Resources/raw/main/Icons/Twitter.png" width="50" height="50">](https://twitter.com/vrlabsdev "VRLabs")
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+</div>
