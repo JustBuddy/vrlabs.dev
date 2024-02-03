@@ -1,4 +1,4 @@
-import { openBackdrop, closeBackdrop } from "./backdrop.js";
+import { openBackdrop, closeBackdrop } from "../common/backdrop/backdrop.js";
 
 document.addEventListener("astro:page-load", () => {
     prepareNavbar();

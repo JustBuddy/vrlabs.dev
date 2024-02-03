@@ -1,4 +1,4 @@
-import { openBackdrop, closeBackdrop } from "./backdrop.js";
+import { openBackdrop, closeBackdrop } from "../../common/backdrop/backdrop.js";
 
 export async function openMarkdownModal(githubUrl) {
     const container = document.querySelector(".modal-container");

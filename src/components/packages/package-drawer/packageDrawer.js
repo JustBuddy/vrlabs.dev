@@ -1,4 +1,4 @@
-import { openBackdrop, closeBackdrop } from "./backdrop.js";
+import { openBackdrop, closeBackdrop } from "../../common/backdrop/backdrop.js";
 
 let drawer;
 let drawerContainer;
@@ -55,6 +55,7 @@ function prepareDrawer() {
     });
 
     loadBasket();
+    // openDrawer();
 }
 
 function openDrawer() {

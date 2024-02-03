@@ -1,6 +1,6 @@
-import { addToBasket } from "./packageDrawer";
-import { openMarkdownModal } from "./markdownModal";
-import test from "../out.json";
+import { addToBasket } from "./package-drawer/packageDrawer.js";
+import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
+import test from "../../out.json";
 
 
 let categoriesWithPackages;

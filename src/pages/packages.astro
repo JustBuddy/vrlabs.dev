@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Spinner from "../components/common/Spinner.astro";
-import PackageDrawer from "../components/packages/PackageDrawer.astro";
-import MarkdownModal from "../components/packages/MarkdownModal.astro";
+import PackageDrawer from "../components/packages/package-drawer/PackageDrawer.astro";
+import MarkdownModal from "../components/packages/markdown-modal/MarkdownModal.astro";
 import CategoryTemplate from "../components/packages/CategoryTemplate.astro";
 import GridTemplate from "../components/packages/GridTemplate.astro";
 import CardTemplate from "../components/packages/CardTemplate.astro";
@@ -21,4 +21,4 @@ const pageDescription = "Packages";
   <CardTemplate />
 </BaseLayout>
 
-<script src="../scripts/packages.js"></script>
+<script src="../components/packages/packages.js"></script>

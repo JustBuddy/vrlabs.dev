@@ -1,15 +1,15 @@
 ---
-import Button from "../common/Button.astro";
+import Button from "../../common/Button.astro";
 ---
 
 <div
   class="drawer left-0 right-0 bottom-0 w-screen fixed transition-all duration-300 flex justify-center z-40 h-0 pointer-events-none will-change-transform mb-4"
 >
   <div
-    class="drawer-container w-full sm:max-w-2xl hidden flex-col pointer-events-auto bg-gradient-to-br from-elementsBright to-background rounded-xl border-2 border-borderColorBright overflow-hidden"
+    class="drawer-container w-full sm:max-w-2xl hidden flex-col pointer-events-auto bg-background rounded-xl border-1 border-borderColorBright overflow-hidden"
   >
     <div
-      class="drawer-main w-full h-full flex flex-col items-center px-2 overflow-hidden"
+      class="drawer-main w-full h-full flex flex-col items-center px-4 overflow-hidden"
     >
       <div
         class="drawer-toggle rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold hover:text-action transition-all duration-100"
@@ -24,7 +24,7 @@ import Button from "../common/Button.astro";
       <div
         class="drawer-packages w-full bg-transparent border-y-1 border-borderColor"
       >
-        <div class="p-5">
+        <div class="py-5">
           <div
             class="drawer-emptyMessage flex justify-center text-textSecondary text-small"
           >
@@ -34,7 +34,7 @@ import Button from "../common/Button.astro";
         </div>
       </div>
     </div>
-    <div class="flex gap-1 px-2 py-4">
+    <div class="flex gap-1 px-4 py-4">
       <Button
         color="secondary"
         type="filled"
@@ -46,11 +46,11 @@ import Button from "../common/Button.astro";
       </Button>
       <Button
         color="primary"
-        type="outline"
+        type="filled"
         size="medium"
         icon="copy"
         iconFill
-        class="drawer-copyButton !px-2"
+        class="drawer-copyButton !px-2 !text-textSecondary"
       />
     </div>
   </div>
@@ -66,4 +66,4 @@ import Button from "../common/Button.astro";
   }
 </style>
 
-<script src="../../scripts/packageDrawer"></script>
+<script src="./packageDrawer.js"></script>
