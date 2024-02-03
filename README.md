@@ -1,6 +1,6 @@
 <div align="center">
 
-# VRLabs Website
+# vrlabs.dev
 
 [![Generic badge](https://img.shields.io/discord/706913824607043605?color=%237289da&label=DISCORD&logo=Discord&style=for-the-badge)](https://discord.vrlabs.dev/)
 [![Generic badge](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dvrlabs%26type%3Dpatrons&style=for-the-badge)](https://patreon.vrlabs.dev/)
@@ -45,7 +45,7 @@ nvm --version
 
 After installing NVM run the following commands in the directory of the project:
 
-* ``nvm use`` to switch to the correct Node version.
+* ``nvm use`` to switch to the required Node version.
   * If the required version is not installed, you will be prompted to run the ``nvm install`` command.
   * After installing the required version, run ``nvm use`` again
 * ``npm install`` to install the dependencies
@@ -75,7 +75,7 @@ root
 └── package.json
 ```
 
-The sub-directory ``pages`` is mandatory. Every  ``astro`` ``html`` ``md`` or ``mdx`` file in this folder will be turned into an endpoint on the site corresponding to the file name.
+The sub-directory ``pages`` is mandatory. Every  ``astro`` ``html`` ``md`` and ``mdx`` file in this folder will be turned into an endpoint on the site corresponding to the file name.
 
 Static assets like images or fonts can be placed in the ``public`` directory, as well as special files such as ``robots.txt`` and ``manifest.webmanifest``. Do not place CSS or JS files here, as they will be excluded from the bundle and optimization processes.
 
