@@ -36,7 +36,7 @@ function prepareDrawer() {
 
     minHeight =
         drawerToggle.offsetHeight
-        + parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2
+        + parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2 - 2
         + "px";
 
     drawer.style.height = minHeight;
@@ -113,6 +113,15 @@ export function addToBasket(packageName, packageID) {
 
     packagesCount.textContent = (parseInt(packagesCount.textContent) + 1).toString();
     saveBasket();
+
+    drawerContainer.classList.remove("bg-elementsDark/80");
+    drawerContainer.classList.add("bg-elements/80", "scale-105");
+    drawerContainer.ontransitionend = () => {
+        setTimeout(() => {
+            drawerContainer.classList.remove("bg-elements/80", "scale-105");
+            drawerContainer.classList.add("bg-elementsDark/80");
+        }, 100);
+    };
 }
 
 function removeFromBasket(packageName) {

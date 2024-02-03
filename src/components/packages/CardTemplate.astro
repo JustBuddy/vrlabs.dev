@@ -4,7 +4,7 @@ import Button from "../common/Button.astro";
 ---
 
 <div
-  class="card-template hidden flex-col rounded-xl border-borderColor border-1 shadow-packages transition-all duration-200 overflow-clip cursor-default"
+  class="card-template hidden flex-col rounded-xl border-border border-1 shadow-packages transition-all duration-200 overflow-clip cursor-default"
 >
   <div class="relative w-full h-44">
     <div
@@ -27,7 +27,7 @@ import Button from "../common/Button.astro";
     />
     <div class="absolute flex left-0 top-0 m-2 gap-2">
       <Button
-        color="primary"
+        color="bright"
         type="filled"
         size="small"
         icon="information"
@@ -36,7 +36,7 @@ import Button from "../common/Button.astro";
         class="card-infoButton"
       />
       <Button
-        color="primary"
+        color="bright"
         type="filled"
         size="small"
         icon="github"
@@ -46,9 +46,7 @@ import Button from "../common/Button.astro";
       />
     </div>
   </div>
-  <div
-    class="p-3 bg-gradient-to-br from-elementsBright to-elements grow flex flex-col"
-  >
+  <div class="p-3 bg-elements grow flex flex-col">
     <p
       class="card-packageName text-mobileLarge sm:text-desktopLarge font-Sans-Bold leading-6"
     >
@@ -67,9 +65,9 @@ import Button from "../common/Button.astro";
     <p class="card-packageDescription text-small mt-3 mb-4 text-textSecondary">
       Package Description
     </p>
-    <div class="flex gap-1 mt-auto">
+    <div class="flex gap-2 mt-auto">
       <Button
-        color="primary"
+        color="action"
         type="filled"
         size="medium"
         class="card-vccButton"
@@ -78,13 +76,13 @@ import Button from "../common/Button.astro";
         Add to VCC List
       </Button>
       <Button
-        color="primary"
+        color="bright"
         type="filled"
         size="medium"
         icon="download"
         iconFill
         iconStroke
-        class="card-downloadButton rotate-180 !text-textSecondary !px-2"
+        class="card-downloadButton rotate-180 !text-textSecondary hover:!text-textPrimary !px-2"
       />
     </div>
   </div>

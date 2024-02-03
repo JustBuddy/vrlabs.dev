@@ -4,14 +4,17 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				textPrimary: '#FFFFFF',
+				textPrimary: '#FEFEFE',
 				textSecondary: '#AFAFB2',
-				action: '#4990E2',
-				background: '#24282E',
-				elements: '#2B3038',
-				elementsBright: '#3B414C',
-				borderColor: '#41454C',
-				borderColorBright: '#6E7480',
+				elements: "#2E3540",
+				elementsBright: "#404B59",
+				elementsBrighter: "#495666",
+				elementsDark: "#1F242B",
+				action: '#4188D9',
+				actionBright: '#44A0E0',
+				actionDark: '#3670B2',
+				border: '#41454C',
+				borderBright: '#626873',
 			},
 			fontFamily: {
 				'Sans': ['Sans'],
@@ -33,17 +36,15 @@ export default {
 				none: '0rem',
 			},
 			backgroundImage: {
-				'radial-gradient': "radial-gradient(at center top, #373D47 0%, #181B1F 100%)",
-				'linear-gradient': "linear-gradient(180deg, #313740 0%, #181B1F 100%)",
+				'radial-gradient': "radial-gradient(at center top, #2D3440 0%, #13161A 100%)",
 			},
 			gridTemplateColumns: {
 				'packages': 'repeat(auto-fit, minmax(260px, 1fr))',
 				'packagesMobile': 'repeat(auto-fit, minmax(230px, 1fr))',
 			},
 			boxShadow: {
-				'packages': '0 0 20px 5px #0000004a',
-				'packagesHover': '0 0 20px 10px #0000004a',
-				'drawer': '0 0 20px 10px #0000004a',
+				'packages': '0 0 15px 5px rgb(0 0 0 / 0.15)',
+				'packagesHover': '0 0 20px 5px rgb(0 0 0 / 0.15)',
 			},
 			scale: {
 				'102': '1.02',

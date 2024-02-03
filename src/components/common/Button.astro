@@ -14,13 +14,19 @@ const {
 } = Astro.props;
 
 const colors = {
-  primary:
+  bright:
     type == "filled"
-      ? "bg-elementsBright"
-      : "border-elementsBright text-textSecondary border-1",
-  secondary:
-    type == "filled" ? "bg-action" : "border-action text-action border-1",
-  transparent: "text-textPrimary",
+      ? "bg-elementsBright hover:bg-elementsBrighter"
+      : "border-elementsBright text-textSecondary border-1 hover:border-elementsBrighter hover:text-textPrimary",
+  standard:
+    type == "filled"
+      ? "bg-elements hover:bg-elementsBright"
+      : "border-elements text-elementsBright border-1 hover:border-elementsBright hover:text-elementsBrighter",
+  action:
+    type == "filled"
+      ? "bg-action hover:bg-actionBright"
+      : "border-action text-action border-1 hover:border-actionBright hover:text-actionBright",
+  transparent: " ",
 };
 
 const sizes = {
@@ -30,7 +36,7 @@ const sizes = {
 };
 
 const buttonClasses = [
-  colors[color] || colors.primary,
+  colors[color] || colors.standard,
   sizes[size] || sizes.medium,
   expand ? "w-full" : "w-fit",
   round ? "rounded-full" : "rounded-lg",
@@ -46,7 +52,7 @@ const iconClasses = [
 <button
   class:list={[
     buttonClasses,
-    "transition-colors duration-200 flex justify-center items-center gap-1 font-Sans-Bold",
+    "transition-all duration-200 flex justify-center items-center gap-1 font-Sans-Bold",
   ]}
 >
   {

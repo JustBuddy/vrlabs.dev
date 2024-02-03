@@ -1,6 +1,4 @@
 .markdown-body {
-  /*dark*/
-  color-scheme: dark;
   --color-prettylights-syntax-comment: #8b949e;
   --color-prettylights-syntax-constant: #79c0ff;
   --color-prettylights-syntax-entity: #d2a8ff;
@@ -1159,11 +1157,11 @@
 .markdown-body {
   scrollbar-color: var(--color-border-muted) transparent;
   scrollbar-width: none;
-  border: 1px solid var(--color-border-muted);
+  border: 1px solid rgb(48, 54, 61);
   margin: 2rem;
 }
 
 .markdown-header {
   background: var(--color-canvas-default);
-  border-bottom: 1px solid var(--color-border-muted);
+  border-bottom: 1px solid rgb(48, 54, 61);
 }

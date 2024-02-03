@@ -6,4 +6,48 @@ const pageTitle = "VRLabs";
 const pageDescription = "VRLabs";
 ---
 
-<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription} />
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <div class="flex flex-col gap-5">
+    <Button
+      color="bright"
+      type="filled"
+      size="medium"
+      icon="download"
+      iconFill
+      iconStroke
+      expand
+      class="card-downloadButton rotate-180"
+    />
+    <Button
+      color="standard"
+      type="filled"
+      size="medium"
+      icon="download"
+      iconFill
+      iconStroke
+      expand
+      class="card-downloadButton rotate-180"
+    />
+
+    <Button
+      color="bright"
+      type="outline"
+      size="medium"
+      icon="download"
+      iconFill
+      iconStroke
+      expand
+      class="card-downloadButton rotate-180"
+    />
+    <Button
+      color="standard"
+      type="outline"
+      size="medium"
+      icon="download"
+      iconFill
+      iconStroke
+      expand
+      class="card-downloadButton rotate-180"
+    />
+  </div>
+</BaseLayout>
