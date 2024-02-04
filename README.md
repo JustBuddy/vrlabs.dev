@@ -56,6 +56,14 @@ To start testing locally you can use the following commands:
 * ``npm run build`` to create a build of the website
 * ``npm run preview`` to preview the build at ``localhost:4321``
 
+If you are using VSCode you may be prompted to install some extensions which are recommended to be used when working on this project. If you are not using VSCode, please check if the most important extensions are available for your editor:
+
+* [Astro](https://docs.astro.build/en/editor-setup/)
+* [Tailwind](https://tailwindcss.com/docs/editor-setup)
+* [Prettier](https://prettier.io/docs/en/editors.html)
+
+This step is optional but HIGHLY recommended.
+
 ## Project Structure
 
 The project is built on a vertical slice architecture, meaning every component is grouped with its related files.
