@@ -6,11 +6,11 @@ import Button from "../common/Button.astro";
 ---
 
 <header
-  class="nav-main bg-elementsDark/80 backdrop-blur-2xl top-0 z-30 border-b-1 border-borderBright flex py-4 font-Sans-Bold text-mobileLarge flex-col sticky shadow-lg"
+  class="nav-main bg-elementsDark/80 backdrop-blur-2xl top-0 z-30 border-b-1 border-border/80 flex py-4 font-Sans-Bold text-mobileLarge flex-col sticky shadow-lg"
   transition:persist
   transition:animate="none"
 >
-  <div class="grid grid-cols-3 h-full max-w-6xl px-4 md:px-10 mx-auto w-full">
+  <div class="grid grid-cols-3 h-full max-w-6xl px-4 sm:px-10 mx-auto w-full">
     <div class="flex items-center">
       <a class="hidden md:flex items-center fill-textPrimary" href="/">
         <svg
@@ -43,10 +43,10 @@ import Button from "../common/Button.astro";
       </a>
     </div>
     <div class="flex items-center justify-end">
-      <ul class="gap-4 hidden md:flex">
+      <ul class="gap-4 hidden lg:flex">
         <Socials />
       </ul>
-      <div class="block md:hidden">
+      <div class="block lg:hidden">
         <a href="https://github.com/VRLabs" target="_blank" aria-label="Github">
           <svg
             class="h-6 fill-textSecondary"

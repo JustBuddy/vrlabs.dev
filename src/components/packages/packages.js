@@ -298,7 +298,7 @@ function setupHoverAndClickHandler(card) {
             cardImage.classList.add("opacity-0");
         });
 
-        card.classList.add("shadow-packagesHover", "scale-102")
+        card.classList.add("shadow-xl", "scale-102")
     };
 
     card.onmouseleave = () => {
@@ -315,7 +315,7 @@ function setupHoverAndClickHandler(card) {
 
         cardImage.classList.remove("opacity-0");
 
-        card.classList.remove("shadow-packagesHover", "scale-102")
+        card.classList.remove("shadow-xl", "scale-102")
     };
 
     cardImage.ontransitionend = () => {

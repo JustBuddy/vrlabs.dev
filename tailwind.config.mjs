@@ -6,15 +6,15 @@ export default {
 			colors: {
 				textPrimary: '#FEFEFE',
 				textSecondary: '#AFAFB2',
-				elements: "#2E3540",
-				elementsBright: "#404B59",
-				elementsBrighter: "#495666",
-				elementsDark: "#1F242B",
+				elements: "#303845",
+				elementsBright: "#485666",
+				elementsBrighter: "#515F73",
+				elementsDark: "#20252E",
 				action: '#4188D9',
 				actionBright: '#44A0E0',
 				actionDark: '#3670B2',
-				border: '#41454C',
-				borderBright: '#626873',
+				border: '#434954',
+				borderBright: '#5C6473',
 			},
 			fontFamily: {
 				'Sans': ['Sans'],
@@ -34,9 +34,6 @@ export default {
 				normal: '1rem',
 				small: '0.8rem',
 				none: '0rem',
-			},
-			backgroundImage: {
-				'radial-gradient': "radial-gradient(at center top, #2D3440 0%, #13161A 100%)",
 			},
 			gridTemplateColumns: {
 				'packages': 'repeat(auto-fit, minmax(260px, 1fr))',
