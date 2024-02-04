@@ -12,7 +12,11 @@ import Button from "../common/Button.astro";
 >
   <div class="grid grid-cols-3 h-full max-w-6xl px-4 sm:px-10 mx-auto w-full">
     <div class="flex items-center">
-      <a class="hidden md:flex items-center fill-textPrimary" href="/">
+      <a
+        class="hidden md:flex items-center fill-textPrimary"
+        href="/"
+        aria-label="Home"
+      >
         <svg
           class="h-10"
           viewBox="0 0 8192 8192"
@@ -27,13 +31,14 @@ import Button from "../common/Button.astro";
         icon="menu"
         iconFill
         class="nav-buttonOpen block md:hidden !p-0"
+        ariaLabel="Open Menu"
       />
     </div>
     <div class="flex items-center justify-center">
       <nav class="gap-10 hidden md:flex">
         <NavItems />
       </nav>
-      <a class="block md:hidden" href="/">
+      <a class="block md:hidden" href="/" aria-label="Home">
         <svg
           class="h-10 fill-textPrimary"
           viewBox="0 0 8192 8192"
@@ -72,6 +77,7 @@ import Button from "../common/Button.astro";
         icon="close"
         iconStroke
         class="nav-buttonClose !p-0"
+        ariaLabel="Close Menu"
       />
     </div>
     <nav

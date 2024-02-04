@@ -11,6 +11,7 @@ const {
   iconFill: iconFill,
   iconStroke: iconStroke,
   class: customClasses,
+  ariaLabel: ariaLabel,
 } = Astro.props;
 
 const colors = {
@@ -54,6 +55,7 @@ const iconClasses = [
     buttonClasses,
     "transition-all duration-200 flex justify-center items-center gap-1 font-Sans-Bold",
   ]}
+  aria-label={ariaLabel}
 >
   {
     icon && (
