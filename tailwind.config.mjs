@@ -9,11 +9,11 @@ export default {
 				elements: "#303845",
 				elementsBright: "#485666",
 				elementsBrighter: "#515F73",
-				elementsDark: "#20252E",
+				elementsDark: "#1E232B",
 				action: '#2875CC',
 				actionBright: '#308BF2',
 				actionDark: '#3670B2',
-				border: '#434954',
+				border: '#474D59',
 				borderBright: '#5C6473',
 			},
 			fontFamily: {
