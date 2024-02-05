@@ -2,7 +2,6 @@ import { addToBasket } from "./package-drawer/packageDrawer.js";
 import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
 import test from "../../out.json";
 
-
 let categoriesWithPackages;
 
 document.addEventListener("astro:page-load", async () => {
@@ -13,10 +12,11 @@ document.addEventListener("astro:page-load", async () => {
 
     sortCategories();
     drawCategories();
-    getAllImages();
+    prepareImageLoader();
     hideSpinner();
     revealCategoriesAndPackages();
-    getGithubDownloads();
+    getGithubDownloadsAndDate();
+    prepareFilters();
     destroyTemplates();
 });
 
@@ -109,7 +109,7 @@ function drawCategories() {
 
         const grid = gridTemplate.cloneNode(true);
         grid.classList.remove("grid-template", "hidden");
-        grid.classList.add("grid");
+        grid.classList.add("grid", "packages-grid");
 
         const categoryElement = document.createElement("div");
         categoryElement.appendChild(categry);
@@ -137,6 +137,7 @@ function drawPackagesInGrid(grid, packages) {
         card.setAttribute("githubUrl", siteUrl);
         card.setAttribute("previewImage", image);
         card.setAttribute("previewGif", gif);
+        card.setAttribute("name", displayName.toLowerCase());
 
         setupHoverAndClickHandler(card);
 
@@ -202,7 +203,7 @@ function revealCategoriesAndPackages() {
     }
 }
 
-function getAllImages() {
+function prepareImageLoader() {
     const cards = document.querySelectorAll(".packages-card");
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -324,19 +325,21 @@ function setupHoverAndClickHandler(card) {
     }
 }
 
-async function getGithubDownloads() {
+async function getGithubDownloadsAndDate() {
     const cards = document.querySelectorAll(".packages-card");
     const expirationDuration = 1000 * 60 * 60 * 2;
 
     for (let card of cards) {
         const siteUrl = card.getAttribute("githubUrl");
         const cutUrl = siteUrl.replace("https://github.com/", "");
+        const cachedData = JSON.parse(localStorage.getItem(siteUrl));
 
         let downloads = 0;
-        const cachedData = JSON.parse(localStorage.getItem(siteUrl));
+        let lastUpdated = "Unknown";
 
         if (cachedData && (Date.now() - cachedData.timestamp < expirationDuration)) {
             downloads = Number(cachedData.downloads);
+            lastUpdated = new Date(cachedData.lastUpdated).toLocaleDateString();
         }
         else {
             try {
@@ -356,18 +359,117 @@ async function getGithubDownloads() {
                     for (let asset in assets) {
                         downloads += assets[asset].download_count;
                     }
+
+                    if (release == 0) lastUpdated = new Date(githubJson[release].published_at).toLocaleDateString();
                 }
             }
             catch (error) {
                 console.log(error);
             }
 
-            localStorage.setItem(siteUrl, JSON.stringify({ downloads, timestamp: Date.now() }));
+            localStorage.setItem(siteUrl, JSON.stringify({ downloads, lastUpdated, timestamp: Date.now() }));
         }
 
         const formattedDownloads = downloads.toLocaleString('de-DE');
         const cardDownloads = card.querySelector(".card-downloadCount");
+
         cardDownloads.innerText = formattedDownloads;
+        card.setAttribute("downloads", downloads);
+        card.setAttribute("last-updated", lastUpdated);
+    }
+}
+
+function prepareFilters() {
+    const filters = document.querySelector(".packages-filters");
+    const activeButton = filters.querySelector(".filter-active");
+    const inactiveButton = filters.querySelector(".filter-inactive");
+
+    const activeClasses = activeButton.classList;
+    activeClasses.remove("hidden");
+    activeButton.remove();
+
+    const inactiveClasses = inactiveButton.classList;
+    inactiveClasses.remove("hidden");
+    inactiveButton.remove();
+
+    const nameFilter = filters.querySelector(".filter-name");
+    const downloadsFilter = filters.querySelector(".filter-downloads");
+    const dateFilter = filters.querySelector(".filter-date");
+    const filterButtons = [nameFilter, downloadsFilter, dateFilter];
+
+    for (let button of filterButtons) {
+        button.onclick = () => {
+            if (button.classList.contains("filter-active")) {
+                sortPackages();
+                switchActiveClasses();
+                return;
+            };
+
+            sortPackages(button.innerText.toLowerCase().split(" ").join("-"));
+            switchActiveClasses(button);
+        }
+    }
+
+    function switchActiveClasses(button) {
+        for (let filter of filterButtons) {
+            filter.classList = [];
+
+            if (filter === button) {
+                for (let className of activeClasses) {
+                    filter.classList.add(className);
+                }
+            }
+            else {
+                for (let className of inactiveClasses) {
+                    filter.classList.add(className);
+                }
+            }
+        }
+    }
+}
+
+let originalOrder = [];
+
+async function sortPackages(filter) {
+    const grids = Array.from(document.querySelectorAll(".packages-grid"));
+
+    if (!filter) {
+        for (let grid of grids) {
+            const cards = originalOrder[grids.indexOf(grid)];
+
+            for (let card of cards) {
+                grid.appendChild(card);
+            }
+        }
+        console.log("Original order restored");
+        return;
+
+    }
+
+    if (originalOrder.length === 0) {
+        for (let grid of grids) {
+            const cards = Array.from(grid.children);
+            originalOrder.push(cards);
+        }
+    }
+
+    await getGithubDownloadsAndDate();
+
+    for (let grid of grids) {
+        const cards = Array.from(grid.children);
+
+        const sortedCards = cards.sort((a, b) => {
+            const aAttribute = a.getAttribute(filter);
+            const bAttribute = b.getAttribute(filter);
+
+            if (filter === "name") return aAttribute.localeCompare(bAttribute);
+            if (filter === "downloads") return bAttribute - aAttribute;
+            if (filter === "last-updated") return new Date(bAttribute) - new Date(aAttribute);
+        });
+
+        for (let card of sortedCards) {
+            grid.appendChild(card);
+        }
     }
 }
 
