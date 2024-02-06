@@ -335,11 +335,11 @@ async function getGithubDownloadsAndDate() {
         const cachedData = JSON.parse(localStorage.getItem(siteUrl));
 
         let downloads = 0;
-        let lastUpdated = "Unknown";
+        let lastUpdated = "";
 
         if (cachedData && (Date.now() - cachedData.timestamp < expirationDuration)) {
-            downloads = Number(cachedData.downloads);
-            lastUpdated = new Date(cachedData.lastUpdated).toLocaleDateString();
+            downloads = cachedData.downloads;
+            lastUpdated = cachedData.lastUpdated;
         }
         else {
             try {
@@ -360,7 +360,19 @@ async function getGithubDownloadsAndDate() {
                         downloads += assets[asset].download_count;
                     }
 
-                    if (release == 0) lastUpdated = new Date(githubJson[release].published_at).toLocaleDateString();
+                    if (release == 0) {
+                        // We have to manually format the date because different browsers return different formats when using toLocaleDateString()
+                        // Date is saved in yyyy-mm-dd because we use it for sorting
+
+                        const date = new Date(githubJson[release].published_at);
+
+                        const year = date.getFullYear();
+                        const month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        const day = ("0" + date.getDate()).slice(-2);
+
+
+                        lastUpdated = `${year}/${month}/${day}`;
+                    }
                 }
             }
             catch (error) {
@@ -372,8 +384,8 @@ async function getGithubDownloadsAndDate() {
 
         const formattedDownloads = downloads.toLocaleString('de-DE');
         const cardDownloads = card.querySelector(".card-downloadCount");
-
         cardDownloads.innerText = formattedDownloads;
+
         card.setAttribute("downloads", downloads);
         card.setAttribute("last-updated", lastUpdated);
     }
@@ -464,7 +476,11 @@ async function sortPackages(filter) {
 
             if (filter === "name") return aAttribute.localeCompare(bAttribute);
             if (filter === "downloads") return bAttribute - aAttribute;
-            if (filter === "last-updated") return new Date(bAttribute) - new Date(aAttribute);
+            if (filter === "last-updated") {
+                if (aAttribute === "") return 1;
+                if (bAttribute === "") return -1;
+                return bAttribute.localeCompare(aAttribute);
+            }
         });
 
         for (let card of sortedCards) {
