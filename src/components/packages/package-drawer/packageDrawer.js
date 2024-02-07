@@ -6,7 +6,8 @@ let drawerMain;
 let drawerToggle;
 let drawerPackages;
 let drawerPackagesList;
-let drawerEmptyMessage;
+let emptyPackagesMessage;
+let emptyDependenciesMessage;
 let packagesCount;
 let addToVCCButton;
 let copyButton;
@@ -17,6 +18,7 @@ let minHeight;
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
     prepareDrawer();
+    openDrawer();
 });
 
 function prepareDrawer() {
@@ -26,7 +28,8 @@ function prepareDrawer() {
     drawerToggle = document.querySelector(".drawer-toggle");
     drawerPackages = document.querySelector(".drawer-packages");
     drawerPackagesList = document.querySelector(".drawer-packagesList");
-    drawerEmptyMessage = document.querySelector(".drawer-emptyMessage");
+    emptyPackagesMessage = document.querySelector(".drawer-emptyPackagesMessage");
+    emptyDependenciesMessage = document.querySelector(".drawer-emptyDependencyMessage");
     packagesCount = document.querySelector(".drawer-count");
     addToVCCButton = document.querySelector(".drawer-addToVCCButton");
     copyButton = document.querySelector(".drawer-copyButton");
@@ -36,7 +39,7 @@ function prepareDrawer() {
 
     minHeight =
         drawerToggle.offsetHeight
-        + parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2 - 2
+        + parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2
         + "px";
 
     drawer.style.height = minHeight;
@@ -55,7 +58,6 @@ function prepareDrawer() {
     });
 
     loadBasket();
-    // openDrawer();
 }
 
 function openDrawer() {
@@ -82,8 +84,8 @@ function setMaxHeight() {
     drawerPackages.style.overflowY = "auto";
 }
 
-export function addToBasket(packageName, packageID) {
-    drawerEmptyMessage.classList.add("hidden");
+export function addToBasket(packageName, packageID, dependencies) {
+    emptyPackagesMessage.classList.add("hidden");
 
     const basketItems = drawerPackagesList.children;
     for (let i = 0; i < basketItems.length; i++) {
@@ -95,6 +97,7 @@ export function addToBasket(packageName, packageID) {
     const basketItem = document.createElement("li");
     basketItem.setAttribute("basketItemName", packageName);
     basketItem.setAttribute("basketItemID", packageID);
+    basketItem.setAttribute("basketItemDependencies", JSON.stringify(dependencies));
     basketItem.classList = "flex justify-between items-center";
 
     const itemName = document.createElement("span");
@@ -128,7 +131,7 @@ function removeFromBasket(packageName) {
     packageName.remove();
 
     packagesCount.textContent = (parseInt(packagesCount.textContent) - 1).toString();
-    if (drawerPackagesList.childElementCount < 1) drawerEmptyMessage.classList.remove("hidden");
+    if (drawerPackagesList.childElementCount < 1) emptyPackagesMessage.classList.remove("hidden");
 
     setMaxHeight();
     saveBasket();
@@ -139,7 +142,11 @@ function saveBasket() {
     let basket = [];
 
     for (let i = 0; i < basketItems.length; i++) {
-        basket.push({ name: basketItems[i].getAttribute("basketItemName"), id: basketItems[i].getAttribute("basketItemID") });
+        basket.push({
+            name: basketItems[i].getAttribute("basketItemName"),
+            id: basketItems[i].getAttribute("basketItemID"),
+            dependencies: basketItems[i].getAttribute("basketItemDependencies")
+        });
     }
 
     localStorage.setItem("basket", JSON.stringify(basket));
@@ -150,7 +157,7 @@ function loadBasket() {
 
     if (basket) {
         for (let i = 0; i < basket.length; i++) {
-            addToBasket(basket[i].name, basket[i].id);
+            addToBasket(basket[i].name, basket[i].id, JSON.parse(basket[i].dependencies));
         }
     }
 }
@@ -159,7 +166,7 @@ export function clearBasket() {
     localStorage.removeItem("basket");
     packagesCount.textContent = "0";
     drawerPackagesList.innerHTML = "";
-    drawerEmptyMessage.classList.remove("hidden");
+    emptyPackagesMessage.classList.remove("hidden");
 
     setMaxHeight();
     saveBasket();

@@ -129,7 +129,7 @@ function drawPackagesInGrid(grid, packages) {
         const packageInfo = packages[pack]?.packageInfo;
         if (!packageInfo) continue;
 
-        const { name, displayName, description, siteUrl, unityPackageUrl } = packageInfo || undefined;
+        const { name, displayName, description, siteUrl, unityPackageUrl, vpmDependencies } = packageInfo || undefined;
         const image = packageInfo.media?.previewImage || undefined;
         const gif = packageInfo.media?.previewGif || undefined;
         const card = cardTemplate.cloneNode(true);
@@ -166,7 +166,7 @@ function drawPackagesInGrid(grid, packages) {
         const vccButton = card.querySelector(".card-vccButton");
         vccButton.addEventListener("click", (event) => {
             event.stopPropagation();
-            addToBasket(displayName, name);
+            addToBasket(displayName, name, vpmDependencies);
         });
 
         const downloadButton = card.querySelector(".card-downloadButton");
