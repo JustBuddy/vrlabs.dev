@@ -453,9 +453,7 @@ async function sortPackages(filter) {
                 grid.appendChild(card);
             }
         }
-        console.log("Original order restored");
         return;
-
     }
 
     if (originalOrder.length === 0) {
@@ -465,7 +463,9 @@ async function sortPackages(filter) {
         }
     }
 
+    document.body.style.setProperty('cursor', 'wait', 'important');
     await getGithubDownloadsAndDate();
+    document.body.style.setProperty('cursor', 'auto', 'important');
 
     for (let grid of grids) {
         const cards = Array.from(grid.children);
