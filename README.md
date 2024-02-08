@@ -19,7 +19,9 @@
 
 ### Backend
 
-* 
+* .NET
+* Postgres
+* FastEndpoints
 
 ### Other
 
