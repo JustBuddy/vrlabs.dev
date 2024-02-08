@@ -361,17 +361,7 @@ async function getGithubDownloadsAndDate() {
                     }
 
                     if (release == 0) {
-                        // We have to manually format the date because different browsers return different formats when using toLocaleDateString()
-                        // Date is saved in yyyy-mm-dd because we use it for sorting
-
-                        const date = new Date(githubJson[release].published_at);
-
-                        const year = date.getFullYear();
-                        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-                        const day = ("0" + date.getDate()).slice(-2);
-
-
-                        lastUpdated = `${year}/${month}/${day}`;
+                        lastUpdated = new Date(githubJson[release].published_at).valueOf().toString();
                     }
                 }
             }
@@ -476,11 +466,7 @@ async function sortPackages(filter) {
 
             if (filter === "name") return aAttribute.localeCompare(bAttribute);
             if (filter === "downloads") return bAttribute - aAttribute;
-            if (filter === "last-updated") {
-                if (aAttribute === "") return 1;
-                if (bAttribute === "") return -1;
-                return bAttribute.localeCompare(aAttribute);
-            }
+            if (filter === "last-updated") return bAttribute - aAttribute;
         });
 
         for (let card of sortedCards) {
