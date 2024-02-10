@@ -1,5 +1,6 @@
 ---
 import Button from "../../common/Button.astro";
+import ItemTemplate from "./ItemTemplate.astro";
 ---
 
 <div
@@ -16,40 +17,20 @@ import Button from "../../common/Button.astro";
       >
         <p>VCC List</p>
         <div
-          class="drawer-count rounded-full bg-action text-textPrimary w-10 text-center"
+          class="drawer-count rounded-full bg-action text-textPrimary w-8 text-center text-normal"
         >
           0
         </div>
       </div>
       <div
-        class="text-small text-textSecondary text-center flex items-center gap-3 mt-4 w-full font-Sans-Bold before:flex-1 before:bg-border before:pt-[1px] after:flex-1 after:bg-border after:pt-[1px]"
+        class="drawer-packages w-full bg-elementsDark border-1 border-border rounded-lg px-4 py-6 my-2"
       >
-        Packages
-      </div>
-      <div class="drawer-packages w-full bg-transparent">
-        <div class="py-5">
-          <div
-            class="drawer-emptyPackagesMessage flex justify-center text-textSecondary/70 text-small"
-          >
-            You have no packages selected
-          </div>
-          <ul class="drawer-packagesList"></ul>
+        <div
+          class="drawer-emptyPackagesMessage flex justify-center text-textSecondary/70 text-small"
+        >
+          You have no packages selected
         </div>
-      </div>
-      <div
-        class="text-small text-textSecondary text-center flex items-center gap-3 mt-4 w-full font-Sans-Bold before:flex-1 before:bg-border before:pt-[1px] after:flex-1 after:bg-border after:pt-[1px]"
-      >
-        Dependencies
-      </div>
-      <div class="drawer-dependencies w-full bg-transparent">
-        <div class="py-5">
-          <div
-            class="drawer-emptyDependencyMessage flex justify-center text-textSecondary/70 text-small"
-          >
-            No dependencies required
-          </div>
-          <ul class="drawer-packagesList"></ul>
-        </div>
+        <ul class="drawer-packagesList flex-col gap-2 hidden"></ul>
       </div>
     </div>
     <div class="flex gap-2 px-4 py-4">
@@ -69,24 +50,23 @@ import Button from "../../common/Button.astro";
         size="medium"
         icon="copy"
         iconFill
-        class="drawer-copyButton !px-2 !text-textSecondary hover:!text-textPrimary"
+        class="drawer-copyButton !px-1.5"
         ariaLabel="Copy VCC List"
       />
     </div>
   </div>
+  <ItemTemplate />
 </div>
 
 <style>
-  .drawer-packages::-webkit-scrollbar {
+  .drawer-packages::-webkit-scrollbar,
+  .drawer-dependencies::-webkit-scrollbar {
     display: none;
   }
 
-  .drawer-packages {
+  .drawer-packages,
+  .drawer-dependencies {
     scrollbar-width: none;
-  }
-
-  .divider {
-    border-top: 1px solid var(--color-border);
   }
 </style>
 

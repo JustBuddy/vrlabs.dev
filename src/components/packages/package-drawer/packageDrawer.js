@@ -7,10 +7,10 @@ let drawerToggle;
 let drawerPackages;
 let drawerPackagesList;
 let emptyPackagesMessage;
-let emptyDependenciesMessage;
 let packagesCount;
 let addToVCCButton;
 let copyButton;
+let itemTemplate;
 
 let maxHeight;
 let minHeight;
@@ -29,10 +29,10 @@ function prepareDrawer() {
     drawerPackages = document.querySelector(".drawer-packages");
     drawerPackagesList = document.querySelector(".drawer-packagesList");
     emptyPackagesMessage = document.querySelector(".drawer-emptyPackagesMessage");
-    emptyDependenciesMessage = document.querySelector(".drawer-emptyDependencyMessage");
     packagesCount = document.querySelector(".drawer-count");
     addToVCCButton = document.querySelector(".drawer-addToVCCButton");
     copyButton = document.querySelector(".drawer-copyButton");
+    itemTemplate = document.querySelector(".item-template");
 
     drawerContainer.classList.remove("hidden");
     drawerContainer.classList.add("flex");
@@ -86,6 +86,8 @@ function setMaxHeight() {
 
 export function addToBasket(packageName, packageID, dependencies) {
     emptyPackagesMessage.classList.add("hidden");
+    drawerPackagesList.classList.remove("hidden");
+    drawerPackagesList.classList.add("flex");
 
     const basketItems = drawerPackagesList.children;
     for (let i = 0; i < basketItems.length; i++) {
@@ -94,24 +96,21 @@ export function addToBasket(packageName, packageID, dependencies) {
         }
     }
 
-    const basketItem = document.createElement("li");
+    const basketItem = itemTemplate.cloneNode(true);
+    basketItem.classList.remove("item-template", "hidden");
+    basketItem.classList.add("flex");
     basketItem.setAttribute("basketItemName", packageName);
     basketItem.setAttribute("basketItemID", packageID);
     basketItem.setAttribute("basketItemDependencies", JSON.stringify(dependencies));
-    basketItem.classList = "flex justify-between items-center";
 
-    const itemName = document.createElement("span");
+    const itemName = basketItem.querySelector(".item-name");
     itemName.textContent = packageName;
 
-    const removeButton = document.createElement("button");
-    removeButton.textContent = "Remove";
-    removeButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded my-1";
+    const removeButton = basketItem.querySelector(".item-remove");
     removeButton.onclick = () => {
         removeFromBasket(basketItem);
     };
 
-    basketItem.append(itemName);
-    basketItem.append(removeButton);
     drawerPackagesList.append(basketItem);
 
     packagesCount.textContent = (parseInt(packagesCount.textContent) + 1).toString();
@@ -120,6 +119,7 @@ export function addToBasket(packageName, packageID, dependencies) {
     drawerContainer.classList.remove("bg-elementsDark/80");
     drawerContainer.classList.add("bg-elements/80", "scale-105");
     drawerContainer.ontransitionend = () => {
+        if (!drawerContainer.classList.contains("scale-105")) return;
         setTimeout(() => {
             drawerContainer.classList.remove("bg-elements/80", "scale-105");
             drawerContainer.classList.add("bg-elementsDark/80");
@@ -129,9 +129,13 @@ export function addToBasket(packageName, packageID, dependencies) {
 
 function removeFromBasket(packageName) {
     packageName.remove();
-
     packagesCount.textContent = (parseInt(packagesCount.textContent) - 1).toString();
-    if (drawerPackagesList.childElementCount < 1) emptyPackagesMessage.classList.remove("hidden");
+
+    if (drawerPackagesList.childElementCount < 1) {
+        emptyPackagesMessage.classList.remove("hidden");
+        drawerPackagesList.classList.add("hidden");
+        drawerPackagesList.classList.remove("flex");
+    }
 
     setMaxHeight();
     saveBasket();
@@ -141,12 +145,12 @@ function saveBasket() {
     const basketItems = document.querySelectorAll("[basketItemName]");
     let basket = [];
 
-    for (let i = 0; i < basketItems.length; i++) {
+    for (let item of basketItems) {
         basket.push({
-            name: basketItems[i].getAttribute("basketItemName"),
-            id: basketItems[i].getAttribute("basketItemID"),
-            dependencies: basketItems[i].getAttribute("basketItemDependencies")
-        });
+            name: item.getAttribute("basketItemName"),
+            id: item.getAttribute("basketItemID"),
+            dependencies: item.getAttribute("basketItemDependencies")
+        })
     }
 
     localStorage.setItem("basket", JSON.stringify(basket));
@@ -154,11 +158,10 @@ function saveBasket() {
 
 function loadBasket() {
     const basket = JSON.parse(localStorage.getItem("basket"));
+    if (!basket) return;
 
-    if (basket) {
-        for (let i = 0; i < basket.length; i++) {
-            addToBasket(basket[i].name, basket[i].id, JSON.parse(basket[i].dependencies));
-        }
+    for (let item of basket) {
+        addToBasket(item.name, item.id, item.dependencies);
     }
 }
 
@@ -176,8 +179,14 @@ async function getVCCLink(copyURL) {
     const basketItems = document.querySelectorAll("[basketItemName]");
     let packageIDs = [];
 
-    for (let i = 0; i < basketItems.length; i++) {
-        packageIDs.push(basketItems[i].getAttribute("basketItemID"));
+    for (let item of basketItems) {
+        packageIDs.push(item.getAttribute("basketItemID"));
+
+        const dependencies = JSON.parse(item.getAttribute("basketItemDependencies"));
+        for (let dependency in dependencies) {
+            if (packageIDs.includes(dependency)) continue;
+            packageIDs.push(dependency);
+        }
     }
 
     try {

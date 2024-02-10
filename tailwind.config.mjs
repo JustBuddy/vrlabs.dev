@@ -13,8 +13,10 @@ export default {
 				action: '#2875CC',
 				actionBright: '#308BF2',
 				actionDark: '#3670B2',
-				border: '#474D59',
+				border: '#4B515E',
 				borderBright: '#5C6473',
+				danger: '#BF483B',
+				dangerBright: '#E65747',
 			},
 			fontFamily: {
 				'Sans': ['Sans'],
