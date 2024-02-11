@@ -18,7 +18,6 @@ let minHeight;
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
     prepareDrawer();
-    openDrawer();
 });
 
 function prepareDrawer() {
@@ -149,7 +148,7 @@ function saveBasket() {
         basket.push({
             name: item.getAttribute("basketItemName"),
             id: item.getAttribute("basketItemID"),
-            dependencies: item.getAttribute("basketItemDependencies")
+            dependencies: JSON.parse(item.getAttribute("basketItemDependencies"))
         })
     }
 
@@ -180,13 +179,13 @@ async function getVCCLink(copyURL) {
     let packageIDs = [];
 
     for (let item of basketItems) {
-        packageIDs.push(item.getAttribute("basketItemID"));
-
         const dependencies = JSON.parse(item.getAttribute("basketItemDependencies"));
         for (let dependency in dependencies) {
             if (packageIDs.includes(dependency)) continue;
             packageIDs.push(dependency);
         }
+
+        packageIDs.push(item.getAttribute("basketItemID"));
     }
 
     try {
