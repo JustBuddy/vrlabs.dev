@@ -10,15 +10,15 @@ function prepareNavbar() {
     const closeButton = document.querySelector(".nav-buttonClose");
     const navMobile = document.querySelector(".nav-mobile");
 
-    openButton.addEventListener("click", () => {
+    openButton.onclick = () => {
         navMobile.classList.remove("hidden");
         openBackdrop(40, () => { closeButton.click(); });
-    });
+    }
 
-    closeButton.addEventListener("click", () => {
+    closeButton.onclick = () => {
         navMobile.classList.add("hidden");
         closeBackdrop();
-    });
+    }
 }
 
 function colorCurrentPage() {
