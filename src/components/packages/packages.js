@@ -2,6 +2,9 @@ import { addToBasket } from "./package-drawer/packageDrawer.js";
 import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
 import test from "../../out.json";
 
+document.addEventListener("astro:after-swap", () => window.scrollTo({ left: 0, top: 0, behavior: "instant" }));
+document.addEventListener("astro:page-load", () => window.scrollTo({ left: 0, top: 0, behavior: "instant" }));
+
 let categoriesWithPackages;
 
 document.addEventListener("astro:page-load", async () => {
