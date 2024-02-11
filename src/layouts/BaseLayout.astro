@@ -48,8 +48,9 @@ const { pageTitle, pageDescription } = Astro.props;
         />
         <p class="text-center text-textSecondary" set:html={pageDescription} />
       </section>
-      <slot />
+      <slot name="content" />
     </main>
+    <slot name="after-content" />
     <Footer />
     <Backdrop />
     <Background />

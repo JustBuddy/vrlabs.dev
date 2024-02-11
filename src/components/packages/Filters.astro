@@ -1,0 +1,54 @@
+---
+import Button from "../common/Button.astro";
+import icons from "../../icons.json";
+---
+
+<div
+  class="packages-filters items-center flex flex-wrap place-items-center gap-4 py-4 px-4 border-b-1 border-border my-4"
+>
+  <svg
+    class="h-6 fill-textSecondary stroke-textSecondary"
+    viewBox="0 0 56 56"
+    xmlns="http://www.w3.org/2000/svg"
+    set:html={icons.filter}
+  />
+  <Button
+    color="bright"
+    type="filled"
+    size="small"
+    class="filter-active hidden !px-2 !border-1 !border-transparent"
+  />
+  <Button
+    color="bright"
+    type="outline"
+    size="small"
+    class="filter-inactive hidden !px-2"
+  />
+  <Button
+    color="bright"
+    type="outline"
+    size="small"
+    class="filter-name !px-2"
+    ariaLabel="Sort packages by name"
+  >
+    Name
+  </Button>
+  <Button
+    color="bright"
+    type="outline"
+    size="small"
+    class="filter-downloads !px-2"
+    ariaLabel="Sort packages by download count"
+  >
+    Downloads
+  </Button>
+  <Button
+    color="bright"
+    type="outline"
+    size="small"
+    class="filter-date !px-2"
+    ariaLabel="Sort packages by last updated date"
+  >
+    Last Updated
+  </Button>
+</div>
