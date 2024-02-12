@@ -12,6 +12,7 @@ const {
   iconStroke: iconStroke,
   class: customClasses,
   ariaLabel: ariaLabel,
+  anchor: anchor,
 } = Astro.props;
 
 const colors = {
@@ -52,14 +53,17 @@ const iconClasses = [
   iconFill ? "fill-current" : "fill-transparent",
   iconStroke ? "stroke-current" : "stroke-transparent",
 ];
+
+const Tag = anchor ? "a" : "button";
 ---
 
-<button
+<Tag
   class:list={[
     buttonClasses,
     "transition-all duration-200 flex justify-center items-center gap-1 font-Sans-Bold",
   ]}
   aria-label={ariaLabel}
+  href={anchor}
 >
   {
     icon && (
@@ -72,4 +76,4 @@ const iconClasses = [
     )
   }
   <slot />
-</button>
+</Tag>
