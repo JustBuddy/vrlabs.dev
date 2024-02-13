@@ -59,7 +59,7 @@ function prepareDrawer() {
     loadBasket();
 }
 
-function openDrawer() {
+export function openDrawer() {
     setMaxHeight();
     openBackdrop(39, closeDrawer);
 }

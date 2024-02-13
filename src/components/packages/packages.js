@@ -1,4 +1,4 @@
-import { addToBasket } from "./package-drawer/packageDrawer.js";
+import { addToBasket, clearBasket, openDrawer } from "./package-drawer/packageDrawer.js";
 import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
 import test from "../../out.json";
 
@@ -18,6 +18,7 @@ document.addEventListener("astro:page-load", async () => {
     prepareImageLoader();
     hideSpinner();
     revealCategoriesAndPackages();
+    handleUrlParams();
     getGithubDownloadsAndDate();
     prepareFilters();
     destroyTemplates();
@@ -132,7 +133,7 @@ function drawPackagesInGrid(grid, packages) {
         const packageInfo = packages[pack]?.packageInfo;
         if (!packageInfo) continue;
 
-        const { name, displayName, description, siteUrl, unityPackageUrl, vpmDependencies } = packageInfo || undefined;
+        const { name: id, displayName, description, siteUrl, unityPackageUrl, vpmDependencies } = packageInfo || undefined;
         const image = packageInfo.media?.previewImage || undefined;
         const gif = packageInfo.media?.previewGif || undefined;
         const card = cardTemplate.cloneNode(true);
@@ -141,6 +142,8 @@ function drawPackagesInGrid(grid, packages) {
         card.setAttribute("previewImage", image);
         card.setAttribute("previewGif", gif);
         card.setAttribute("name", displayName.toLowerCase());
+        card.setAttribute("id", id);
+        card.setAttribute("dependencies", JSON.stringify(vpmDependencies));
 
         setupHoverAndClickHandler(card);
 
@@ -169,7 +172,7 @@ function drawPackagesInGrid(grid, packages) {
         const vccButton = card.querySelector(".card-vccButton");
         vccButton.addEventListener("click", (event) => {
             event.stopPropagation();
-            addToBasket(displayName, name, vpmDependencies);
+            addToBasket(displayName, id, vpmDependencies);
         });
 
         const downloadButton = card.querySelector(".card-downloadButton");
@@ -204,6 +207,30 @@ function revealCategoriesAndPackages() {
             card.style.opacity = 1;
         }, timeoutTime * Array.from(cards).indexOf(card));
     }
+}
+
+function handleUrlParams() {
+    const packages = document.querySelectorAll(".packages-card");
+    const urlParams = new URLSearchParams(window.location.search);
+    const packageSearch = urlParams.getAll("package");
+
+    if (packageSearch.length === 0) return;
+
+    clearBasket();
+
+    for (let pack of packages) {
+        if (packageSearch.includes(pack.getAttribute("id"))) {
+            const name = pack.getAttribute("name").split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+            const id = pack.getAttribute("id");
+            const dependencies = JSON.parse(pack.getAttribute("dependencies"));
+
+            addToBasket(name, id, dependencies);
+        }
+    }
+
+    openDrawer();
+
+    window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 function prepareImageLoader() {

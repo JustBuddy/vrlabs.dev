@@ -37,11 +37,15 @@ export function openBackdrop(zIndex, callback) {
 }
 
 export function closeBackdrop() {
-    const scrollbarPlaceholder = document.querySelector(".scrollbar-placeholder");
+    const scrollbarPlaceholder = document.querySelectorAll(".scrollbar-placeholder");
     const bodyClassList = document.body.classList;
 
     requestAnimationFrame(() => {
-        if (scrollbarPlaceholder) scrollbarPlaceholder.remove();
+        if (scrollbarPlaceholder) {
+            scrollbarPlaceholder.forEach((element) => {
+                element.remove();
+            });
+        }
 
         bodyClassList.remove("overflow-hidden");
         document.body.style.paddingRight = "";
