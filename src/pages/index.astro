@@ -38,10 +38,10 @@ const pageDescription =
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <Fragment slot="content">
     <section
-      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border border-t-borderBright text-center sm:text-left"
+      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-10 sm:mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border border-t-borderBright text-center sm:text-left"
     >
       <img
-        class="min-w-28 h-28 sm:min-w-48 sm:h-48 object-cover -scale-x-100"
+        class="min-w-36 h-36 sm:min-w-48 sm:h-48 object-cover -scale-x-100"
         src="/images/idle.gif"
         alt=""
       />
@@ -65,10 +65,10 @@ const pageDescription =
       </div>
     </section>
     <section
-      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border text-center sm:text-left"
+      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-10 sm:mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border text-center sm:text-left"
     >
       <img
-        class="min-w-28 h-28 sm:min-w-48 sm:h-48 object-cover"
+        class="min-w-36 h-26 sm:min-w-48 sm:h-48 object-cover"
         src=""
         alt=""
       />
@@ -91,16 +91,16 @@ const pageDescription =
         </Button>
       </div>
     </section>
-    <section class="grid gap-4 mt-4 mb-16 grid-cols-2 ssm:grid-cols-4">
+    <section class="grid gap-4 mt-4 mb-10 sm:mb-16 grid-cols-2 ssm:grid-cols-4">
       {
         socialIcons.map((icon) => (
           <Button
             color="standard"
             type="filled"
-            size="large"
+            size="medium"
             expand
             anchor={icon.link}
-            class="!h-auto !py-4 !px-4  flex flex-col items-center justify-center gap-4"
+            class="!h-auto !py-4 !px-4 shadow-lg flex flex-col items-center justify-center gap-4"
           >
             <svg
               class:list={[icon.color, "w-12 h-12"]}

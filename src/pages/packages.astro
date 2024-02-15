@@ -9,14 +9,14 @@ import CardTemplate from "../components/packages/CardTemplate.astro";
 import Filters from "../components/packages/Filters.astro";
 
 const pageTitle = "Packages";
-const pageDescription = "A list of all VRLabs packages.";
+const pageDescription = "A list of all our publicly available packages";
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
   <Fragment slot="content">
     <Filters />
-    <div class="packages-container flex flex-col gap-16 py-8"></div>
-    <Spinner class="packages-spinner w-32" />
+    <Spinner class="packages-spinner w-32 sm:w-40 py-8 sm:py-12" />
+    <div class="packages-container flex flex-col gap-16 pt-8 pb-16"></div>
   </Fragment>
   <Fragment slot="after-content">
     <PackageDrawer />

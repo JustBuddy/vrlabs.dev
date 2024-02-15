@@ -14,7 +14,7 @@ export default {
 				actionBright: '#308BF2',
 				actionDark: '#3670B2',
 				border: '#4B515E',
-				borderBright: '#666F80',
+				borderBright: '#6C7587',
 				danger: '#BF483B',
 				dangerBright: '#E65747',
 			},
@@ -28,7 +28,7 @@ export default {
 			},
 			fontSize: {
 				desktopHeading: '5rem',
-				mobileHeading: '3rem',
+				mobileHeading: '3.5rem',
 				desktopHeading2: '1.8rem',
 				mobileHeading2: '1.5rem',
 				desktopLarge: '1.25rem',
@@ -51,6 +51,9 @@ export default {
 			screens: {
 				'ssm': '500px',
 			},
+			backgroundImage: {
+				shine: 'radial-gradient(600px 100px at 50%0,rgba(178, 212, 255, 0.1) 0%,rgba(19, 30, 49, 0) 100%)'
+			}
 		},
 	},
 	plugins: [],

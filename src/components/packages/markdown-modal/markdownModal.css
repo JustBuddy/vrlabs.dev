@@ -1158,7 +1158,6 @@
   scrollbar-color: var(--color-border-muted) transparent;
   scrollbar-width: none;
   border: 1px solid rgb(48, 54, 61);
-  margin: 2rem;
 }
 
 .markdown-header {
