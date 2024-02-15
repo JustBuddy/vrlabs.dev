@@ -1,53 +1,117 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/common/Button.astro";
-import Spinner from "../components/common/Spinner.astro";
+import icons from "../icons.json";
+
+const socialIcons = [
+  {
+    name: "Discord",
+    link: "https://discord.vrlabs.dev/",
+    svg: icons.discord,
+    color: "fill-blue-400",
+  },
+  {
+    name: "Patreon",
+    link: "https://www.patreon.com/VRLabs/posts",
+    svg: icons.patreon,
+    color: "fill-red-400",
+  },
+  {
+    name: "Twitter",
+    link: "https://twitter.com/vrlabsdev",
+    svg: icons.twitter,
+    color: "fill-blue-400",
+  },
+  {
+    name: "Github",
+    link: "https://github.com/VRLabs",
+    svg: icons.github,
+    color: "fill-gray-400",
+  },
+];
+
 const pageTitle = "VRLabs";
-const pageDescription = "VRLabs";
+const pageDescription =
+  "Bringing free to use tools, systems, and knowledge to VRChat creators";
 ---
 
 <BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <div class="flex flex-col gap-5">
-    <Button
-      color="bright"
-      type="filled"
-      size="medium"
-      icon="download"
-      iconFill
-      iconStroke
-      expand
-      class="card-downloadButton rotate-180"
-    />
-    <Button
-      color="standard"
-      type="filled"
-      size="medium"
-      icon="download"
-      iconFill
-      iconStroke
-      expand
-      class="card-downloadButton rotate-180"
-    />
-
-    <Button
-      color="bright"
-      type="outline"
-      size="medium"
-      icon="download"
-      iconFill
-      iconStroke
-      expand
-      class="card-downloadButton rotate-180"
-    />
-    <Button
-      color="standard"
-      type="outline"
-      size="medium"
-      icon="download"
-      iconFill
-      iconStroke
-      expand
-      class="card-downloadButton rotate-180"
-    />
-  </div>
+  <Fragment slot="content">
+    <section
+      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border border-t-borderBright text-center sm:text-left"
+    >
+      <img
+        class="min-w-28 h-28 sm:min-w-48 sm:h-48 object-cover -scale-x-100"
+        src="/images/idle.gif"
+        alt=""
+      />
+      <div>
+        <h2 class="text-mobileHeading2 sm:text-desktopHeading2 font-Sans-Bold">
+          Packages
+        </h2>
+        <p class="text-textSecondary mb-6 mt-1">
+          Easily view and download our packages or add them to your VRChat
+          Creator Companion by visiting our package listing page!
+        </p>
+        <Button
+          color="action"
+          type="filled"
+          size="large"
+          class="!text-normal !w-full sm:!w-fit"
+          anchor="/packages"
+        >
+          View Listing
+        </Button>
+      </div>
+    </section>
+    <section
+      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border text-center sm:text-left"
+    >
+      <img
+        class="min-w-28 h-28 sm:min-w-48 sm:h-48 object-cover"
+        src=""
+        alt=""
+      />
+      <div>
+        <h2 class="text-mobileHeading2 sm:text-desktopHeading2 font-Sans-Bold">
+          Avatar
+        </h2>
+        <p class="text-textSecondary mb-6 mt-1">
+          Test all of our packages in VRChat by trying out our free to use
+          avatar!
+        </p>
+        <Button
+          color="action"
+          type="filled"
+          size="large"
+          class="!text-normal !w-full sm:!w-fit"
+          anchor="/packages"
+        >
+          Get Avatar
+        </Button>
+      </div>
+    </section>
+    <section class="grid gap-4 mt-4 mb-16 grid-cols-2 ssm:grid-cols-4">
+      {
+        socialIcons.map((icon) => (
+          <Button
+            color="standard"
+            type="filled"
+            size="large"
+            expand
+            anchor={icon.link}
+            class="!h-auto !py-4 !px-4  flex flex-col items-center justify-center gap-4"
+          >
+            <svg
+              class:list={[icon.color, "w-12 h-12"]}
+              viewBox="0 0 80 80"
+              xmlns="http://www.w3.org/2000/svg"
+              set:html={icon.svg}
+            />
+            {icon.name}
+          </Button>
+        ))
+      }
+    </section>
+  </Fragment>
 </BaseLayout>

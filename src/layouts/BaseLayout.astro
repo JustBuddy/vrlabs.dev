@@ -35,18 +35,21 @@ const { pageTitle, pageDescription } = Astro.props;
     <ViewTransitions />
   </head>
   <body
-    class="flex flex-col overflow-x-hidden min-h-screen text-textPrimary font-Sans text-normal w-full break-words"
+    class="flex flex-col overflow-x-hidden min-h-screen text-textPrimary font-Sans text-normal w-full break-words bg-elementsDark"
   >
     <Navbar />
     <main
       class="max-w-6xl px-4 sm:px-10 mx-auto w-full overflow-x-hidden min-h-screen"
     >
-      <section class="py-16">
+      <section class="py-10 sm:py-20">
         <h1
-          class="text-mobileHeading sm:text-desktopHeading font-Novecento-Utrabold mb-5 text-center"
+          class="text-mobileHeading sm:text-desktopHeading font-Novecento-Utrabold mb-2 text-center"
           set:html={pageTitle}
         />
-        <p class="text-center text-textSecondary" set:html={pageDescription} />
+        <p
+          class="text-center text-textSecondary text-mobileLarge"
+          set:html={pageDescription}
+        />
       </section>
       <slot name="content" />
     </main>

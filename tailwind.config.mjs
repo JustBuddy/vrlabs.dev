@@ -14,7 +14,7 @@ export default {
 				actionBright: '#308BF2',
 				actionDark: '#3670B2',
 				border: '#4B515E',
-				borderBright: '#5C6473',
+				borderBright: '#666F80',
 				danger: '#BF483B',
 				dangerBright: '#E65747',
 			},
@@ -27,7 +27,7 @@ export default {
 				'1': '1px'
 			},
 			fontSize: {
-				desktopHeading: '4.25rem',
+				desktopHeading: '5rem',
 				mobileHeading: '3rem',
 				desktopHeading2: '1.8rem',
 				mobileHeading2: '1.5rem',
@@ -47,6 +47,9 @@ export default {
 			},
 			scale: {
 				'102': '1.02',
+			},
+			screens: {
+				'ssm': '500px',
 			},
 		},
 	},
