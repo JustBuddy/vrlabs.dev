@@ -41,16 +41,20 @@ const { pageTitle, pageDescription } = Astro.props;
     <main
       class="max-w-6xl px-4 sm:px-10 mx-auto w-full overflow-x-hidden min-h-screen bg-shine"
     >
-      <section class="pt-10 pb-14 sm:pt-20 sm:pb-24">
-        <h1
-          class="text-mobileHeading sm:text-desktopHeading font-Novecento-Utrabold mb-2 text-center"
-          set:html={pageTitle}
-        />
-        <p
-          class="text-center text-textSecondary text-mobileLarge"
-          set:html={pageDescription}
-        />
-      </section>
+      {
+        pageTitle && (
+          <section class="pt-10 pb-14 sm:pt-20 sm:pb-24">
+            <h1
+              class="text-mobileHeading sm:text-desktopHeading font-Novecento-Utrabold mb-2 text-center"
+              set:html={pageTitle}
+            />
+            <p
+              class="text-center text-textSecondary text-mobileLarge"
+              set:html={pageDescription}
+            />
+          </section>
+        )
+      }
       <slot name="content" />
     </main>
     <slot name="after-content" />
