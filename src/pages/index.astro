@@ -60,6 +60,7 @@ const pageDescription =
           round
           class="!text-normal !w-full sm:!w-fit"
           anchor="/packages"
+          ariaLabel="View listing"
         >
           View Listing
         </Button>
@@ -89,6 +90,7 @@ const pageDescription =
           class="!text-normal !w-full sm:!w-fit"
           anchor="/packages"
           selfAnchor
+          ariaLabel="Get Avatar"
         >
           Get Avatar
         </Button>
@@ -105,6 +107,7 @@ const pageDescription =
             anchor={icon.link}
             selfAnchor
             class="!h-auto !py-4 !px-4 shadow-lg flex flex-col items-center justify-center gap-4"
+            ariaLabel={icon.name}
           >
             <svg
               class:list={[icon.color, "w-12 h-12"]}
