@@ -13,24 +13,31 @@ const { pageTitle, pageDescription } = Astro.props;
   <head>
     <title>{pageTitle}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
     <meta charset="utf-8" />
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content="VRChat, Unity, Packages, Avatars" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
-    <meta property="og:url" content="https://vrlabs.dev/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="VRLabs" />
-    <meta property="og:description" content="" />
-    <meta property="og:image" content="" />
+    <meta property="og:url" content="https://vrlabs.dev/" />
+    <meta property="og:title" content={`VRLabs ${pageTitle}`} />
+    <meta property="og:description" content={pageDescription} />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/VRLabs/Resources/main/og-image.png"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content="vrlabs.dev" />
     <meta property="twitter:url" content="https://vrlabs.dev/" />
-    <meta name="twitter:title" content="VRLabs" />
-    <meta name="twitter:description" content="" />
-    <meta name="twitter:image" content="" />
+    <meta name="twitter:title" content={`VRLabs ${pageTitle}`} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/VRLabs/Resources/main/og-image.png"
+    />
 
     <ViewTransitions />
   </head>
