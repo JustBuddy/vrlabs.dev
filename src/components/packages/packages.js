@@ -130,6 +130,7 @@ function drawCategories() {
         grid.classList.add("grid", "packages-grid");
 
         const categoryElement = document.createElement("div");
+        categoryElement.classList.add(category.toLowerCase());
         categoryElement.appendChild(categry);
         categoryElement.appendChild(grid);
 
