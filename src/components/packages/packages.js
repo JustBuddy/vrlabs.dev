@@ -133,9 +133,9 @@ function drawPackagesInGrid(grid, packages) {
         const packageInfo = packages[pack]?.packageInfo;
         if (!packageInfo) continue;
 
-        const { name: id, displayName, description, siteUrl, unityPackageUrl, vpmDependencies } = packageInfo || undefined;
-        const image = packageInfo.media?.previewImage || undefined;
-        const gif = packageInfo.media?.previewGif || undefined;
+        const { name: id, displayName, description, siteUrl, unityPackageUrl, vpmDependencies } = packageInfo;
+        const image = packageInfo.media?.previewImage;
+        const gif = packageInfo.media?.previewGif;
         const card = cardTemplate.cloneNode(true);
 
         card.setAttribute("githubUrl", siteUrl);
@@ -254,12 +254,11 @@ function prepareImageLoader() {
             if (card.getAttribute("no-media") === "true") return;
 
             const cardImage = card.querySelector(".card-previewImage");
-            const previewImage = card.getAttribute("previewImage");
             const skeleton = card.querySelector(".card-imageSkeleton");
-            if (previewImage !== "undefined") skeleton.classList.remove("hidden");
+            skeleton.classList.remove("hidden");
 
             let img = new Image();
-            previewImage !== "undefined" ? img.src = card.getAttribute("previewImage") : img.src = "/images/placeholder.png";
+            img.src = card.getAttribute("previewImage")
 
             img.onload = function () {
                 cardImage.src = img.src;
@@ -291,12 +290,11 @@ function getGifForCard(card) {
             return;
         };
 
-        const previewGif = card.getAttribute("previewGif");
         const skeleton = card.querySelector(".card-gifSkeleton");
-        if (previewGif !== "undefined") skeleton.classList.remove("hidden");
+        skeleton.classList.remove("hidden");
 
         let img = new Image();
-        previewGif !== "undefined" ? img.src = card.getAttribute("previewGif") : img.src = "/images/placeholder.png";
+        img.src = card.getAttribute("previewGif")
 
         img.onload = function () {
             cardGif.src = img.src;
