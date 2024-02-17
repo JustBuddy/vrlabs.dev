@@ -183,9 +183,7 @@ function drawPackagesInGrid(grid, packages) {
 
         const cardGithub = card.querySelector(".card-githubButton");
         isValidUrl(siteUrl) ? cardGithub.classList.remove("disabled") : cardGithub.classList.add("disabled");
-        cardGithub.addEventListener("click", () => {
-            window.open(siteUrl, "_blank");
-        });
+        cardGithub.href = siteUrl;
 
         const cardTitle = card.querySelector(".card-packageName");
         cardTitle.innerText = displayName;
