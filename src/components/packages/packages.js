@@ -145,7 +145,17 @@ function drawPackagesInGrid(grid, packages) {
         card.setAttribute("id", id);
         card.setAttribute("dependencies", JSON.stringify(vpmDependencies));
 
-        setupHoverAndClickHandler(card);
+        if (!image || !gif) {
+            card.querySelector(".card-previewImage").remove();
+            card.querySelector(".card-imageSkeleton").remove();
+            card.querySelector(".card-previewGif").remove();
+            card.querySelector(".card-gifSkeleton").remove();
+            card.setAttribute("no-media", true);
+        }
+        else {
+            card.querySelector(".card-mediaPlaceholder").remove();
+            setupHoverAndClickHandler(card);
+        }
 
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
@@ -241,8 +251,9 @@ function prepareImageLoader() {
             if (!entry.isIntersecting) return;
 
             const card = entry.target;
-            const cardImage = card.querySelector(".card-previewImage");
+            if (card.getAttribute("no-media") === "true") return;
 
+            const cardImage = card.querySelector(".card-previewImage");
             const previewImage = card.getAttribute("previewImage");
             const skeleton = card.querySelector(".card-imageSkeleton");
             if (previewImage !== "undefined") skeleton.classList.remove("hidden");

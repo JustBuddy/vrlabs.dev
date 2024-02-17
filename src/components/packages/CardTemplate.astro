@@ -25,6 +25,12 @@ import Button from "../common/Button.astro";
       src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
       alt="Preview Image"
     />
+    <svg
+      class="card-mediaPlaceholder h-full w-full fill-elementsBright bg-elements"
+      viewBox="0 0 80 80"
+      xmlns="http://www.w3.org/2000/svg"
+      set:html={icons.image}
+    />
     <div class="absolute flex left-0 top-0 m-2 gap-2">
       <Button
         color="bright"
