@@ -9,7 +9,10 @@ let categoriesWithPackages;
 
 document.addEventListener("astro:page-load", async () => {
     if (window.location.pathname !== "/packages") return;
+    doEverything();
+});
 
+async function doEverything() {
     categoriesWithPackages = await fetchData();
     if (!categoriesWithPackages) { displayError(); return };
 
@@ -22,7 +25,7 @@ document.addEventListener("astro:page-load", async () => {
     getGithubDownloadsAndDate();
     prepareFilters();
     destroyTemplates();
-});
+}
 
 async function fetchData() {
     try {
@@ -72,10 +75,21 @@ function displayError() {
     hideSpinner();
 
     const container = document.querySelector(".packages-container");
-    const p = document.createElement("p");
-    p.style.textAlign = "center";
-    p.innerText = "Error fetching packages";
-    container.appendChild(p);
+    const error = document.querySelector(".packages-error");
+    const refreshButton = error.querySelector(".error-refresh");
+
+    container.classList.add("hidden");
+    error.classList.remove("hidden");
+    error.classList.add("flex");
+
+    refreshButton.onclick = () => {
+        container.classList.remove("hidden");
+        error.classList.add("hidden");
+        error.classList.remove("flex");
+
+        showSpinner();
+        doEverything();
+    }
 }
 
 function sortCategories() {
@@ -198,6 +212,11 @@ function drawPackagesInGrid(grid, packages) {
 function hideSpinner() {
     const spinner = document.querySelector(".packages-spinner");
     spinner.classList.add("hidden");
+}
+
+function showSpinner() {
+    const spinner = document.querySelector(".packages-spinner");
+    spinner.classList.remove("hidden");
 }
 
 function revealCategoriesAndPackages() {

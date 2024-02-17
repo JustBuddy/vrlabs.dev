@@ -7,6 +7,7 @@ import CategoryTemplate from "../components/packages/CategoryTemplate.astro";
 import GridTemplate from "../components/packages/GridTemplate.astro";
 import CardTemplate from "../components/packages/CardTemplate.astro";
 import Filters from "../components/packages/Filters.astro";
+import ErrorMessage from "../components/packages/ErrorMessage.astro";
 
 const pageTitle = "Packages";
 const pageDescription = "A list of all our publicly available packages";
@@ -17,6 +18,7 @@ const pageDescription = "A list of all our publicly available packages";
     <Filters />
     <Spinner class="packages-spinner w-32 sm:w-40 py-8 sm:py-12" />
     <div class="packages-container flex flex-col gap-16 pt-8 pb-16"></div>
+    <ErrorMessage />
   </Fragment>
   <Fragment slot="after-content">
     <PackageDrawer />

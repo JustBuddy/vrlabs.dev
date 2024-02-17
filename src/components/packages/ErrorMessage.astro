@@ -1,0 +1,23 @@
+---
+import Button from "../common/Button.astro";
+---
+
+<div class="packages-error hidden gap pt-8 pb-16 flex-col items-center gap-6">
+  <img
+    class="w-32 sm:w-40 scale-x-100"
+    src="/images/cry.gif"
+    alt=""
+    loading="eager"
+  />
+  <p class="text-textSecondary">Failed to fetch packages..</p>
+  <Button
+    color="bright"
+    type="filled"
+    size="medium"
+    round
+    class="error-refresh"
+    ariaLabel="Refresh packages"
+  >
+    Try Again
+  </Button>
+</div>
