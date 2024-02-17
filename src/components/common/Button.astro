@@ -13,6 +13,7 @@ const {
   class: customClasses,
   ariaLabel: ariaLabel,
   anchor: anchor,
+  selfAnchor: selfAnchor,
 } = Astro.props;
 
 const colors = {
@@ -64,6 +65,7 @@ const Tag = anchor ? "a" : "button";
   ]}
   aria-label={ariaLabel}
   href={anchor}
+  target={anchor && selfAnchor && "_blank"}
 >
   {
     icon && (
