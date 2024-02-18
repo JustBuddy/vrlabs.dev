@@ -115,7 +115,6 @@ function drawCategories() {
 
         categry.classList.remove("category-template", "hidden");
         categry.classList.add("packages-header", "flex");
-        categry.style.opacity = 0;
 
         const categoryTitle = categry.querySelector(".category-title");
         categoryTitle.innerText = category;
@@ -174,7 +173,6 @@ function drawPackagesInGrid(grid, packages) {
 
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
-        card.style.opacity = 0;
 
         const cardInfo = card.querySelector(".card-infoButton");
         isValidUrl(siteUrl) ? cardInfo.classList.remove("disabled") : cardInfo.classList.add("disabled");
@@ -219,22 +217,8 @@ function showSpinner() {
 }
 
 function revealCategoriesAndPackages() {
-    const categories = document.querySelectorAll(".packages-header");
-    const cards = document.querySelectorAll(".packages-card");
-    const timeoutTime = 25;
-
-    for (let key of categories) {
-        const category = key;
-        setTimeout(() => {
-            category.style.opacity = 1;
-        }, timeoutTime * Array.from(categories).indexOf(category));
-    }
-
-    for (let card of cards) {
-        setTimeout(() => {
-            card.style.opacity = 1;
-        }, timeoutTime * Array.from(cards).indexOf(card));
-    }
+    const container = document.querySelector(".packages-container");
+    container.classList.remove("opacity-0");
 }
 
 function handleUrlParams() {
