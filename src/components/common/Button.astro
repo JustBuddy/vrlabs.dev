@@ -37,9 +37,9 @@ const colors = {
 };
 
 const sizes = {
-  small: "h-7 p-0.5 text-small",
-  medium: "h-9 py-1 px-4 text-normal",
-  large: "h-11 py-1 px-4 sm:text-desktopLarge text-mobileLarge",
+  small: "h-7 p-0.5 text-small gap-1",
+  medium: "h-9 py-1 px-4 text-normal gap-2",
+  large: "h-11 py-1 px-4 sm:text-desktopLarge text-mobileLarge gap-2",
 };
 
 const buttonClasses = [
@@ -61,7 +61,7 @@ const Tag = anchor ? "a" : "button";
 <Tag
   class:list={[
     buttonClasses,
-    "transition-all duration-200 flex justify-center items-center gap-1 font-Sans-Bold",
+    "transition-all duration-200 flex justify-center items-center font-Sans-Bold",
   ]}
   aria-label={ariaLabel}
   href={anchor}
