@@ -52,14 +52,16 @@ import Button from "../common/Button.astro";
         <Socials />
       </ul>
       <div class="block lg:hidden">
-        <a href="https://github.com/VRLabs" target="_blank" aria-label="Github">
-          <svg
-            class="h-6 fill-textSecondary"
-            viewBox="0 0 80 80"
-            xmlns="http://www.w3.org/2000/svg"
-            set:html={icons.github}
-          />
-        </a>
+        <Button
+          color="transparent"
+          size="small"
+          icon="github"
+          iconFill
+          anchor="https://github.com/VRLabs"
+          selfAnchor
+          ariaLabel="Github"
+          class="!h-6 !p-0 !text-textSecondary hover:!text-actionBright"
+        />
       </div>
     </div>
   </div>

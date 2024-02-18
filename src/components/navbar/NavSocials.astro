@@ -1,39 +1,38 @@
 ---
 import icons from "../../icons.json";
+import Button from "../common/Button.astro";
 
 const socials = [
   {
     name: "Github",
     link: "https://github.com/VRLabs",
-    svg: icons.github,
   },
   {
     name: "Discord",
     link: "https://discord.vrlabs.dev/",
-    svg: icons.discord,
   },
   {
     name: "Twitter",
     link: "https://twitter.com/vrlabsdev",
-    svg: icons.twitter,
   },
   {
     name: "Patreon",
     link: "https://www.patreon.com/VRLabs/posts",
-    svg: icons.patreon,
   },
 ];
 ---
 
 {
   socials.map((social) => (
-    <a href={social.link} target="_blank" aria-label={social.name}>
-      <svg
-        class="h-6 fill-textSecondary hover:fill-actionBright transition-all duration-100"
-        viewBox="0 0 80 80"
-        xmlns="http://www.w3.org/2000/svg"
-        set:html={social.svg}
-      />
-    </a>
+    <Button
+      color="transparent"
+      size="small"
+      icon={social.name.toLocaleLowerCase()}
+      iconFill
+      anchor={social.link}
+      selfAnchor
+      ariaLabel={social.name}
+      class="!h-6 !p-0 !text-textSecondary hover:!text-actionBright"
+    />
   ))
 }
