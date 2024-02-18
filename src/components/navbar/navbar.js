@@ -2,7 +2,6 @@ import { openBackdrop, closeBackdrop } from "../common/backdrop/backdrop.js";
 
 document.addEventListener("astro:page-load", () => {
     prepareNavbar();
-    colorCurrentPage();
 });
 
 function prepareNavbar() {
@@ -19,18 +18,4 @@ function prepareNavbar() {
         navMobile.classList.add("hidden");
         closeBackdrop();
     }
-}
-
-function colorCurrentPage() {
-    const navLinks = document.querySelectorAll(".nav-item");
-    const currentPath = window.location.pathname;
-
-    navLinks.forEach((link) => {
-        link.classList.remove("text-actionBright");
-        if (link.getAttribute("href") === currentPath) link.classList.add("text-actionBright");
-
-        link.onclick = () => {
-            link.classList.add("text-actionBright");
-        };
-    });
 }
