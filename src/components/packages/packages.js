@@ -1,4 +1,4 @@
-import { addToBasket, clearBasket, openDrawer } from "./package-drawer/packageDrawer.js";
+import { addToBasket, clearBasket, openDrawer, siteUrl } from "./package-drawer/packageDrawer.js";
 import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
 import test from "../../out.json";
 
@@ -33,7 +33,7 @@ async function fetchData() {
             setTimeout(() => reject(new Error("Server timeout")), 5000)
         );
         const categoriesPromise = await fetch(
-            "http://45.79.147.72:8006/categories"
+            `http://${siteUrl}/categories`
         );
 
         const response = await Promise.race([categoriesPromise, timeoutPromise]);
@@ -47,7 +47,7 @@ async function fetchData() {
                 setTimeout(() => reject(new Error("Server timeout")), 5000)
             );
             const packagesPromise = await fetch(
-                "http://45.79.147.72:8006/packages/info/category/" + category
+                `http://${siteUrl}/packages/info/category/` + category
             );
 
             const response = await Promise.race([packagesPromise, timeoutPromise]);
@@ -121,7 +121,7 @@ function drawCategories() {
 
         const categoryButton = categry.querySelector(".category-vccButton");
         categoryButton.addEventListener("click", () => {
-            window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/category/" + category, "_self");
+            window.open(`vcc://vpm/addRepo?url=http://${siteUrl}/listings/category/` + category, "_self");
         });
 
         const grid = gridTemplate.cloneNode(true);

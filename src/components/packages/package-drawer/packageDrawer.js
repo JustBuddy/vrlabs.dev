@@ -15,6 +15,7 @@ let itemTemplate;
 let maxHeight;
 let minHeight;
 
+export const siteUrl = "45.79.147.72:8006";
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
     prepareDrawer();
@@ -192,7 +193,7 @@ async function getVCCLink(copyURL) {
         const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Server timeout")), 5000)
         );
-        const listingPromise = await fetch("http://45.79.147.72:8006/listings/encode", {
+        const listingPromise = await fetch(`http://${siteUrl}/listings/encode`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -208,10 +209,10 @@ async function getVCCLink(copyURL) {
 
         const { message } = listing;
         if (copyURL) {
-            navigator.clipboard.writeText("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message);
+            navigator.clipboard.writeText(`vcc://vpm/addRepo?url=http://${siteUrl}/listings/ids/` + message);
         }
         else {
-            window.open("vcc://vpm/addRepo?url=http://45.79.147.72:8006/listings/ids/" + message, "_self");
+            window.open(`vcc://vpm/addRepo?url=http://${siteUrl}/listings/ids/` + message, "_self");
         }
     }
     catch (error) {
