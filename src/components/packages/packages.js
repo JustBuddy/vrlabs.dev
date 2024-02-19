@@ -32,38 +32,26 @@ async function fetchData() {
         const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Server timeout")), 5000)
         );
-        const categoriesPromise = await fetch(
-            `http://${siteUrl}/categories`
+        const packagesPromise = await fetch(
+            `http://${siteUrl}/packages/info`
         );
 
-        const response = await Promise.race([categoriesPromise, timeoutPromise]);
-        if (!response.ok) throw new Error("Could not fetch categories");
+        const response = await Promise.race([packagesPromise, timeoutPromise]);
+        if (!response.ok) throw new Error("Could not fetch packages");
 
-        const { categories } = await categoriesPromise.json();
-        if (!categories) throw new Error("Could not fetch categories");
+        const packages = await response.json();
+        if (!packages) throw new Error("Could not fetch packages");
 
-        const packagesPromises = categories.map(async (category) => {
-            const timeoutPromise = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("Server timeout")), 5000)
-            );
-            const packagesPromise = await fetch(
-                `http://${siteUrl}/packages/info/category/` + category
-            );
-
-            const response = await Promise.race([packagesPromise, timeoutPromise]);
-            if (!response.ok) throw new Error("Could not fetch packages");
-
-            const packagesJson = await packagesPromise.json();
-            if (!packagesJson) throw new Error("Could not fetch packages");
-
-            const packages = Object.values(test);
-            return {
-                category: category.charAt(0).toUpperCase() + category.slice(1),
-                packages,
-            };
-        });
-
-        return await Promise.all(packagesPromises);
+        var packagesDictionary = {};
+        for (let i = 0; i < Object.values(packages).length; i++){
+            const packageData = Object.values(packages)[i];
+            const category = packageData.category.charAt(0).toUpperCase() + packageData.category.slice(1);
+            if (!Object.keys(packagesDictionary).includes(category)) {
+                packagesDictionary[category] = [];
+            }
+            packagesDictionary[category].push(packageData)
+        }
+        return Object.keys(packagesDictionary).map(name => {return {"category": name, "packages": packagesDictionary[name] }});
     }
     catch (error) {
         console.error(error);
