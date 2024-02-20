@@ -1,6 +1,5 @@
 import { addToBasket, clearBasket, openDrawer, siteUrl } from "./package-drawer/packageDrawer.js";
 import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
-import test from "../../out.json";
 
 document.addEventListener("astro:after-swap", () => window.scrollTo({ left: 0, top: 0, behavior: "instant" }));
 document.addEventListener("astro:page-load", () => window.scrollTo({ left: 0, top: 0, behavior: "instant" }));
@@ -43,7 +42,7 @@ async function fetchData() {
         if (!packages) throw new Error("Could not fetch packages");
 
         var packagesDictionary = {};
-        for (let i = 0; i < Object.values(packages).length; i++){
+        for (let i = 0; i < Object.values(packages).length; i++) {
             const packageData = Object.values(packages)[i];
             const category = packageData.category.charAt(0).toUpperCase() + packageData.category.slice(1);
             if (!Object.keys(packagesDictionary).includes(category)) {
@@ -51,7 +50,7 @@ async function fetchData() {
             }
             packagesDictionary[category].push(packageData)
         }
-        return Object.keys(packagesDictionary).map(name => {return {"category": name, "packages": packagesDictionary[name] }});
+        return Object.keys(packagesDictionary).map(name => { return { "category": name, "packages": packagesDictionary[name] } });
     }
     catch (error) {
         console.error(error);

@@ -16,6 +16,7 @@ let maxHeight;
 let minHeight;
 
 export const siteUrl = "45.79.147.72:8006";
+
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
     prepareDrawer();
