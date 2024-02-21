@@ -44,7 +44,7 @@ export async function openMarkdownModal(githubUrl) {
         const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("GitHub timeout")), 5000)
         );
-        const githubPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/dev/README.md");
+        const githubPromise = await fetch("https://raw.githubusercontent.com/" + cutUrl + "/main/README.md");
 
         const response = await Promise.race([githubPromise, timeoutPromise]);
         if (!response.ok) throw new Error("Could not fetch GitHub readme");
