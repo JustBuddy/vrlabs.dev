@@ -191,6 +191,8 @@ function drawPackagesInGrid(grid, packages) {
 
         grid.appendChild(card);
     }
+
+    while (grid.children.length < 3) grid.appendChild(document.createElement("div"));
 }
 
 function hideSpinner() {
