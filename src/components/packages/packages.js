@@ -7,11 +7,18 @@ document.addEventListener("astro:page-load", () => window.scrollTo({ left: 0, to
 let categoriesWithPackages;
 
 document.addEventListener("astro:page-load", async () => {
-    if (window.location.pathname !== "/packages") return;
+    if (stripTrailingSlash(window.location.pathname) !== "/packages") return;
     doEverything();
 });
 
+const stripTrailingSlash = (str) => {
+    return str.endsWith('/') ?
+        str.slice(0, -1) :
+        str;
+};
+
 async function doEverything() {
+
     categoriesWithPackages = await fetchData();
     if (!categoriesWithPackages) { displayError(); return };
 
@@ -32,7 +39,7 @@ async function fetchData() {
             setTimeout(() => reject(new Error("Server timeout")), 5000)
         );
         const packagesPromise = await fetch(
-            `http://${siteUrl}/packages/info`
+            `${siteUrl}/packages/info`
         );
 
         const response = await Promise.race([packagesPromise, timeoutPromise]);
@@ -108,7 +115,7 @@ function drawCategories() {
 
         const categoryButton = categry.querySelector(".category-vccButton");
         categoryButton.addEventListener("click", () => {
-            window.open(`vcc://vpm/addRepo?url=http://${siteUrl}/listings/category/` + category, "_self");
+            window.open(`vcc://vpm/addRepo?url=${siteUrl}/listings/category/` + category, "_self");
         });
 
         const grid = gridTemplate.cloneNode(true);

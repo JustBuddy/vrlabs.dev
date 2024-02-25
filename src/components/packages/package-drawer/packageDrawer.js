@@ -15,7 +15,7 @@ let itemTemplate;
 let maxHeight;
 let minHeight;
 
-export const siteUrl = "45.79.147.72:8006";
+export const siteUrl = "https://test.api.vrlabs.dev";
 
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
@@ -194,7 +194,7 @@ async function getVCCLink(copyURL) {
         const timeoutPromise = new Promise((_, reject) =>
             setTimeout(() => reject(new Error("Server timeout")), 5000)
         );
-        const listingPromise = await fetch(`http://${siteUrl}/listings/encode`, {
+        const listingPromise = await fetch(`${siteUrl}/listings/encode`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -210,10 +210,10 @@ async function getVCCLink(copyURL) {
 
         const { message } = listing;
         if (copyURL) {
-            navigator.clipboard.writeText(`vcc://vpm/addRepo?url=http://${siteUrl}/listings/ids/` + message);
+            navigator.clipboard.writeText(`vcc://vpm/addRepo?url=${siteUrl}/listings/ids/` + message);
         }
         else {
-            window.open(`vcc://vpm/addRepo?url=http://${siteUrl}/listings/ids/` + message, "_self");
+            window.open(`vcc://vpm/addRepo?url=${siteUrl}/listings/ids/` + message, "_self");
         }
     }
     catch (error) {
