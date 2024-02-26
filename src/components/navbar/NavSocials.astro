@@ -1,0 +1,37 @@
+---
+import Button from "../common/Button.astro";
+
+const socials = [
+  {
+    name: "Github",
+    link: "https://github.com/VRLabs",
+  },
+  {
+    name: "Discord",
+    link: "https://discord.vrlabs.dev/",
+  },
+  {
+    name: "Twitter",
+    link: "https://twitter.com/vrlabsdev",
+  },
+  {
+    name: "Patreon",
+    link: "https://www.patreon.com/VRLabs/posts",
+  },
+];
+---
+
+{
+  socials.map((social) => (
+    <Button
+      color="transparent"
+      size="small"
+      icon={social.name.toLocaleLowerCase()}
+      iconFill
+      anchor={social.link}
+      selfAnchor
+      ariaLabel={social.name}
+      class="!h-6 !p-0 !text-textSecondary hover:!text-actionBright"
+    />
+  ))
+}

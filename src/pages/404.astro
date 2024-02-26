@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/common/Button.astro";
+---
+
+<BaseLayout>
+  <Fragment slot="content">
+    <div class="flex gap flex-col items-center gap-6 pt-10 sm:pt-20">
+      <img
+        class="w-36 sm:w-48"
+        src="/images/cry.webp"
+        alt="404"
+        loading="eager"
+      />
+      <p class="font-Sans-Bold text-mobileLarge sm:text-desktopLarge">
+        Page not found
+      </p>
+      <Button
+        color="bright"
+        type="filled"
+        size="large"
+        round
+        class="back-button !px-8"
+        ariaLabel="Refresh packages"
+      >
+        Go Back
+      </Button>
+    </div>
+  </Fragment>
+</BaseLayout>
+
+<script is:inline>
+  const backButton = document.querySelector(".back-button");
+  backButton.onclick = () => {
+    window.history.back();
+  };
+</script>
