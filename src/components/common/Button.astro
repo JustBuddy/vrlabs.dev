@@ -1,0 +1,81 @@
+---
+import icons from "../../icons.json";
+
+const {
+  color: color,
+  type: type,
+  size: size,
+  expand: expand,
+  round: round,
+  icon: icon,
+  iconFill: iconFill,
+  iconStroke: iconStroke,
+  class: customClasses,
+  ariaLabel: ariaLabel,
+  anchor: anchor,
+  selfAnchor: selfAnchor,
+} = Astro.props;
+
+const colors = {
+  bright:
+    type == "filled"
+      ? "bg-elementsBright hover:bg-elementsBrighter"
+      : "border-elementsBright text-textSecondary border-1 hover:border-elementsBrighter hover:text-textPrimary",
+  standard:
+    type == "filled"
+      ? "bg-elements hover:bg-elementsBright"
+      : "border-elements text-elementsBright border-1 hover:border-elementsBright hover:text-elementsBrighter",
+  action:
+    type == "filled"
+      ? "bg-action hover:bg-actionBright"
+      : "border-action text-action border-1 hover:border-actionBright hover:text-actionBright",
+  danger:
+    type == "filled"
+      ? "bg-danger hover:bg-dangerBright"
+      : "border-danger text-danger border-1 hover:bg-danger hover:text-textPrimary",
+  transparent: " ",
+};
+
+const sizes = {
+  small: "h-7 p-0.5 text-small gap-1",
+  medium: "h-9 py-1 px-4 text-normal gap-2",
+  large: "h-11 py-1 px-4 sm:text-desktopLarge text-mobileLarge gap-2",
+};
+
+const buttonClasses = [
+  colors[color] || colors.standard,
+  sizes[size] || sizes.medium,
+  expand ? "w-full" : "w-fit",
+  round ? "rounded-full" : "rounded-lg",
+  customClasses || "",
+];
+
+const iconClasses = [
+  iconFill ? "fill-current" : "fill-transparent",
+  iconStroke ? "stroke-current" : "stroke-transparent",
+];
+
+const Tag = anchor ? "a" : "button";
+---
+
+<Tag
+  class:list={[
+    buttonClasses,
+    "transition-all duration-200 flex justify-center items-center font-Sans-Bold",
+  ]}
+  aria-label={ariaLabel}
+  href={anchor}
+  target={anchor && selfAnchor && "_blank"}
+>
+  {
+    icon && (
+      <svg
+        class:list={[iconClasses, "h-full"]}
+        viewBox="0 0 80 80"
+        xmlns="http://www.w3.org/2000/svg"
+        set:html={icons[icon]}
+      />
+    )
+  }
+  <slot />
+</Tag>

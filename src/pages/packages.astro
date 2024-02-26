@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Spinner from "../components/common/Spinner.astro";
+import PackageDrawer from "../components/packages/package-drawer/PackageDrawer.astro";
+import MarkdownModal from "../components/packages/markdown-modal/MarkdownModal.astro";
+import CategoryTemplate from "../components/packages/CategoryTemplate.astro";
+import GridTemplate from "../components/packages/GridTemplate.astro";
+import CardTemplate from "../components/packages/CardTemplate.astro";
+import Filters from "../components/packages/Filters.astro";
+import ErrorMessage from "../components/packages/ErrorMessage.astro";
+
+const pageTitle = "Packages";
+const pageDescription = "A list of all our publicly available packages";
+---
+
+<BaseLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <Fragment slot="content">
+    <Filters />
+    <Spinner class="packages-spinner h-32 sm:h-40 my-8 sm:my-12" />
+    <div
+      class="packages-container flex flex-col gap-16 pt-8 pb-16 transition-opacity duration-500 opacity-0"
+    >
+    </div>
+    <ErrorMessage />
+  </Fragment>
+  <Fragment slot="after-content">
+    <PackageDrawer />
+    <MarkdownModal />
+    <CategoryTemplate />
+    <GridTemplate />
+    <CardTemplate />
+  </Fragment>
+</BaseLayout>
+
+<script src="../components/packages/packages.js"></script>

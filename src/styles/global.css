@@ -1,0 +1,56 @@
+@font-face {
+  font-family: "Sans";
+  src: url("/fonts/PTSansRegular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Sans-Bold";
+  src: url("/fonts/PTSansBold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Novecento-Utrabold";
+  src: url("/fonts/NovecentoNarrowUltBold.woff2") format("woff2");
+  font-weight: bolder;
+  font-style: normal;
+  font-display: block;
+}
+
+html {
+  --scrollbar-track: rgb(69 77 89);
+  --scrollbar-thumb: rgb(92 103 120);
+}
+
+html::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+html {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: thin;
+}
+
+* {
+  min-width: 0;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,27 @@
+---
+const links = [
+  {
+    name: "About",
+    url: "/",
+  },
+  {
+    name: "Packages",
+    url: "/packages",
+  },
+];
+---
+
+{
+  links.map((link) => (
+    <a
+      href={link.url}
+      aria-label={link.name}
+      class="nav-item group"
+      data-astro-prefetch
+    >
+      <span class="relative py-3 group-hover:text-actionBright transition-all duration-100">
+        {link.name}
+      </span>
+    </a>
+  ))
+}

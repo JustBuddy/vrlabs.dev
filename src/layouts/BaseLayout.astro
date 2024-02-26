@@ -1,0 +1,72 @@
+---
+import Navbar from "../components/navbar/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import Backdrop from "../components/common/backdrop/Backdrop.astro";
+import Background from "../components/Background.astro";
+import { ViewTransitions } from "astro:transitions";
+import "../styles/global.css";
+
+const { pageTitle, pageDescription } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <title>{pageTitle}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta charset="utf-8" />
+    <meta name="description" content={pageDescription} />
+    <meta name="keywords" content="VRChat, Unity, Packages, Avatars" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vrlabs.dev/" />
+    <meta property="og:title" content={`VRLabs ${pageTitle}`} />
+    <meta property="og:description" content={pageDescription} />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/VRLabs/Resources/main/og-image.png"
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="vrlabs.dev" />
+    <meta property="twitter:url" content="https://vrlabs.dev/" />
+    <meta name="twitter:title" content={`VRLabs ${pageTitle}`} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/VRLabs/Resources/main/og-image.png"
+    />
+
+    <ViewTransitions />
+  </head>
+  <body
+    class="flex flex-col overflow-x-hidden min-h-screen text-textPrimary font-Sans text-normal w-full break-words bg-elementsDark"
+  >
+    <Navbar />
+    <main
+      class="max-w-6xl px-4 sm:px-10 mx-auto w-full overflow-x-hidden min-h-screen bg-shine"
+    >
+      {
+        pageTitle && (
+          <section class="heading pt-10 pb-14 sm:pt-20 sm:pb-24">
+            <h1
+              class="text-mobileHeading sm:text-desktopHeading font-Novecento-Utrabold mb-2 text-center"
+              set:html={pageTitle}
+            />
+            <p
+              class="text-center text-textSecondary text-mobileLarge"
+              set:html={pageDescription}
+            />
+          </section>
+        )
+      }
+      <slot name="content" />
+    </main>
+    <slot name="after-content" />
+    <Footer />
+    <Backdrop />
+    <Background />
+  </body>
+</html>

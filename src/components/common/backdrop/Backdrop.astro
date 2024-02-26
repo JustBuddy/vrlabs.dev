@@ -1,0 +1,45 @@
+---
+
+---
+
+<div
+  class="backdrop fixed w-screen h-screen bg-black/30 backdrop-blur top-0 left-0 opacity-0 outline-0 hidden"
+  data-state=""
+  aria-hidden="true"
+  tabindex="-1"
+>
+</div>
+
+<style>
+  .backdrop[data-state="opened"] {
+    animation: open 200ms ease-out forwards;
+  }
+
+  .backdrop[data-state="closed"] {
+    animation: close 200ms ease-out forwards;
+  }
+
+  @keyframes open {
+    0% {
+      opacity: 0;
+      pointer-events: auto;
+    }
+    100% {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  @keyframes close {
+    0% {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    100% {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+</style>
+
+<script src="./backdrop.js"></script>

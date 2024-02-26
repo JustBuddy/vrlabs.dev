@@ -1,0 +1,12 @@
+---
+const { class: customClasses } = Astro.props;
+---
+
+<div class="spinner flex justify-center">
+  <img
+    class:list={[customClasses, "-scale-x-100"]}
+    src="/images/walking.webp"
+    alt="Loading"
+    loading="eager"
+  />
+</div>

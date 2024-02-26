@@ -1,0 +1,123 @@
+---
+import icons from "../../icons.json";
+import Button from "../common/Button.astro";
+---
+
+<div
+  class="card-template hidden flex-col rounded-xl border-border border-1 shadow-lg hover:shadow-xl hover:scale-102 overflow-clip cursor-default transition-all duration-200"
+>
+  <div class="relative w-full h-44">
+    <div
+      class="card-gifSkeleton animate-skeleton h-full w-full bg-elements absolute hidden"
+    >
+    </div>
+    <div
+      class="card-imageSkeleton animate-skeleton h-full w-full bg-elements absolute hidden"
+    >
+    </div>
+    <img
+      class="card-previewGif h-full w-full object-cover absolute hidden transition-opacity duration-300 opacity-0 bg-elements"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+      alt="Preview Gif"
+    />
+    <img
+      class="card-previewImage h-full w-full object-cover absolute transition-opacity duration-300 opacity-0 bg-elements"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+      alt="Preview Image"
+    />
+    <svg
+      class="card-mediaPlaceholder h-full w-full fill-elementsBright bg-elements"
+      viewBox="0 0 80 80"
+      xmlns="http://www.w3.org/2000/svg"
+      set:html={icons.image}
+    />
+    <div class="absolute flex left-0 top-0 m-2 gap-2">
+      <Button
+        color="bright"
+        type="filled"
+        size="small"
+        icon="information"
+        iconFill
+        round
+        class="card-infoButton"
+        ariaLabel="Package information"
+      />
+      <Button
+        color="bright"
+        type="filled"
+        size="small"
+        icon="github"
+        iconFill
+        round
+        anchor="/"
+        selfAnchor
+        class="card-githubButton"
+        ariaLabel="Open GitHub repository"
+      />
+    </div>
+  </div>
+  <div class="p-3 bg-elements grow flex flex-col">
+    <p
+      class="card-packageName text-mobileLarge sm:text-desktopLarge font-Sans-Bold leading-6"
+    >
+      Package Name
+    </p>
+    <div class="text-small flex items-center">
+      <svg
+        class="rotate-180 h-5 fill-textSecondary stroke-textSecondary"
+        viewBox="0 0 80 80"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        set:html={icons.download}
+      />
+      <p class="card-downloadCount text-textSecondary">---</p>
+    </div>
+    <p class="card-packageDescription text-small mt-3 mb-4 text-textSecondary">
+      Package Description
+    </p>
+    <div class="flex gap-2 mt-auto">
+      <Button
+        color="action"
+        type="filled"
+        size="medium"
+        class="card-vccButton"
+        expand
+        ariaLabel="Add package to VCC List"
+      >
+        Add to VCC List
+      </Button>
+      <Button
+        color="bright"
+        type="filled"
+        size="medium"
+        icon="download"
+        iconFill
+        iconStroke
+        class="card-downloadButton rotate-180 !text-textSecondary hover:!text-textPrimary !px-2"
+        ariaLabel="Download package"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  .animate-skeleton {
+    animation: shine 2s linear infinite;
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(0, 0, 0, 0.05) 100%
+    );
+    background-size: 3000px 100%;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: -1500px;
+    }
+    100% {
+      background-position: 1500px;
+    }
+  }
+</style>

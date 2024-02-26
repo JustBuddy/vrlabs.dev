@@ -1,0 +1,96 @@
+---
+import icons from "../../icons.json";
+import NavItems from "./NavItems.astro";
+import Socials from "./NavSocials.astro";
+import Button from "../common/Button.astro";
+---
+
+<header
+  class="nav-main bg-elementsDark/80 backdrop-blur-2xl top-0 z-30 border-b-1 border-border flex py-4 font-Sans-Bold text-mobileLarge flex-col sticky shadow-lg"
+  transition:persist
+  transition:animate="none"
+>
+  <div class="grid grid-cols-3 h-full max-w-6xl px-4 sm:px-10 mx-auto w-full">
+    <div class="flex items-center">
+      <a
+        class="hidden md:flex items-center fill-textPrimary"
+        href="/"
+        aria-label="Home"
+      >
+        <svg
+          class="h-10"
+          viewBox="0 0 8192 8192"
+          xmlns="http://www.w3.org/2000/svg"
+          set:html={icons.logo}
+        />
+      </a>
+      <Button
+        color="transparent"
+        type="filled"
+        size="small"
+        icon="menu"
+        iconFill
+        class="nav-buttonOpen block md:hidden !p-0"
+        ariaLabel="Open menu"
+      />
+    </div>
+    <div class="flex items-center justify-center">
+      <nav class="gap-10 hidden md:flex">
+        <NavItems />
+      </nav>
+      <a class="block md:hidden" href="/" aria-label="Home">
+        <svg
+          class="h-10 fill-textPrimary"
+          viewBox="0 0 8192 8192"
+          xmlns="http://www.w3.org/2000/svg"
+          set:html={icons.logo}
+        />
+      </a>
+    </div>
+    <div class="flex items-center justify-end">
+      <ul class="gap-4 hidden lg:flex">
+        <Socials />
+      </ul>
+      <div class="block lg:hidden">
+        <Button
+          color="transparent"
+          size="small"
+          icon="github"
+          iconFill
+          anchor="https://github.com/VRLabs"
+          selfAnchor
+          ariaLabel="Github"
+          class="!h-6 !p-0 !text-textSecondary hover:!text-actionBright"
+        />
+      </div>
+    </div>
+  </div>
+</header>
+<aside
+  class="nav-mobile fixed top-0 left-0 bottom-0 right-0 hidden z-50 max-w-64"
+  transition:animate="none"
+>
+  <div class="bg-elementsDark w-full h-full p-4 overflow-y-auto">
+    <div class="flex justify-between items-center h-10">
+      <Button
+        color="transparent"
+        type="filled"
+        size="small"
+        icon="close"
+        iconStroke
+        class="nav-buttonClose !p-0"
+        ariaLabel="Close menu"
+      />
+    </div>
+    <nav
+      class="border-y-1 border-border my-4 py-6 px-2 flex flex-col gap-6 font-Sans-Bold text-mobileLarge"
+    >
+      <NavItems />
+    </nav>
+    <div class="flex gap-4 h-10 items-center justify-between px-2">
+      <Socials />
+    </div>
+  </div>
+</aside>
+
+<script src="./navbar.js"></script>
