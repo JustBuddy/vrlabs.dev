@@ -40,7 +40,7 @@ function prepareDrawer() {
 
     minHeight =
         drawerToggle.offsetHeight
-        + parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2
+        + Math.floor(parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2)
         + "px";
 
     drawer.style.height = minHeight;
