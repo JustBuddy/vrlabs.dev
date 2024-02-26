@@ -15,7 +15,7 @@ let itemTemplate;
 let maxHeight;
 let minHeight;
 
-export const siteUrl = "https://test.api.vrlabs.dev";
+export const siteUrl = "https://api.vrlabs.dev";
 
 document.addEventListener("astro:page-load", () => {
     if (window.location.pathname !== "/packages") return;
