@@ -36,7 +36,7 @@ function prepareDrawer() {
     itemTemplate = document.querySelector(".item-template");
 
     drawerContainer.classList.remove("hidden");
-    drawerContainer.classList.add("flex");
+    drawerContainer.classList.add("flex", "backdrop-blur-2xl");
 
     minHeight =
         drawerToggle.offsetHeight
