@@ -1,4 +1,4 @@
-import { addToBasket, clearBasket, openDrawer, siteUrl } from "./package-drawer/packageDrawer.js";
+import { addToBasket, clearBasket, openDrawer, siteUrl, stripTrailingSlash } from "./package-drawer/packageDrawer.js";
 import { openMarkdownModal } from "./markdown-modal/markdownModal.js";
 
 document.addEventListener("astro:after-swap", () => window.scrollTo({ left: 0, top: 0, behavior: "instant" }));
@@ -11,11 +11,6 @@ document.addEventListener("astro:page-load", async () => {
     doEverything();
 });
 
-const stripTrailingSlash = (str) => {
-    return str.endsWith('/') ?
-        str.slice(0, -1) :
-        str;
-};
 
 async function doEverything() {
 
