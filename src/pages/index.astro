@@ -59,8 +59,8 @@ const pageDescription =
           type="filled"
           size="large"
           round
-          class="!text-normal !w-full sm:!w-fit"
-          anchor="/packages"
+          class="!text-normal !w-full sm:!w-fit !min-w-44"
+          anchor="/packages/"
           ariaLabel="View listing"
         >
           View Listing
@@ -94,12 +94,47 @@ const pageDescription =
           type="filled"
           size="large"
           round
-          class="!text-normal !w-full sm:!w-fit"
+          class="!text-normal !w-full sm:!w-fit !min-w-44"
           anchor="https://vrchat.com/home/avatar/avtr_e696906c-a086-4c88-a946-b27d3d410241"
           selfAnchor
           ariaLabel="Get Avatar"
         >
           Get Avatar
+          <svg
+            class="h-full fill-none stroke-current py-2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            set:html={icons.external}
+          />
+        </Button>
+      </div>
+    </section>
+    <section
+      class="relative z-10 bg-elements rounded-lg px-4 py-16 mt-4 mb-10 sm:mb-16 flex flex-col sm:flex-row gap-4 items-center shadow-lg border-1 border-border text-center sm:text-left"
+    >
+      <img
+        class="min-w-36 h-36 sm:min-w-48 sm:h-48 object-cover -scale-x-100 p-4"
+        src="/images/unity.webp"
+        alt=""
+      />
+      <div>
+        <h2 class="text-mobileHeading2 sm:text-desktopHeading2 font-Sans-Bold">
+          Learn
+        </h2>
+        <p class="text-textSecondary mb-6 mt-1">
+          Learn everything you need to know to make VRChat Avatar Systems.
+        </p>
+        <Button
+          color="action"
+          type="filled"
+          size="large"
+          round
+          class="!text-normal !w-full sm:!w-fit !min-w-44"
+          anchor="https://vrc.school"
+          selfAnchor
+          ariaLabel="Open VRC School"
+        >
+          Get Started
           <svg
             class="h-full fill-none stroke-current py-2"
             viewBox="0 0 24 24"

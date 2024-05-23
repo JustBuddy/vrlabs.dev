@@ -15,12 +15,18 @@ let itemTemplate;
 let maxHeight;
 let minHeight;
 
-export const siteUrl = "https://api.vrlabs.dev";
+export const siteUrl = "https://test.api.vrlabs.dev";
 
 document.addEventListener("astro:page-load", () => {
-    if (window.location.pathname !== "/packages") return;
+    if (stripTrailingSlash(window.location.pathname) !== "/packages") return;
     prepareDrawer();
 });
+
+export const stripTrailingSlash = (str) => {
+    return str.endsWith('/') ?
+        str.slice(0, -1) :
+        str;
+};
 
 function prepareDrawer() {
     drawer = document.querySelector(".drawer");
@@ -36,7 +42,7 @@ function prepareDrawer() {
     itemTemplate = document.querySelector(".item-template");
 
     drawerContainer.classList.remove("hidden");
-    drawerContainer.classList.add("flex");
+    drawerContainer.classList.add("flex", "backdrop-blur-2xl");
 
     minHeight =
         drawerToggle.offsetHeight
