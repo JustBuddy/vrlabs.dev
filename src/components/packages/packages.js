@@ -115,7 +115,7 @@ function drawCategories() {
 
         const categoryCopyButton = categry.querySelector(".category-copyButton");
         categoryCopyButton.addEventListener("click", () => {
-            navigator.clipboard.writeText(`${siteUrl}/category/` + category, "_self");
+            navigator.clipboard.writeText(`${siteUrl}/listings/category/` + category, "_self");
         });
 
         const grid = gridTemplate.cloneNode(true);
