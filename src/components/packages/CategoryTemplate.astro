@@ -10,6 +10,7 @@ import Button from "../common/Button.astro";
   >
     Category Name
   </h2>
+  <div class="buttons-container flex gap-2">
   <Button
     color="bright"
     type="filled"
@@ -19,4 +20,14 @@ import Button from "../common/Button.astro";
   >
     Add category to VCC
   </Button>
+  <Button
+    color="bright"
+    type="filled"
+    size="medium"
+    icon="copy"
+    iconFill
+    class="category-copyButton !px-1.5"
+    ariaLabel="Test"
+  />
+  </div>
 </div>
