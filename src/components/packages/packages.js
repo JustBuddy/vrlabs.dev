@@ -113,6 +113,11 @@ function drawCategories() {
             window.open(`vcc://vpm/addRepo?url=${siteUrl}/listings/category/` + category, "_self");
         });
 
+        const categoryCopyButton = categry.querySelector(".category-copyButton");
+        categoryCopyButton.addEventListener("click", () => {
+            navigator.clipboard.writeText(`${siteUrl}/listings/category/` + category, "_self");
+        });
+
         const grid = gridTemplate.cloneNode(true);
         grid.classList.remove("grid-template", "hidden");
         grid.classList.add("grid", "packages-grid");
