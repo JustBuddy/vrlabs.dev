@@ -12,9 +12,6 @@ let addToVCCButton;
 let copyButton;
 let itemTemplate;
 
-let maxHeight;
-let minHeight;
-
 export const siteUrl = "https://test.api.vrlabs.dev";
 
 document.addEventListener("astro:page-load", () => {
@@ -41,19 +38,8 @@ function prepareDrawer() {
     copyButton = document.querySelector(".drawer-copyButton");
     itemTemplate = document.querySelector(".item-template");
 
-    drawerContainer.classList.remove("hidden");
-    drawerContainer.classList.add("flex", "backdrop-blur-2xl");
-
-    minHeight =
-        drawerToggle.offsetHeight
-        + Math.floor(parseFloat(window.getComputedStyle(drawerContainer).getPropertyValue("border-width").replace("px", "")) * 2)
-        + "px";
-
-    drawer.style.height = minHeight;
-    drawerMain.style.minHeight = minHeight;
-
     drawerToggle.addEventListener("click", function () {
-        drawer.style.height === minHeight ? openDrawer() : closeDrawer();
+        drawer.style.transform === "translateY(0%)" ? closeDrawer() : openDrawer();
     });
 
     addToVCCButton.addEventListener("click", function () {
@@ -64,32 +50,34 @@ function prepareDrawer() {
         getVCCLink(true);
     });
 
+    requestAnimationFrame(() => {
+        drawerContainer.classList.add("backdrop-blur-2xl");
+    })
+
     loadBasket();
+    setMinHeight();
+}
+
+export function setMinHeight() {
+    const toggleHeight = drawerToggle.offsetHeight;
+    const drawerHeight = drawer.offsetHeight;
+    const height = 100 - (toggleHeight / drawerHeight) * 100;
+
+    console.log(toggleHeight, drawerHeight, height);
+
+    drawer.style.transform = `translateY(${height}%)`;
 }
 
 export function openDrawer() {
-    setMaxHeight();
+    drawer.style.transform = "translateY(0%)";
     openBackdrop(39, closeDrawer);
 }
 
 function closeDrawer() {
-    drawer.style.height = minHeight;
+    setMinHeight();
     closeBackdrop();
 }
 
-function setMaxHeight() {
-    drawerPackages.style.overflowY = "visible";
-    drawerContainer.style.height = "fit-content";
-
-    maxHeight =
-        drawerContainer.offsetHeight > window.innerHeight / 1.5
-            ? Math.floor(window.innerHeight / 1.5) + "px"
-            : Math.floor(drawerContainer.offsetHeight) + "px";
-
-    drawer.style.height = maxHeight;
-    drawerContainer.style.height = "auto";
-    drawerPackages.style.overflowY = "auto";
-}
 
 export function addToBasket(packageName, packageID, dependencies) {
     emptyPackagesMessage.classList.add("hidden");
@@ -132,6 +120,8 @@ export function addToBasket(packageName, packageID, dependencies) {
             drawerContainer.classList.add("bg-elementsDark/80");
         }, 100);
     };
+
+    setMinHeight();
 }
 
 function removeFromBasket(packageName) {
@@ -144,7 +134,6 @@ function removeFromBasket(packageName) {
         drawerPackagesList.classList.remove("flex");
     }
 
-    setMaxHeight();
     saveBasket();
 }
 
@@ -178,7 +167,7 @@ export function clearBasket() {
     drawerPackagesList.innerHTML = "";
     emptyPackagesMessage.classList.remove("hidden");
 
-    setMaxHeight();
+    setMinHeight();
     saveBasket();
 }
 
