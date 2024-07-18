@@ -112,11 +112,11 @@ export function addToBasket(packageName, packageID, dependencies) {
     saveBasket();
 
     drawerContainer.classList.remove("bg-elementsDark/80");
-    drawerContainer.classList.add("bg-elements/80", "scale-105");
+    drawerContainer.classList.add("bg-elements/80");
     drawerContainer.ontransitionend = () => {
-        if (!drawerContainer.classList.contains("scale-105")) return;
+        if (!drawerContainer.classList.contains("bg-elements/80")) return;
         setTimeout(() => {
-            drawerContainer.classList.remove("bg-elements/80", "scale-105");
+            drawerContainer.classList.remove("bg-elements/80");
             drawerContainer.classList.add("bg-elementsDark/80");
         }, 100);
     };
