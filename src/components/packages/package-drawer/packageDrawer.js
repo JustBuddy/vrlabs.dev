@@ -63,8 +63,6 @@ export function setMinHeight() {
     const drawerHeight = drawer.offsetHeight;
     const height = 100 - (toggleHeight / drawerHeight) * 100;
 
-    console.log(toggleHeight, drawerHeight, height);
-
     drawer.style.transform = `translateY(${height}%)`;
 }
 

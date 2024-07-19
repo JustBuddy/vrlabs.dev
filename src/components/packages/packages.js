@@ -165,7 +165,6 @@ function drawPackagesInGrid(grid, packages) {
             setupHoverAndClickHandler(card);
         }
 
-        console.log(gif);
         if (gif && gif.toLowerCase().includes("gif")) {
             card.querySelector(".card-gifBadge").classList.remove("hidden");
         }
