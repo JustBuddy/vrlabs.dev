@@ -25,6 +25,7 @@
 html {
   --scrollbar-track: rgb(69 77 89);
   --scrollbar-thumb: rgb(92 103 120);
+  scrollbar-gutter: stable;
 }
 
 html::-webkit-scrollbar {

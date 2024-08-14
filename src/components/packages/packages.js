@@ -165,6 +165,10 @@ function drawPackagesInGrid(grid, packages) {
             setupHoverAndClickHandler(card);
         }
 
+        if (gif && gif.toLowerCase().includes("gif")) {
+            card.querySelector(".card-gifBadge").classList.remove("hidden");
+        }
+
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
 

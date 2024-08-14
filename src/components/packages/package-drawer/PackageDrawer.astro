@@ -4,14 +4,12 @@ import ItemTemplate from "./ItemTemplate.astro";
 ---
 
 <div
-  class="drawer bottom-0 sm:bottom-6 sticky transition-all duration-300 flex justify-center z-40 h-0 pointer-events-none overflow-hidden sm:overflow-visible px-0 sm:px-14"
+  class="drawer bottom-0 fixed w-dvw transition-all duration-300 flex justify-center z-40 pointer-events-none px-0 sm:px-14 translate-y-[100%] overflow-hidden"
 >
   <div
-    class="drawer-container w-full sm:max-w-2xl hidden flex-col pointer-events-auto bg-elementsDark/80 sm:rounded-xl border-t-1 rounded-t-xl sm:border-1 border-border overflow-hidden shadow-lg transition-all duration-300"
+    class="drawer-container w-full flex sm:max-w-2xl flex-col pointer-events-auto bg-elementsDark/80 border-t-1 rounded-t-xl border-border shadow-lg transition-all duration-300"
   >
-    <div
-      class="drawer-main w-full h-full flex flex-col items-center px-4 overflow-hidden"
-    >
+    <div class="drawer-main w-full h-full flex flex-col items-center px-4">
       <div
         class="drawer-toggle rounded-t-xl cursor-pointer w-full flex justify-center items-center gap-3 py-4 text-mobileLarge sm:text-desktopLarge font-Novecento-Utrabold hover:text-actionBright transition-all duration-100"
       >
