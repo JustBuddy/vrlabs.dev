@@ -169,6 +169,14 @@ function drawPackagesInGrid(grid, packages) {
             card.querySelector(".card-gifBadge").classList.remove("hidden");
         }
 
+        if (packageInfo.questCompatibility && packageInfo.questCompatibility !== "none") {
+            const questBadge = card.querySelector(".card-questBadge");
+            questBadge.classList.remove("hidden");
+            packageInfo.questCompatibility === "full" ? questBadge.classList.add("bg-blue-500") : questBadge.classList.add("bg-yellow-600");
+
+            card.setAttribute("quest", "true");
+        }
+
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
 
