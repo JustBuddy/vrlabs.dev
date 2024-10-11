@@ -54,9 +54,19 @@ import Button from "../common/Button.astro";
         class="card-githubButton"
         ariaLabel="Open GitHub repository"
       />
+      <div
+        class="card-questBadge hidden h-7 p-1 text-small gap-1 w-fit rounded-full card-infoButton transition-all duration-200 justify-center items-center font-Sans-Bold"
+      >
+        <svg
+          class="fill-current stroke-transparent h-full"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          set:html={icons["meta"]}
+        />
+      </div>
     </div>
     <div
-      class="card-gifBadge absolute right-0 top-0 m-2 bg-elementsBright rounded-xl text-textSecondary px-2 hidden"
+      class="card-gifBadge absolute right-0 top-0 m-2 bg-elementsBright rounded-xl text-textPrimary px-2 hidden"
     >
       GIF
     </div>

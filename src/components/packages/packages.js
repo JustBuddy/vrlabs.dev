@@ -169,6 +169,14 @@ function drawPackagesInGrid(grid, packages) {
             card.querySelector(".card-gifBadge").classList.remove("hidden");
         }
 
+        if (packageInfo.questCompatibility && packageInfo.questCompatibility !== "none") {
+            const questBadge = card.querySelector(".card-questBadge");
+            questBadge.classList.remove("hidden");
+            packageInfo.questCompatibility === "full" ? questBadge.classList.add("bg-blue-500") : questBadge.classList.add("bg-yellow-600");
+
+            card.setAttribute("quest", "true");
+        }
+
         card.classList.remove("card-template", "hidden");
         card.classList.add("packages-card", "flex");
 
@@ -434,7 +442,8 @@ function prepareFilters() {
     const nameFilter = filters.querySelector(".filter-name");
     const downloadsFilter = filters.querySelector(".filter-downloads");
     const dateFilter = filters.querySelector(".filter-date");
-    const filterButtons = [nameFilter, downloadsFilter, dateFilter];
+    const questFilter = filters.querySelector(".filter-quest");
+    const filterButtons = [nameFilter, downloadsFilter, dateFilter, questFilter];
 
     for (let button of filterButtons) {
         button.onclick = () => {
@@ -504,6 +513,7 @@ async function sortPackages(filter) {
             if (filter === "name") return aAttribute.localeCompare(bAttribute);
             if (filter === "downloads") return bAttribute - aAttribute;
             if (filter === "last-updated") return bAttribute - aAttribute;
+            if (filter === "quest") return aAttribute === "true" ? -1 : 1;
         });
 
         for (let card of sortedCards) {
